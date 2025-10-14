@@ -3,16 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel de Administración - Saucha</title>
+    <title>Saucha Espacio Holístico - Sahumerios, Tarot y Productos Místicos</title>
     <style>
         :root {
             --color-primario: #4a6c60;
             --color-secundario: #8a9b8c;
             --color-acento: #c9a87a;
-            --color-peligro: #e74c3c;
+            --color-texto: #333333;
+            --color-fondo: #f9f7f2;
             --color-blanco: #ffffff;
-            --color-fondo: #f5f5f5;
+            --color-stock: #4CAF50;
+            --color-poco-stock: #ff9800;
+            --color-sin-stock: #f44336;
             --sombra: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transicion: all 0.3s ease;
         }
 
         * {
@@ -23,552 +27,799 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--color-texto);
             background-color: var(--color-fondo);
         }
 
         .container {
+            width: 90%;
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
-        }
-
-        .header {
-            background: var(--color-primario);
-            color: white;
-            padding: 20px 0;
-            margin-bottom: 30px;
+            padding: 0 15px;
         }
 
         .btn {
-            padding: 8px 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
+            display: inline-block;
+            background-color: var(--color-primario);
+            color: var(--color-blanco);
+            padding: 10px 20px;
+            border-radius: 30px;
             font-weight: 600;
-            transition: all 0.3s ease;
-            font-size: 0.9rem;
-        }
-
-        .btn-primary {
-            background: var(--color-primario);
-            color: white;
-        }
-
-        .btn-danger {
-            background: var(--color-peligro);
-            color: white;
-        }
-
-        .btn-warning {
-            background: #ff9800;
-            color: white;
+            transition: var(--transicion);
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
         }
 
         .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--sombra);
+            background-color: var(--color-acento);
+            transform: translateY(-3px);
         }
 
-        /* Login */
-        .login-container {
-            max-width: 400px;
-            margin: 100px auto;
-            padding: 40px;
+        .btn-deshabilitado {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+        .btn-deshabilitado:hover {
+            background-color: #cccccc;
+            transform: none;
+        }
+
+        /* Header */
+        header {
             background: white;
-            border-radius: 10px;
             box-shadow: var(--sombra);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 600;
-        }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-family: inherit;
-        }
-
-        /* Dashboard */
-        .dashboard {
-            display: none;
-        }
-
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .stat-card {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: var(--sombra);
-            text-align: center;
-        }
-
-        .stat-number {
-            font-size: 2rem;
+        .logo {
+            font-size: 1.8rem;
             font-weight: bold;
             color: var(--color-primario);
+            text-align: center;
+            font-family: Georgia, 'Times New Roman', Times, serif;
         }
 
-        /* Tabs */
-        .tabs {
-            display: flex;
+        .logo span {
+            color: var(--color-acento);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(74, 108, 96, 0.7), rgba(74, 108, 96, 0.7)), url('https://images.unsplash.com/photo-1544787219-7f47ccb76574?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: var(--color-blanco);
+            text-align: center;
+            padding: 100px 0;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
             margin-bottom: 20px;
-            border-bottom: 2px solid #ddd;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+
+        /* Filtros */
+        .filtros-categorias {
+            display: flex;
+            justify-content: center;
             flex-wrap: wrap;
+            gap: 10px;
+            margin: 30px 0;
         }
 
-        .tab {
-            padding: 15px 25px;
-            cursor: pointer;
-            background: none;
-            border: none;
-            font-weight: 600;
-            white-space: nowrap;
-        }
-
-        .tab.active {
-            border-bottom: 3px solid var(--color-primario);
+        .filtro-btn {
+            background-color: var(--color-blanco);
+            border: 1px solid var(--color-primario);
             color: var(--color-primario);
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: var(--transicion);
         }
 
-        .tab-content {
-            display: none;
+        .filtro-btn:hover, .filtro-btn.active {
+            background-color: var(--color-primario);
+            color: var(--color-blanco);
         }
 
-        .tab-content.active {
-            display: block;
+        /* Productos */
+        .productos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
         }
 
-        /* Tabla de productos */
-        .table {
-            width: 100%;
+        .producto-card {
             background: white;
             border-radius: 10px;
             overflow: hidden;
             box-shadow: var(--sombra);
-            margin-bottom: 30px;
+            transition: var(--transicion);
         }
 
-        .table th,
-        .table td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #eee;
+        .producto-card:hover {
+            transform: translateY(-5px);
         }
 
-        .table th {
-            background: var(--color-primario);
-            color: white;
+        .producto-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
         }
 
-        .acciones {
-            display: flex;
-            gap: 5px;
-            flex-wrap: wrap;
+        .producto-info {
+            padding: 20px;
+        }
+
+        .stock-info {
+            margin-bottom: 10px;
         }
 
         .stock-badge {
-            padding: 4px 8px;
-            border-radius: 12px;
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 15px;
             font-size: 0.8rem;
             font-weight: bold;
+            margin-bottom: 5px;
         }
 
-        .stock-alto {
-            background: #d4edda;
-            color: #155724;
-        }
-
-        .stock-medio {
-            background: #fff3cd;
-            color: #856404;
-        }
-
-        .stock-bajo {
-            background: #f8d7da;
-            color: #721c24;
-        }
-
-        .stock-agotado {
-            background: #6c757d;
+        .stock-disponible {
+            background: var(--color-stock);
             color: white;
         }
 
-        /* Formulario productos */
-        .form-producto {
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: var(--sombra);
-            margin-bottom: 30px;
+        .stock-poco {
+            background: var(--color-poco-stock);
+            color: white;
         }
 
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 20px;
+        .stock-agotado {
+            background: var(--color-sin-stock);
+            color: white;
         }
 
-        .preview-imagen {
-            max-width: 200px;
-            max-height: 150px;
-            margin-top: 10px;
-            border-radius: 5px;
+        .unidades-stock {
+            font-size: 0.9rem;
+            color: #666;
         }
 
-        /* Gestión de stock */
-        .stock-control {
+        .producto-precio {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--color-primario);
+            margin: 10px 0;
+        }
+
+        .producto-marca {
+            color: var(--color-secundario);
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        /* Sobre Nosotros */
+        .sobre-nosotros {
+            padding: 80px 0;
+            background-color: var(--color-blanco);
+        }
+
+        .sobre-container {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 50px;
         }
 
-        .stock-input {
+        .sobre-img {
+            flex: 1;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--sombra);
+        }
+
+        .sobre-img img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .sobre-texto {
+            flex: 1;
+        }
+
+        .sobre-texto h2 {
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .sobre-texto h2::after {
+            content: '';
+            display: block;
             width: 80px;
-            padding: 5px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
+            height: 3px;
+            background-color: var(--color-acento);
+            margin: 15px 0;
+        }
+
+        /* Envíos */
+        .envios {
+            padding: 80px 0;
+            background-color: var(--color-fondo);
             text-align: center;
         }
 
+        .envios h2 {
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .envios h2::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 3px;
+            background-color: var(--color-acento);
+            margin: 15px auto;
+        }
+
+        .iconos-envios {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .icono-envio {
+            text-align: center;
+            max-width: 200px;
+        }
+
+        .icono-envio i {
+            font-size: 2.5rem;
+            color: var(--color-primario);
+            margin-bottom: 15px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--color-primario);
+            color: var(--color-blanco);
+            padding: 60px 0 20px;
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h3 {
+            color: var(--color-blanco);
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+        }
+
+        .footer-col h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--color-acento);
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-col ul li a {
+            color: var(--color-blanco);
+            opacity: 0.8;
+            text-decoration: none;
+        }
+
+        .footer-col ul li a:hover {
+            opacity: 1;
+            padding-left: 5px;
+        }
+
+        .redes-sociales {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .red-social {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transition: var(--transicion);
+            color: white;
+            text-decoration: none;
+        }
+
+        .red-social:hover {
+            background-color: var(--color-acento);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        /* Modal de compra */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: var(--sombra);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .cantidad-selector {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .cantidad-btn {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        .cantidad-display {
+            font-size: 1.2rem;
+            font-weight: bold;
+            min-width: 50px;
+            text-align: center;
+        }
+
+        /* Responsive */
         @media (max-width: 768px) {
-            .form-row {
-                grid-template-columns: 1fr;
+            .hero h1 {
+                font-size: 2rem;
             }
-            
-            .tabs {
-                overflow-x: auto;
-            }
-            
-            .table {
-                font-size: 0.9rem;
-            }
-            
-            .acciones {
+
+            .sobre-container {
                 flex-direction: column;
+            }
+
+            .iconos-envios {
+                flex-direction: column;
+                align-items: center;
+                gap: 30px;
+            }
+
+            .productos-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 20px;
+            }
+
+            .filtros-categorias {
+                justify-content: flex-start;
+                overflow-x: auto;
+                padding-bottom: 10px;
             }
         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <!-- Sistema de Login -->
-    <div id="login" class="login-container">
-        <h2>Acceso Administración</h2>
-        <div class="form-group">
-            <label>Contraseña:</label>
-            <input type="password" id="password" placeholder="Ingresa la contraseña">
-        </div>
-        <button class="btn btn-primary" onclick="verificarLogin()">Acceder</button>
-        <p id="error-msg" style="color: red; margin-top: 10px; display: none;">Contraseña incorrecta</p>
-    </div>
-
-    <!-- Panel de Administración -->
-    <div id="dashboard" class="dashboard">
-        <div class="header">
-            <div class="container">
-                <h1>Panel de Administración - Saucha</h1>
-                <button class="btn btn-danger" onclick="cerrarSesion()" style="margin-top: 10px;">Cerrar Sesión</button>
-            </div>
-        </div>
-
+    <!-- Header -->
+    <header>
         <div class="container">
-            <!-- Estadísticas -->
-            <div class="stats">
-                <div class="stat-card">
-                    <div class="stat-number" id="total-productos">0</div>
-                    <div>Total Productos</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="total-unidades">0</div>
-                    <div>Unidades en Stock</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="productos-bajo-stock">0</div>
-                    <div>Stock Bajo</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="productos-agotados">0</div>
-                    <div>Agotados</div>
-                </div>
+            <div class="logo">Saucha <span>Espacio Holístico</span></div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="inicio">
+        <div class="container">
+            <h1>Bienvenidos a Saucha Espacio Holístico</h1>
+            <p>Descubre productos místicos para equilibrar tu mente, cuerpo y espíritu</p>
+            <a href="#productos" class="btn">Explorar Productos</a>
+        </div>
+    </section>
+
+    <!-- Productos -->
+    <section class="productos" id="productos">
+        <div class="container">
+            <h2>Nuestros Productos</h2>
+            
+            <!-- Filtros por categoría -->
+            <div class="filtros-categorias">
+                <button class="filtro-btn active" data-categoria="todos">Todos</button>
+                <button class="filtro-btn" data-categoria="sahumerios">Sahumerios</button>
+                <button class="filtro-btn" data-categoria="tarot">Tarot y Oráculos</button>
+                <button class="filtro-btn" data-categoria="piedras">Piedras y Cristales</button>
+                <button class="filtro-btn" data-categoria="velas">Velas</button>
+                <button class="filtro-btn" data-categoria="accesorios">Accesorios</button>
+                <button class="filtro-btn" data-categoria="esencias">Esencias y Difusores</button>
             </div>
-
-            <!-- Pestañas -->
-            <div class="tabs">
-                <button class="tab active" onclick="cambiarTab('productos')">Productos</button>
-                <button class="tab" onclick="cambiarTab('nuevo')">Agregar Producto</button>
-                <button class="tab" onclick="cambiarTab('stock')">Gestión de Stock</button>
-                <button class="tab" onclick="cambiarTab('ventas')">Historial de Ventas</button>
-                <button class="tab" onclick="cambiarTab('config')">Configuración</button>
+            
+            <div id="productos-container" class="productos-grid">
+                <!-- Los productos se cargan dinámicamente -->
             </div>
+        </div>
+    </section>
 
-            <!-- Contenido de pestañas -->
-            <div id="tab-productos" class="tab-content active">
-                <h3>Gestión de Productos</h3>
-                <div class="table-container">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Imagen</th>
-                                <th>Nombre</th>
-                                <th>Marca</th>
-                                <th>Precio</th>
-                                <th>Stock</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tabla-productos">
-                            <!-- Los productos se cargan aquí -->
-                        </tbody>
-                    </table>
+    <!-- Sobre Nosotros -->
+    <section class="sobre-nosotros" id="sobre-nosotros">
+        <div class="container">
+            <div class="sobre-container">
+                <div class="sobre-img">
+                    <img src="https://images.unsplash.com/photo-1544787219-7f47ccb76574?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Espacio Saucha">
                 </div>
-            </div>
-
-            <div id="tab-nuevo" class="tab-content">
-                <h3>Agregar Nuevo Producto</h3>
-                <div class="form-producto">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Nombre del Producto *</label>
-                            <input type="text" id="nuevo-nombre" placeholder="Ej: Sahumerios Sagrada Madre">
-                        </div>
-                        <div class="form-group">
-                            <label>Marca *</label>
-                            <input type="text" id="nuevo-marca" placeholder="Ej: Sagrada Madre">
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Categoría *</label>
-                            <select id="nuevo-categoria">
-                                <option value="sahumerios">Sahumerios</option>
-                                <option value="tarot">Tarot y Oráculos</option>
-                                <option value="piedras">Piedras y Cristales</option>
-                                <option value="velas">Velas</option>
-                                <option value="accesorios">Accesorios</option>
-                                <option value="esencias">Esencias y Difusores</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Precio *</label>
-                            <input type="number" id="nuevo-precio" placeholder="450">
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Unidades Iniciales *</label>
-                            <input type="number" id="nuevo-unidades" value="10" min="0">
-                        </div>
-                        <div class="form-group">
-                            <label>URL de la Imagen *</label>
-                            <input type="text" id="nuevo-imagen" placeholder="https://ejemplo.com/imagen.jpg" onchange="mostrarPreview(this.value)">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Descripción *</label>
-                        <textarea id="nuevo-descripcion" rows="3" placeholder="Describe el producto"></textarea>
-                    </div>
-
-                    <img id="preview-imagen" class="preview-imagen" style="display: none;">
-
-                    <button class="btn btn-primary" onclick="agregarProducto()">Agregar Producto</button>
-                </div>
-            </div>
-
-            <div id="tab-stock" class="tab-content">
-                <h3>Gestión de Stock</h3>
-                <div class="table-container">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Producto</th>
-                                <th>Stock Actual</th>
-                                <th>Estado</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tabla-stock">
-                            <!-- Gestión de stock -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div id="tab-ventas" class="tab-content">
-                <h3>Historial de Ventas</h3>
-                <div class="table-container">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Fecha</th>
-                                <th>Producto</th>
-                                <th>Cantidad</th>
-                                <th>Total</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tabla-ventas">
-                            <!-- Historial de ventas -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div id="tab-config" class="tab-content">
-                <h3>Configuración</h3>
-                <div class="form-producto">
-                    <div class="form-group">
-                        <label>Cambiar Contraseña de Administración</label>
-                        <input type="password" id="nueva-password" placeholder="Nueva contraseña">
-                    </div>
-                    <button class="btn btn-primary" onclick="cambiarPassword()">Cambiar Contraseña</button>
-                    
-                    <div style="margin-top: 30px;">
-                        <button class="btn btn-danger" onclick="resetearDatos()">Restablecer Datos de Ejemplo</button>
-                        <p style="font-size: 0.9rem; color: #666; margin-top: 10px;">
-                            Esto eliminará todos los productos y ventas actuales.
-                        </p>
-                    </div>
+                <div class="sobre-texto">
+                    <h2>Sobre Saucha</h2>
+                    <p>En Saucha Espacio Holístico nos dedicamos a ofrecer productos místicos de alta calidad para acompañarte en tu camino espiritual y de autoconocimiento.</p>
+                    <p>Creemos en la importancia de conectar con nuestra esencia y el entorno, por eso seleccionamos cuidadosamente cada producto, priorizando marcas reconocidas como Sagrada Madre y Aromanza.</p>
+                    <p>Nuestro nombre "Saucha" proviene del sánscrito y significa pureza, limpieza y claridad, valores que representan nuestro compromiso con ofrecer productos auténticos que contribuyan a tu bienestar integral.</p>
                 </div>
             </div>
         </div>
+    </section>
+
+    <!-- Envíos -->
+    <section class="envios" id="envios">
+        <div class="container">
+            <h2>Envíos Nacionales</h2>
+            <p>Realizamos envíos a todo el país. Trabajamos con servicios de logística confiables para que recibas tus productos en perfectas condiciones.</p>
+            
+            <div class="iconos-envios">
+                <div class="icono-envio">
+                    <i class="fas fa-shipping-fast"></i>
+                    <h3>Envío Express</h3>
+                    <p>Entrega en 24-48 horas en zonas urbanas</p>
+                </div>
+                <div class="icono-envio">
+                    <i class="fas fa-box"></i>
+                    <h3>Envío Estándar</h3>
+                    <p>Entrega en 3-5 días hábiles a todo el país</p>
+                </div>
+                <div class="icono-envio">
+                    <i class="fas fa-gift"></i>
+                    <h3>Embalaje Especial</h3>
+                    <p>Productos cuidadosamente empaquetados</p>
+                </div>
+            </div>
+
+            <p><strong>Envío gratuito</strong> en compras superiores a $5.000</p>
+            <p><strong>Habilitamos envíos</strong> a todo el territorio argentino</p>
+        </div>
+    </section>
+
+    <!-- Modal de Compra -->
+    <div id="modal-compra" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-titulo">Comprar Producto</h3>
+                <button class="close-modal" onclick="cerrarModal()">&times;</button>
+            </div>
+            <div id="modal-contenido">
+                <!-- Contenido dinámico -->
+            </div>
+        </div>
     </div>
+
+    <!-- Footer -->
+    <footer id="contacto">
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-col">
+                    <h3>Saucha Espacio Holístico</h3>
+                    <p>Tu espacio para productos místicos. Envíos a todo el país.</p>
+                    <div class="redes-sociales">
+                        <a href="#" class="red-social"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="red-social"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="red-social"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h3>Enlaces Rápidos</h3>
+                    <ul>
+                        <li><a href="#inicio">Inicio</a></li>
+                        <li><a href="#productos">Productos</a></li>
+                        <li><a href="#sobre-nosotros">Sobre Nosotros</a></li>
+                        <li><a href="#envios">Envíos</a></li>
+                        <li><a href="#contacto">Contacto</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Contacto</h3>
+                    <ul>
+                        <li><i class="fas fa-envelope"></i> info@saucha.com</li>
+                        <li><i class="fas fa-phone"></i> +54 11 1234-5678</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Buenos Aires, Argentina</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 Saucha Espacio Holístico. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
 
     <script>
-        // Contraseña por defecto
-        const PASSWORD = "saucha123";
-
-        // Verificar login
-        function verificarLogin() {
-            const password = document.getElementById('password').value;
-            if (password === PASSWORD) {
-                document.getElementById('login').style.display = 'none';
-                document.getElementById('dashboard').style.display = 'block';
-                cargarDashboard();
-            } else {
-                document.getElementById('error-msg').style.display = 'block';
+        // Datos de productos - AQUÍ PUEDES CAMBIAR LOS PRODUCTOS
+        const productos = [
+            {
+                id: 1,
+                nombre: "Sahumerios Sagrada Madre",
+                marca: "Sagrada Madre",
+                categoria: "sahumerios",
+                precio: 450,
+                unidades: 10,
+                descripcion: "Sahumerios de alta calidad con aromas únicos",
+                // CAMBIA ESTA URL POR TU IMAGEN:
+                imagen: "https://images.unsplash.com/photo-1594736797933-d0c1382c7e1e?ixlib=rb-1.2.1&w=400&h=300&fit=crop"
+            },
+            {
+                id: 2,
+                nombre: "Mazo Tarot Rider-Waite",
+                marca: "US Games",
+                categoria: "tarot",
+                precio: 1200,
+                unidades: 5,
+                descripcion: "Clásico mazo de tarot para principiantes y expertos",
+                // CAMBIA ESTA URL POR TU IMAGEN:
+                imagen: "https://images.unsplash.com/photo-1587590227261-2e0c243f7c88?ixlib=rb-1.2.1&w=400&h=300&fit=crop"
+            },
+            {
+                id: 3,
+                nombre: "Kit Piedras Energéticas",
+                marca: "Piedras Místicas",
+                categoria: "piedras",
+                precio: 890,
+                unidades: 3,
+                descripcion: "Selección de cristales naturales para armonizar energías",
+                // CAMBIA ESTA URL POR TU IMAGEN:
+                imagen: "https://images.unsplash.com/photo-1589674781759-c21dfa1caa6e?ixlib=rb-1.2.1&w=400&h=300&fit=crop"
+            },
+            {
+                id: 4,
+                nombre: "Velas Aromáticas Aromanza",
+                marca: "Aromanza",
+                categoria: "velas",
+                precio: 680,
+                unidades: 8,
+                descripcion: "Velas con esencias puras para meditación y relajación",
+                // CAMBIA ESTA URL POR TU IMAGEN:
+                imagen: "https://images.unsplash.com/photo-1589674781759-c21dfa1caa6e?ixlib=rb-1.2.1&w=400&h=300&fit=crop"
+            },
+            {
+                id: 5,
+                nombre: "Difusor Aromanza",
+                marca: "Aromanza",
+                categoria: "esencias",
+                precio: 1250,
+                unidades: 4,
+                descripcion: "Difusor de aromas con tecnología de última generación",
+                // CAMBIA ESTA URL POR TU IMAGEN:
+                imagen: "https://images.unsplash.com/photo-1589674781759-c21dfa1caa6e?ixlib=rb-1.2.1&w=400&h=300&fit=crop"
+            },
+            {
+                id: 6,
+                nombre: "Hornito para Sahumerios",
+                marca: "Accesorios Místicos",
+                categoria: "accesorios",
+                precio: 750,
+                unidades: 6,
+                descripcion: "Hornito cerámico para quemar sahumerios de forma segura",
+                // CAMBIA ESTA URL POR TU IMAGEN:
+                imagen: "https://images.unsplash.com/photo-1589674781759-c21dfa1caa6e?ixlib=rb-1.2.1&w=400&h=300&fit=crop"
             }
-        }
+        ];
 
-        // Cerrar sesión
-        function cerrarSesion() {
-            document.getElementById('login').style.display = 'block';
-            document.getElementById('dashboard').style.display = 'none';
-            document.getElementById('password').value = '';
-        }
+        // Variables globales
+        let productoSeleccionado = null;
+        let cantidadSeleccionada = 1;
 
-        // Cambiar entre pestañas
-        function cambiarTab(tabName) {
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            document.querySelectorAll('.tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-
-            document.getElementById('tab-' + tabName).classList.add('active');
-            event.target.classList.add('active');
+        // Cargar productos
+        function cargarProductos(productosAFiltrar = productos) {
+            const productosContainer = document.getElementById('productos-container');
             
-            // Recargar datos específicos de la pestaña
-            if (tabName === 'ventas') {
-                cargarVentas();
-            } else if (tabName === 'stock') {
-                cargarGestionStock();
-            }
-        }
-
-        // Mostrar preview de imagen
-        function mostrarPreview(url) {
-            const preview = document.getElementById('preview-imagen');
-            if (url) {
-                preview.src = url;
-                preview.style.display = 'block';
-            } else {
-                preview.style.display = 'none';
-            }
-        }
-
-        // Cargar datos del dashboard
-        function cargarDashboard() {
-            const productos = JSON.parse(localStorage.getItem('saucha_productos')) || [];
-            const ventas = JSON.parse(localStorage.getItem('saucha_ventas')) || [];
-            
-            // Calcular estadísticas
-            const totalUnidades = productos.reduce((sum, p) => sum + p.unidades, 0);
-            const productosBajoStock = productos.filter(p => p.unidades > 0 && p.unidades <= 5).length;
-            const productosAgotados = productos.filter(p => p.unidades <= 0).length;
-
-            // Actualizar estadísticas
-            document.getElementById('total-productos').textContent = productos.length;
-            document.getElementById('total-unidades').textContent = totalUnidades;
-            document.getElementById('productos-bajo-stock').textContent = productosBajoStock;
-            document.getElementById('productos-agotados').textContent = productosAgotados;
-
-            // Actualizar tabla de productos
-            const tabla = document.getElementById('tabla-productos');
-            tabla.innerHTML = productos.map(producto => {
+            productosContainer.innerHTML = productosAFiltrar.map(producto => {
+                // Determinar estado del stock
                 let stockClass, stockText;
                 if (producto.unidades <= 0) {
                     stockClass = 'stock-agotado';
                     stockText = 'Agotado';
-                } else if (producto.unidades <= 3) {
-                    stockClass = 'stock-bajo';
-                    stockText = 'Muy bajo';
-                } else if (producto.unidades <= 10) {
-                    stockClass = 'stock-medio';
-                    stockText = 'Bajo';
+                } else if (producto.unidades <= 5) {
+                    stockClass = 'stock-poco';
+                    stockText = 'Últimas unidades';
                 } else {
-                    stockClass = 'stock-alto';
-                    stockText = 'OK';
+                    stockClass = 'stock-disponible';
+                    stockText = 'En Stock';
                 }
 
                 return `
-                    <tr>
-                        <td><img src="${producto.imagen}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px;" onerror="this.src='https://via.placeholder.com/50x50?text=Imagen'"></td>
-                        <td>${producto.nombre}</td>
-                        <td>${producto.marca}</td>
-                        <td>$${producto.precio}</td>
-                        <td>
-                            <span class="stock-badge ${stockClass}">
-                                ${producto.unidades} unidades
-                            </span>
-                        </td>
-                        <td class="acciones">
-                            <button class="btn btn-warning" onclick="editarProducto(${producto.id})">Editar</button>
-                            <button class="btn btn-danger" onclick="eliminarProducto(${producto.id})">Eliminar</button>
-                        </td>
-                    </tr>
+                    <div class="producto-card" data-categoria="${producto.categoria}">
+                        <img src="${producto.imagen}" alt="${producto.nombre}" class="producto-img" onerror="this.src='https://via.placeholder.com/300x200?text=Imagen+no+disponible'">
+                        <div class="producto-info">
+                            <div class="stock-info">
+                                <span class="stock-badge ${stockClass}">${stockText}</span>
+                                <div class="unidades-stock">${producto.unidades} unidades disponibles</div>
+                            </div>
+                            <h3>${producto.nombre}</h3>
+                            <p>${producto.descripcion}</p>
+                            <p class="producto-marca">Marca: ${producto.marca}</p>
+                            <p class="producto-precio">$${producto.precio}</p>
+                            <button class="btn ${producto.unidades <= 0 ? 'btn-deshabilitado' : ''}" 
+                                    ${producto.unidades <= 0 ? 'disabled' : ''}
+                                    onclick="abrirModalCompra(${producto.id})">
+                                ${producto.unidades <= 0 ? 'Agotado' : 'Comprar'}
+                            </button>
+                        </div>
+                    </div>
                 `;
             }).join('');
         }
 
-        // Cargar gestión de stock
-        function cargarGestionStock() {
-            const productos = JSON.parse(localStorage.getItem('saucha_productos')) || [];
-            const tabla = document.getElementById('tabla-stock');
+        // Filtros de categoría
+        document.querySelectorAll('.filtro-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Remover clase active de todos los botones
+                document.querySelectorAll('.filtro-btn').forEach(b => {
+                    b.classList.remove('active');
+                });
+                
+                // Agregar clase active al botón clickeado
+                this.classList.add('active');
+                
+                const categoria = this.getAttribute('data-categoria');
+                
+                if (categoria === 'todos') {
+                    cargarProductos();
+                } else {
+                    const productosFiltrados = productos.filter(producto => producto.categoria === categoria);
+                    cargarProductos(productosFiltrados);
+                }
+            });
+        });
+
+        // Abrir modal de compra
+        function abrirModalCompra(productoId) {
+            productoSeleccionado = productos.find(p => p.id === productoId);
             
-            tabla.innerHTML = productos.map(producto => {
-                let stockClass, stockText;
-                if (producto.unidades <= 0) {
-                    stockClass = 'stock-agotado';
-                    stockText = 'Agotado';
-                } else if (producto.unidades <= 3) {
-                    stock
+            if (!productoSeleccionado) return;
+
+            cantidadSeleccionada = 1;
+
+            document.getElementById('modal-titulo').textContent = `Comprar: ${productoSeleccionado.nombre}`;
+            
+            document.getElementById('modal-contenido').innerHTML = `
+                <div class="producto-info-modal">
+                    <img src="${productoSeleccionado.imagen}" style="width: 100px; height: 100px; object-fit: cover; border-radius: 5px; float: left; margin-right: 15px;" onerror="this.src='https://via.placeholder.com/100x100?text=Imagen'">
+                    <div style="overflow: hidden;">
+                        <h4>${productoSeleccionado.nombre}</h4>
+                        <p>${productoSeleccionado.descripcion}</p>
+                        <p><strong>Precio unitario: $${productoSeleccionado.precio}</strong></p>
+                        <p>Unidades disponibles: ${productoSeleccionado.unidades}</p>
+                    </div>
+                </div>
+                
+                <div class="cantidad-selector">
+                    <label><strong>Cantidad:</strong></label>
+                    <button class="cantidad-btn" onclick="cambiarCantidad(-1)">-</button>
+                    <span class="cantidad-display" id="cantidad-display">${cantidadSeleccionada}</span>
+                    <button class="cantidad-btn" onclick="cambiarCantidad(1)">+</button>
+                    <span style="margin-left: 10px;">Máx: ${productoSeleccionado.unidades}</span>
+                </div>
+                
+                <div style="margin: 20px 0; padding: 15px; background: #f9f9f9; border-radius: 5px;">
+                    <strong>Total: $<span id="total-precio">${productoSeleccionado.precio * cantidadSeleccionada}</span></strong>
+                </div>
+                
+                <button class="btn" style="width: 100%;" onclick="procesarCompra()">
+                    Confirmar Compra
+                </button>
+            `;
+
+            document.getElementById('modal-compra').style.display = 'flex';
+        }
+
+        // Cambiar cantidad en el modal
+        function cambiarCantidad(cambio) {
+            const nuevaCantidad = cantidadSeleccionada + cambio;
+            
+            if (nuevaCantidad >= 1 && nuevaCantidad <= productoSeleccionado.unidades) {
+                cantidadSeleccionada = nuevaCantidad;
+                document.getElementById('cantidad-display').textContent = cantidadSeleccionada;
+                document.getElementById('total-precio').textContent = productoSeleccionado.precio * cantidadSeleccionada;
+            }
+        }
+
+        // Procesar compra
+        function procesarCompra() {
+            if (!productoSeleccionado) return;
+
+            // Actualizar stock en los datos
+            productoSeleccionado.unidades -= cantidadSeleccionada;
+            
+            alert(`¡Compra realizada!\n${cantidadSeleccionada} x ${productoSeleccionado.nombre}\nTotal: $${productoSeleccionado.precio * cantidadSeleccionada}`);
+            
+            cerrarModal();
+            cargarProductos();
+        }
+
+        // Cerrar modal
+        function cerrarModal() {
+            document.getElementById('modal-compra').style.display = 'none';
+            productoSeleccionado = null;
+            cantidadSeleccionada = 1;
+        }
+
+        // Inicializar cuando carga la página
+        document.addEventListener('DOMContentLoaded', function() {
+            cargarProductos();
+        });
+    </script>
+</body>
+</html>
