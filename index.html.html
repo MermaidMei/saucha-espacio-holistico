@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saucha Espacio Holístico</title>
+    <style>
+        /* Variables de colores y fuentes */
+        :root {
+            --color-primario: #4a6c60;
+            --color-secundario: #8a9b8c;
+            --color-acento: #c9a87a;
+            --color-texto: #333333;
+            --color-fondo: #f9f7f2;
+            --color-blanco: #ffffff;
+            --sombra: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transicion: all 0.3s ease;
+        }
+
+        /* Estilos generales */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--color-texto);
+            background-color: var(--color-fondo);
+        }
+
+        h1, h2, h3, h4 {
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            color: var(--color-primario);
+            margin-bottom: 1rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--color-primario);
+            transition: var(--transicion);
+        }
+
+        a:hover {
+            color: var(--color-acento);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--color-primario);
+            color: var(--color-blanco);
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: var(--transicion);
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: var(--color-acento);
+            transform: translateY(-3px);
+            box-shadow: var(--sombra);
+        }
+
+        /* Header */
+        header {
+            background-color: var(--color-blanco);
+            box-shadow: var(--sombra);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--color-primario);
+        }
+
+        .logo span {
+            color: var(--color-acento);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 25px;
+        }
+
+        nav ul li a {
+            font-weight: 500;
+        }
+
+        .mobile-menu {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(74, 108, 96, 0.7), rgba(74, 108, 96, 0.7)), url('https://images.unsplash.com/photo-1544787219-7f47ccb76574?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: var(--color-blanco);
+            text-align: center;
+            padding: 100px 0;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            color: var(--color-blanco);
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+
+        /* Sección de productos */
+        .productos {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 3px;
+            background-color: var(--color-acento);
+            margin: 15px auto;
+        }
+
+        .productos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .producto-card {
+            background-color: var(--color-blanco);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--sombra);
+            transition: var(--transicion);
+        }
+
+        .producto-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .producto-img {
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        .producto-info {
+            padding: 20px;
+        }
+
+        .producto-categoria {
+            color: var(--color-secundario);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .producto-precio {
+            font-weight: bold;
+            color: var(--color-primario);
+            font-size: 1.2rem;
+            margin-top: 10px;
+        }
+
+        /* Sección sobre nosotros */
+        .sobre-nosotros {
+            padding: 80px 0;
+            background-color: var(--color-blanco);
+        }
+
+        .sobre-container {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .sobre-img {
+            flex: 1;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--sombra);
+        }
+
+        .sobre-img img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .sobre-texto {
+            flex: 1;
+        }
+
+        /* Sección envíos */
+        .envios {
+            padding: 80px 0;
+            background-color: var(--color-fondo);
+            text-align: center;
+        }
+
+        .envios-info {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .iconos-envios {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .icono-envio {
+            text-align: center;
+            max-width: 200px;
+        }
+
+        .icono-envio i {
+            font-size: 2.5rem;
+            color: var(--color-primario);
+            margin-bottom: 15px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--color-primario);
+            color: var(--color-blanco);
+            padding: 60px 0 20px;
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h3 {
+            color: var(--color-blanco);
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-col h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--color-acento);
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-col ul li a {
+            color: var(--color-blanco);
+            opacity: 0.8;
+        }
+
+        .footer-col ul li a:hover {
+            opacity: 1;
+            padding-left: 5px;
+        }
+
+        .redes-sociales {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .red-social {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transition: var(--transicion);
+        }
+
+        .red-social:hover {
+            background-color: var(--color-acento);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-wrap: wrap;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            nav {
+                width: 100%;
+                display: none;
+                margin-top: 15px;
+            }
+
+            nav.active {
+                display: block;
+            }
+
+            nav ul {
+                flex-direction: column;
+            }
+
+            nav ul li {
+                margin: 10px 0;
+            }
+
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .sobre-container {
+                flex-direction: column;
+            }
+
+            .iconos-envios {
+                flex-direction: column;
+                align-items: center;
+                gap: 30px;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">Saucha <span>Espacio Holístico</span></div>
+            <div class="mobile-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#inicio">Inicio</a></li>
+                    <li><a href="#productos">Productos</a></li>
+                    <li><a href="#sobre-nosotros">Sobre Nosotros</a></li>
+                    <li><a href="#envios">Envíos</a></li>
+                    <li><a href="#contacto">Contacto</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="inicio">
+        <div class="container">
+            <h1>Bienvenidos a Saucha Espacio Holístico</h1>
+            <p>Descubre productos naturales y místicos para equilibrar tu mente, cuerpo y espíritu. Sahumerios, cartas de tarot, cristales y más.</p>
+            <a href="#productos" class="btn">Explorar Productos</a>
+        </div>
+    </section>
+
+    <!-- Sección de Productos -->
+    <section class="productos" id="productos">
+        <div class="container">
+            <h2 class="section-title">Nuestros Productos</h2>
+            <div class="productos-grid">
+                <!-- Producto 1 -->
+                <div class="producto-card">
+                    <img src="https://images.unsplash.com/photo-1594736797933-d0c1382c7e1e?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="Sahumerios" class="producto-img">
+                    <div class="producto-info">
+                        <span class="producto-categoria">Sahumerios</span>
+                        <h3>Sahumerios Naturales</h3>
+                        <p>Sahumerios artesanales con aromas naturales para purificar tus espacios.</p>
+                        <p class="producto-precio">$450</p>
+                        <a href="#" class="btn">Comprar</a>
+                    </div>
+                </div>
+
+                <!-- Producto 2 -->
+                <div class="producto-card">
+                    <img src="https://images.unsplash.com/photo-1587590227261-2e0c243f7c88?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Cartas de Tarot" class="producto-img">
+                    <div class="producto-info">
+                        <span class="producto-categoria">Tarot</span>
+                        <h3>Mazo de Tarot Rider-Waite</h3>
+                        <p>Clásico mazo de tarot para principiantes y expertos en lecturas.</p>
+                        <p class="producto-precio">$1,200</p>
+                        <a href="#" class="btn">Comprar</a>
+                    </div>
+                </div>
+
+                <!-- Producto 3 -->
+                <div class="producto-card">
+                    <img src="https://images.unsplash.com/photo-1589674781759-c21dfa1caa6e?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="Velas" class="producto-img">
+                    <div class="producto-info">
+                        <span class="producto-categoria">Velas</span>
+                        <h3>Velas de Soja Aromáticas</h3>
+                        <p>Velas naturales de soja con esencias puras para meditación y relajación.</p>
+                        <p class="producto-precio">$680</p>
+                        <a href="#" class="btn">Comprar</a>
+                    </div>
+                </div>
+
+                <!-- Producto 4 -->
+                <div class="producto-card">
+                    <img src="https://images.unsplash.com/photo-1589674781759-c21dfa1caa6e?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="Cristales" class="producto-img">
+                    <div class="producto-info">
+                        <span class="producto-categoria">Cristales</span>
+                        <h3>Kit de Cristales Curativos</h3>
+                        <p>Selección de cristales naturales para armonizar energías y espacios.</p>
+                        <p class="producto-precio">$890</p>
+                        <a href="#" class="btn">Comprar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Sobre Nosotros -->
+    <section class="sobre-nosotros" id="sobre-nosotros">
+        <div class="container">
+            <h2 class="section-title">Sobre Saucha</h2>
+            <div class="sobre-container">
+                <div class="sobre-img">
+                    <img src="https://images.unsplash.com/photo-1544787219-7f47ccb76574?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Espacio Saucha">
+                </div>
+                <div class="sobre-texto">
+                    <h3>Nuestra Misión</h3>
+                    <p>En Saucha Espacio Holístico nos dedicamos a ofrecer productos naturales y místicos de alta calidad para acompañarte en tu camino espiritual y de autoconocimiento.</p>
+                    <p>Creemos en la importancia de conectar con nuestra esencia y el entorno, por eso seleccionamos cuidadosamente cada producto, priorizando ingredientes naturales, procesos artesanales y prácticas sostenibles.</p>
+                    <p>Nuestro nombre "Saucha" proviene del sánscrito y significa pureza, limpieza y claridad, valores que representan nuestro compromiso con ofrecer productos auténticos que contribuyan a tu bienestar integral.</p>
+                    <a href="#contacto" class="btn">Conoce Más</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Envíos -->
+    <section class="envios" id="envios">
+        <div class="container">
+            <h2 class="section-title">Envíos Nacionales</h2>
+            <div class="envios-info">
+                <p>Realizamos envíos a todo el país. Trabajamos con servicios de logística confiables para que recibas tus productos en perfectas condiciones y en el menor tiempo posible.</p>
+                
+                <div class="iconos-envios">
+                    <div class="icono-envio">
+                        <i class="fas fa-shipping-fast"></i>
+                        <h3>Envío Express</h3>
+                        <p>Entrega en 24-48 horas en zonas urbanas</p>
+                    </div>
+                    <div class="icono-envio">
+                        <i class="fas fa-box"></i>
+                        <h3>Envío Estándar</h3>
+                        <p>Entrega en 3-5 días hábiles a todo el país</p>
+                    </div>
+                    <div class="icono-envio">
+                        <i class="fas fa-gift"></i>
+                        <h3>Embalaje Especial</h3>
+                        <p>Productos cuidadosamente empaquetados</p>
+                    </div>
+                </div>
+
+                <p><strong>Envío gratuito</strong> en compras superiores a $5.000</p>
+                <a href="#contacto" class="btn">Consultar Zonas</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contacto">
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-col">
+                    <h3>Saucha Espacio Holístico</h3>
+                    <p>Tu espacio para productos naturales y místicos. Envíos a todo el país.</p>
+                    <div class="redes-sociales">
+                        <a href="#" class="red-social"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="red-social"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="red-social"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h3>Enlaces Rápidos</h3>
+                    <ul>
+                        <li><a href="#inicio">Inicio</a></li>
+                        <li><a href="#productos">Productos</a></li>
+                        <li><a href="#sobre-nosotros">Sobre Nosotros</a></li>
+                        <li><a href="#envios">Envíos</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Contacto</h3>
+                    <ul>
+                        <li><i class="fas fa-envelope"></i> info@saucha.com</li>
+                        <li><i class="fas fa-phone"></i> +54 11 1234-5678</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Buenos Aires, Argentina</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 Saucha Espacio Holístico. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Menú móvil
+        document.querySelector('.mobile-menu').addEventListener('click', function() {
+            document.querySelector('nav').classList.toggle('active');
+        });
+
+        // Cerrar menú al hacer clic en un enlace (en móviles)
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', function() {
+                if (window.innerWidth <= 768) {
+                    document.querySelector('nav').classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
