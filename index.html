@@ -1,14 +1,23 @@
-<!DOCTYPE html> <html lang="es"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Saucha Espacio Holístico - Sahumerios, Tarot y Productos Místicos</title> <!-- Meta tags para SEO --> <meta name="description" content="Saucha Espacio Holístico - Venta de sahumerios naturales, cartas de tarot, velas y productos místicos. Envíos a todo Argentina. Calidad y espiritualidad."> <meta name="keywords" content="sahumerios, tarot, cartas tarot, velas naturales, cristales, espacio holistico, productos místicos, aromaterapia, espiritualidad, envíos nacionales"> <meta name="author" content="Saucha Espacio Holístico"> <meta name="robots" content="index, follow"> <!-- Open Graph para redes sociales --> <meta property="og:title" content="Saucha Espacio Holístico - Productos Naturales y Místicos"> <meta property="og:description" content="Descubre sahumerios naturales, cartas de tarot, velas y cristales. Envíos a todo el país. Equilibra tu mente, cuerpo y espíritu."> <meta property="og:type" content="website"> <meta property="og:url" content="https://sauchaespacioholistico.com"> <meta property="og:image" content="https://images.unsplash.com/photo-1544787219-7f47ccb76574?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80"> <meta property="og:site_name" content="Saucha Espacio Holístico"> <!-- Twitter Card --> <meta name="twitter:card" content="summary_large_image"> <meta name="twitter:title" content="Saucha Espacio Holístico"> <meta name="twitter:description" content="Productos naturales y místicos para tu bienestar espiritual"> <meta name="twitter:image" content="https://images.unsplash.com/photo-1544787219-7f47ccb76574?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80"> <!-- Favicon --> <link rel="icon" type="image/x-icon" href="/favicon.ico"> <!-- Preconexión para fuentes externas --> <link rel="preconnect" href="https://fonts.googleapis.com"> <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> <style> /* (Todo el CSS que te envié anteriormente va aquí) */ /* Variables de colores y fuentes */ :root { --color-primario: #4a6c60; --color-secundario: #8a9b8c; --color-acento: #c9a87a; --color-texto: #333333; --color-fondo: #f9f7f2; --color-blanco: #ffffff; --sombra: 0 4px 6px rgba(0, 0, 0, 0.1); --transicion: all 0.3s ease; } /* ... (todo el resto del CSS permanece igual) ... */ </style> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> <!-- Schema.org markup for Google --> <script type="application/ld+json"> { "@context": "https://schema.org", "@type": "Store", "name": "Saucha Espacio Holístico", "description": "Tienda de productos holísticos y místicos", "url": "https://sauchaespacioholistico.com", "telephone": "+54-11-1234-5678", "address": { "@type": "PostalAddress", "addressLocality": "Buenos Aires", "addressCountry": "AR" }, "openingHours": "Mo-Fr 09:00-18:00", "priceRange": "$$" } </script> </head> <body> <!-- El resto de tu HTML permanece exactamente igual --> <header> <div class="container header-container"> <div class="logo">Saucha <span>Espacio Holístico</span></div> <!-- ... resto del código ... -->
-
-
-
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Saucha Espacio Holístico</title>
+    <title>Saucha Espacio Holístico - Sahumerios, Tarot y Productos Místicos</title>
+    
+    <!-- Meta tags para SEO -->
+    <meta name="description" content="Saucha Espacio Holístico - Venta de sahumerios, cartas de tarot, velas y productos místicos. Envíos a todo Argentina. Marcas: Sagrada Madre, Aromanza.">
+    <meta name="keywords" content="sahumerios, tarot, cartas tarot, velas, cristales, espacio holistico, productos místicos, sagrada madre, aromanza, envíos nacionales">
+    <meta name="author" content="Saucha Espacio Holístico">
+    
+    <!-- Open Graph para redes sociales -->
+    <meta property="og:title" content="Saucha Espacio Holístico - Productos Místicos">
+    <meta property="og:description" content="Descubre sahumerios, cartas de tarot, velas y cristales. Envíos a todo el país.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://mermaidmei.github.io/saucha-espacio-holistico/">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1544787219-7f47ccb76574?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80">
+    <meta property="og:site_name" content="Saucha Espacio Holístico">
+    
     <style>
         /* Variables de colores y fuentes */
         :root {
@@ -18,6 +27,8 @@
             --color-texto: #333333;
             --color-fondo: #f9f7f2;
             --color-blanco: #ffffff;
+            --color-stock: #4CAF50;
+            --color-sin-stock: #f44336;
             --sombra: 0 4px 6px rgba(0, 0, 0, 0.1);
             --transicion: all 0.3s ease;
         }
@@ -79,6 +90,17 @@
             background-color: var(--color-acento);
             transform: translateY(-3px);
             box-shadow: var(--sombra);
+        }
+
+        .btn-deshabilitado {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+        .btn-deshabilitado:hover {
+            background-color: #cccccc;
+            transform: none;
+            box-shadow: none;
         }
 
         /* Header */
@@ -149,6 +171,26 @@
             margin: 0 auto 30px;
         }
 
+        /* Indicador de stock */
+        .stock {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .stock-disponible {
+            background-color: var(--color-stock);
+            color: white;
+        }
+
+        .stock-agotado {
+            background-color: var(--color-sin-stock);
+            color: white;
+        }
+
         /* Sección de productos */
         .productos {
             padding: 80px 0;
@@ -169,6 +211,29 @@
             margin: 15px auto;
         }
 
+        .filtros-categorias {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .filtro-btn {
+            background-color: var(--color-blanco);
+            border: 1px solid var(--color-primario);
+            color: var(--color-primario);
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: var(--transicion);
+        }
+
+        .filtro-btn:hover, .filtro-btn.active {
+            background-color: var(--color-primario);
+            color: var(--color-blanco);
+        }
+
         .productos-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -181,6 +246,7 @@
             overflow: hidden;
             box-shadow: var(--sombra);
             transition: var(--transicion);
+            position: relative;
         }
 
         .producto-card:hover {
@@ -198,7 +264,7 @@
             padding: 20px;
         }
 
-        .producto-categoria {
+        .producto-marca {
             color: var(--color-secundario);
             font-size: 0.9rem;
             text-transform: uppercase;
@@ -351,6 +417,45 @@
             opacity: 0.7;
         }
 
+        /* Panel de administración simplificado */
+        .admin-panel {
+            background-color: var(--color-blanco);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: var(--sombra);
+            margin: 40px auto;
+            max-width: 800px;
+        }
+
+        .admin-panel h3 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: inherit;
+        }
+
+        .admin-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .header-container {
@@ -392,6 +497,12 @@
                 align-items: center;
                 gap: 30px;
             }
+
+            .filtros-categorias {
+                justify-content: flex-start;
+                overflow-x: auto;
+                padding-bottom: 10px;
+            }
         }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -420,7 +531,7 @@
     <section class="hero" id="inicio">
         <div class="container">
             <h1>Bienvenidos a Saucha Espacio Holístico</h1>
-            <p>Descubre productos naturales y místicos para equilibrar tu mente, cuerpo y espíritu. Sahumerios, cartas de tarot, cristales y más.</p>
+            <p>Descubre productos místicos para equilibrar tu mente, cuerpo y espíritu. Sahumerios, cartas de tarot, cristales y más.</p>
             <a href="#productos" class="btn">Explorar Productos</a>
         </div>
     </section>
@@ -429,54 +540,20 @@
     <section class="productos" id="productos">
         <div class="container">
             <h2 class="section-title">Nuestros Productos</h2>
-            <div class="productos-grid">
-                <!-- Producto 1 -->
-                <div class="producto-card">
-                    <img src="https://images.unsplash.com/photo-1594736797933-d0c1382c7e1e?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="Sahumerios" class="producto-img">
-                    <div class="producto-info">
-                        <span class="producto-categoria">Sahumerios</span>
-                        <h3>Sahumerios Naturales</h3>
-                        <p>Sahumerios artesanales con aromas naturales para purificar tus espacios.</p>
-                        <p class="producto-precio">$450</p>
-                        <a href="#" class="btn">Comprar</a>
-                    </div>
-                </div>
-
-                <!-- Producto 2 -->
-                <div class="producto-card">
-                    <img src="https://images.unsplash.com/photo-1587590227261-2e0c243f7c88?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Cartas de Tarot" class="producto-img">
-                    <div class="producto-info">
-                        <span class="producto-categoria">Tarot</span>
-                        <h3>Mazo de Tarot Rider-Waite</h3>
-                        <p>Clásico mazo de tarot para principiantes y expertos en lecturas.</p>
-                        <p class="producto-precio">$1,200</p>
-                        <a href="#" class="btn">Comprar</a>
-                    </div>
-                </div>
-
-                <!-- Producto 3 -->
-                <div class="producto-card">
-                    <img src="https://images.unsplash.com/photo-1589674781759-c21dfa1caa6e?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="Velas" class="producto-img">
-                    <div class="producto-info">
-                        <span class="producto-categoria">Velas</span>
-                        <h3>Velas de Soja Aromáticas</h3>
-                        <p>Velas naturales de soja con esencias puras para meditación y relajación.</p>
-                        <p class="producto-precio">$680</p>
-                        <a href="#" class="btn">Comprar</a>
-                    </div>
-                </div>
-
-                <!-- Producto 4 -->
-                <div class="producto-card">
-                    <img src="https://images.unsplash.com/photo-1589674781759-c21dfa1caa6e?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="Cristales" class="producto-img">
-                    <div class="producto-info">
-                        <span class="producto-categoria">Cristales</span>
-                        <h3>Kit de Cristales Curativos</h3>
-                        <p>Selección de cristales naturales para armonizar energías y espacios.</p>
-                        <p class="producto-precio">$890</p>
-                        <a href="#" class="btn">Comprar</a>
-                    </div>
-                </div>
+            
+            <!-- Filtros por categoría -->
+            <div class="filtros-categorias">
+                <button class="filtro-btn active" data-categoria="todos">Todos</button>
+                <button class="filtro-btn" data-categoria="sahumerios">Sahumerios</button>
+                <button class="filtro-btn" data-categoria="tarot">Tarot y Oráculos</button>
+                <button class="filtro-btn" data-categoria="piedras">Piedras y Cristales</button>
+                <button class="filtro-btn" data-categoria="velas">Velas</button>
+                <button class="filtro-btn" data-categoria="accesorios">Accesorios</button>
+                <button class="filtro-btn" data-categoria="esencias">Esencias y Difusores</button>
+            </div>
+            
+            <div class="productos-grid" id="productos-grid">
+                <!-- Los productos se cargarán dinámicamente con JavaScript -->
             </div>
         </div>
     </section>
@@ -491,8 +568,8 @@
                 </div>
                 <div class="sobre-texto">
                     <h3>Nuestra Misión</h3>
-                    <p>En Saucha Espacio Holístico nos dedicamos a ofrecer productos naturales y místicos de alta calidad para acompañarte en tu camino espiritual y de autoconocimiento.</p>
-                    <p>Creemos en la importancia de conectar con nuestra esencia y el entorno, por eso seleccionamos cuidadosamente cada producto, priorizando ingredientes naturales, procesos artesanales y prácticas sostenibles.</p>
+                    <p>En Saucha Espacio Holístico nos dedicamos a ofrecer productos místicos de alta calidad para acompañarte en tu camino espiritual y de autoconocimiento.</p>
+                    <p>Creemos en la importancia de conectar con nuestra esencia y el entorno, por eso seleccionamos cuidadosamente cada producto, priorizando marcas reconocidas como Sagrada Madre y Aromanza.</p>
                     <p>Nuestro nombre "Saucha" proviene del sánscrito y significa pureza, limpieza y claridad, valores que representan nuestro compromiso con ofrecer productos auténticos que contribuyan a tu bienestar integral.</p>
                     <a href="#contacto" class="btn">Conoce Más</a>
                 </div>
@@ -526,7 +603,66 @@
                 </div>
 
                 <p><strong>Envío gratuito</strong> en compras superiores a $5.000</p>
+                <p><strong>Habilitamos envíos</strong> a todo el territorio argentino</p>
                 <a href="#contacto" class="btn">Consultar Zonas</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Panel de Administración Simplificado -->
+    <section class="admin-panel" id="admin">
+        <div class="container">
+            <h3>Panel de Administración</h3>
+            <p>Desde aquí puedes agregar o modificar productos fácilmente:</p>
+            
+            <div class="form-group">
+                <label for="producto-nombre">Nombre del Producto:</label>
+                <input type="text" id="producto-nombre" placeholder="Ej: Sahumerios Sagrada Madre">
+            </div>
+            
+            <div class="form-group">
+                <label for="producto-marca">Marca:</label>
+                <input type="text" id="producto-marca" placeholder="Ej: Sagrada Madre">
+            </div>
+            
+            <div class="form-group">
+                <label for="producto-categoria">Categoría:</label>
+                <select id="producto-categoria">
+                    <option value="sahumerios">Sahumerios</option>
+                    <option value="tarot">Tarot y Oráculos</option>
+                    <option value="piedras">Piedras y Cristales</option>
+                    <option value="velas">Velas</option>
+                    <option value="accesorios">Accesorios</option>
+                    <option value="esencias">Esencias y Difusores</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="producto-precio">Precio:</label>
+                <input type="number" id="producto-precio" placeholder="Ej: 450">
+            </div>
+            
+            <div class="form-group">
+                <label for="producto-stock">Stock:</label>
+                <select id="producto-stock">
+                    <option value="disponible">Disponible</option>
+                    <option value="agotado">Agotado</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="producto-descripcion">Descripción:</label>
+                <textarea id="producto-descripcion" rows="3" placeholder="Descripción del producto"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="producto-imagen">URL de la imagen:</label>
+                <input type="text" id="producto-imagen" placeholder="https://ejemplo.com/imagen.jpg">
+            </div>
+            
+            <div class="admin-buttons">
+                <button class="btn" id="agregar-producto">Agregar Producto</button>
+                <button class="btn" id="limpiar-formulario">Limpiar Formulario</button>
             </div>
         </div>
     </section>
@@ -537,7 +673,7 @@
             <div class="footer-container">
                 <div class="footer-col">
                     <h3>Saucha Espacio Holístico</h3>
-                    <p>Tu espacio para productos naturales y místicos. Envíos a todo el país.</p>
+                    <p>Tu espacio para productos místicos. Envíos a todo el país.</p>
                     <div class="redes-sociales">
                         <a href="#" class="red-social"><i class="fab fa-instagram"></i></a>
                         <a href="#" class="red-social"><i class="fab fa-facebook-f"></i></a>
@@ -551,6 +687,7 @@
                         <li><a href="#productos">Productos</a></li>
                         <li><a href="#sobre-nosotros">Sobre Nosotros</a></li>
                         <li><a href="#envios">Envíos</a></li>
+                        <li><a href="#admin">Administración</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
@@ -569,6 +706,70 @@
     </footer>
 
     <script>
+        // Datos de productos (se pueden agregar/modificar desde el panel de admin)
+        let productos = [
+            {
+                id: 1,
+                nombre: "Sahumerios Sagrada Madre",
+                marca: "Sagrada Madre",
+                categoria: "sahumerios",
+                precio: 450,
+                stock: "disponible",
+                descripcion: "Sahumerios de alta calidad con aromas únicos.",
+                imagen: "https://images.unsplash.com/photo-1594736797933-d0c1382c7e1e?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
+            },
+            {
+                id: 2,
+                nombre: "Mazo de Tarot Rider-Waite",
+                marca: "US Games",
+                categoria: "tarot",
+                precio: 1200,
+                stock: "disponible",
+                descripcion: "Clásico mazo de tarot para principiantes y expertos.",
+                imagen: "https://images.unsplash.com/photo-1587590227261-2e0c243f7c88?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+            },
+            {
+                id: 3,
+                nombre: "Kit de Piedras y Cristales",
+                marca: "Piedras Energéticas",
+                categoria: "piedras",
+                precio: 890,
+                stock: "agotado",
+                descripcion: "Selección de cristales naturales para armonizar energías.",
+                imagen: "https://images.unsplash.com/photo-1589674781759-c21dfa1caa6e?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
+            },
+            {
+                id: 4,
+                nombre: "Velas Aromáticas Aromanza",
+                marca: "Aromanza",
+                categoria: "velas",
+                precio: 680,
+                stock: "disponible",
+                descripcion: "Velas con esencias puras para meditación y relajación.",
+                imagen: "https://images.unsplash.com/photo-1589674781759-c21dfa1caa6e?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
+            },
+            {
+                id: 5,
+                nombre: "Difusor Aromanza",
+                marca: "Aromanza",
+                categoria: "esencias",
+                precio: 1250,
+                stock: "disponible",
+                descripcion: "Difusor de aromas con tecnología de última generación.",
+                imagen: "https://images.unsplash.com/photo-1589674781759-c21dfa1caa6e?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
+            },
+            {
+                id: 6,
+                nombre: "Hornito para Sahumerios",
+                marca: "Accesorios Místicos",
+                categoria: "accesorios",
+                precio: 750,
+                stock: "disponible",
+                descripcion: "Hornito cerámico para quemar sahumerios de forma segura.",
+                imagen: "https://images.unsplash.com/photo-1589674781759-c21dfa1caa6e?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
+            }
+        ];
+
         // Menú móvil
         document.querySelector('.mobile-menu').addEventListener('click', function() {
             document.querySelector('nav').classList.toggle('active');
@@ -581,6 +782,104 @@
                     document.querySelector('nav').classList.remove('active');
                 }
             });
+        });
+
+        // Función para renderizar productos
+        function renderizarProductos(productosAFiltrar = productos) {
+            const productosGrid = document.getElementById('productos-grid');
+            productosGrid.innerHTML = '';
+
+            productosAFiltrar.forEach(producto => {
+                const stockClass = producto.stock === 'disponible' ? 'stock-disponible' : 'stock-agotado';
+                const stockText = producto.stock === 'disponible' ? 'En Stock' : 'Sin Stock';
+                const btnClass = producto.stock === 'disponible' ? 'btn' : 'btn btn-deshabilitado';
+                const btnText = producto.stock === 'disponible' ? 'Comprar' : 'Agotado';
+
+                const productoHTML = `
+                    <div class="producto-card" data-categoria="${producto.categoria}">
+                        <img src="${producto.imagen}" alt="${producto.nombre}" class="producto-img">
+                        <div class="producto-info">
+                            <span class="producto-marca">${producto.marca}</span>
+                            <span class="stock ${stockClass}">${stockText}</span>
+                            <h3>${producto.nombre}</h3>
+                            <p>${producto.descripcion}</p>
+                            <p class="producto-precio">$${producto.precio}</p>
+                            <a href="#" class="${btnClass}">${btnText}</a>
+                        </div>
+                    </div>
+                `;
+                productosGrid.innerHTML += productoHTML;
+            });
+        }
+
+        // Filtros de categoría
+        document.querySelectorAll('.filtro-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Remover clase active de todos los botones
+                document.querySelectorAll('.filtro-btn').forEach(b => {
+                    b.classList.remove('active');
+                });
+                
+                // Agregar clase active al botón clickeado
+                this.classList.add('active');
+                
+                const categoria = this.getAttribute('data-categoria');
+                
+                if (categoria === 'todos') {
+                    renderizarProductos();
+                } else {
+                    const productosFiltrados = productos.filter(producto => producto.categoria === categoria);
+                    renderizarProductos(productosFiltrados);
+                }
+            });
+        });
+
+        // Funcionalidad del panel de administración
+        document.getElementById('agregar-producto').addEventListener('click', function() {
+            const nombre = document.getElementById('producto-nombre').value;
+            const marca = document.getElementById('producto-marca').value;
+            const categoria = document.getElementById('producto-categoria').value;
+            const precio = document.getElementById('producto-precio').value;
+            const stock = document.getElementById('producto-stock').value;
+            const descripcion = document.getElementById('producto-descripcion').value;
+            const imagen = document.getElementById('producto-imagen').value;
+
+            if (nombre && marca && precio && descripcion && imagen) {
+                const nuevoProducto = {
+                    id: productos.length + 1,
+                    nombre: nombre,
+                    marca: marca,
+                    categoria: categoria,
+                    precio: parseInt(precio),
+                    stock: stock,
+                    descripcion: descripcion,
+                    imagen: imagen
+                };
+
+                productos.push(nuevoProducto);
+                renderizarProductos();
+                alert('Producto agregado correctamente');
+                
+                // Limpiar formulario
+                document.getElementById('limpiar-formulario').click();
+            } else {
+                alert('Por favor, completa todos los campos');
+            }
+        });
+
+        document.getElementById('limpiar-formulario').addEventListener('click', function() {
+            document.getElementById('producto-nombre').value = '';
+            document.getElementById('producto-marca').value = '';
+            document.getElementById('producto-categoria').value = 'sahumerios';
+            document.getElementById('producto-precio').value = '';
+            document.getElementById('producto-stock').value = 'disponible';
+            document.getElementById('producto-descripcion').value = '';
+            document.getElementById('producto-imagen').value = '';
+        });
+
+        // Inicializar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            renderizarProductos();
         });
     </script>
 </body>
