@@ -823,3 +823,26 @@
     </script>
 </body>
 </html>
+
+
+<script type="module">
+  // Importar Firebase
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-analytics.js";
+
+  // Configuración de tu proyecto Firebase
+  const firebaseConfig = {
+    apiKey: "AIzaSyDNLtKtM4Ai36BBLg2VnxrYjPycd_bNEZE",
+    authDomain: "sauchaespacioholistico-a95eb.firebaseapp.com",
+    projectId: "sauchaespacioholistico-a95eb",
+    storageBucket: "sauchaespacioholistico-a95eb.firebasestorage.app",
+    messagingSenderId: "854528157779",
+    appId: "1:854528157779:web:8bdceafd1b87f99b65fea6",
+    measurementId: "G-1D3CE8R82D"
+  };
+
+  // Inicializar Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
+
