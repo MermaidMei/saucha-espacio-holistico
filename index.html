@@ -3,37 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Saucha Espacio Holístico - Sahumerios, Tarot y Productos Místicos</title>
-    
-    <!-- Meta tags para SEO -->
-    <meta name="description" content="Saucha Espacio Holístico - Venta de sahumerios, cartas de tarot, velas y productos místicos. Envíos a todo Argentina. Marcas: Sagrada Madre, Aromanza.">
-    <meta name="keywords" content="sahumerios, tarot, cartas tarot, velas, cristales, espacio holistico, productos místicos, sagrada madre, aromanza, envíos nacionales">
-    <meta name="author" content="Saucha Espacio Holístico">
-    
-    <!-- Open Graph para redes sociales -->
-    <meta property="og:title" content="Saucha Espacio Holístico - Productos Místicos">
-    <meta property="og:description" content="Descubre sahumerios, cartas de tarot, velas y cristales. Envíos a todo el país.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://mermaidmei.github.io/saucha-espacio-holistico/">
-    <meta property="og:image" content="https://images.unsplash.com/photo-1544787219-7f47ccb76574?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80">
-    <meta property="og:site_name" content="Saucha Espacio Holístico">
-    
+    <title>Panel de Administración - Saucha</title>
     <style>
-        /* Variables de colores y fuentes */
         :root {
             --color-primario: #4a6c60;
             --color-secundario: #8a9b8c;
             --color-acento: #c9a87a;
-            --color-texto: #333333;
-            --color-fondo: #f9f7f2;
+            --color-peligro: #e74c3c;
             --color-blanco: #ffffff;
-            --color-stock: #4CAF50;
-            --color-sin-stock: #f44336;
+            --color-fondo: #f5f5f5;
             --sombra: 0 4px 6px rgba(0, 0, 0, 0.1);
-            --transicion: all 0.3s ease;
         }
 
-        /* Estilos generales */
         * {
             margin: 0;
             padding: 0;
@@ -42,407 +23,75 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: var(--color-texto);
             background-color: var(--color-fondo);
-        }
-
-        h1, h2, h3, h4 {
-            font-family: Georgia, 'Times New Roman', Times, serif;
-            color: var(--color-primario);
-            margin-bottom: 1rem;
-        }
-
-        p {
-            margin-bottom: 1rem;
-        }
-
-        a {
-            text-decoration: none;
-            color: var(--color-primario);
-            transition: var(--transicion);
-        }
-
-        a:hover {
-            color: var(--color-acento);
         }
 
         .container {
-            width: 90%;
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 15px;
+            padding: 20px;
         }
 
-        .btn {
-            display: inline-block;
-            background-color: var(--color-primario);
-            color: var(--color-blanco);
-            padding: 10px 20px;
-            border-radius: 30px;
-            font-weight: 600;
-            transition: var(--transicion);
-            border: none;
-            cursor: pointer;
-        }
-
-        .btn:hover {
-            background-color: var(--color-acento);
-            transform: translateY(-3px);
-            box-shadow: var(--sombra);
-        }
-
-        .btn-deshabilitado {
-            background-color: #cccccc;
-            cursor: not-allowed;
-        }
-
-        .btn-deshabilitado:hover {
-            background-color: #cccccc;
-            transform: none;
-            box-shadow: none;
-        }
-
-        /* Header */
-        header {
-            background-color: var(--color-blanco);
-            box-shadow: var(--sombra);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .header-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 0;
-        }
-
-        .logo {
-            font-family: Georgia, 'Times New Roman', Times, serif;
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: var(--color-primario);
-        }
-
-        .logo span {
-            color: var(--color-acento);
-        }
-
-        nav ul {
-            display: flex;
-            list-style: none;
-        }
-
-        nav ul li {
-            margin-left: 25px;
-        }
-
-        nav ul li a {
-            font-weight: 500;
-        }
-
-        .mobile-menu {
-            display: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(rgba(74, 108, 96, 0.7), rgba(74, 108, 96, 0.7)), url('https://images.unsplash.com/photo-1544787219-7f47ccb76574?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
-            background-size: cover;
-            background-position: center;
-            color: var(--color-blanco);
-            text-align: center;
-            padding: 100px 0;
-        }
-
-        .hero h1 {
-            font-size: 3rem;
-            color: var(--color-blanco);
-            margin-bottom: 20px;
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            max-width: 700px;
-            margin: 0 auto 30px;
-        }
-
-        /* Indicador de stock */
-        .stock {
-            display: inline-block;
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .stock-disponible {
-            background-color: var(--color-stock);
+        .header {
+            background: var(--color-primario);
             color: white;
-        }
-
-        .stock-agotado {
-            background-color: var(--color-sin-stock);
-            color: white;
-        }
-
-        /* Sección de productos */
-        .productos {
-            padding: 80px 0;
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 50px;
-            position: relative;
-        }
-
-        .section-title::after {
-            content: '';
-            display: block;
-            width: 80px;
-            height: 3px;
-            background-color: var(--color-acento);
-            margin: 15px auto;
-        }
-
-        .filtros-categorias {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 10px;
+            padding: 20px 0;
             margin-bottom: 30px;
         }
 
-        .filtro-btn {
-            background-color: var(--color-blanco);
-            border: 1px solid var(--color-primario);
-            color: var(--color-primario);
+        .btn {
             padding: 8px 15px;
-            border-radius: 20px;
+            border: none;
+            border-radius: 5px;
             cursor: pointer;
-            transition: var(--transicion);
-        }
-
-        .filtro-btn:hover, .filtro-btn.active {
-            background-color: var(--color-primario);
-            color: var(--color-blanco);
-        }
-
-        .productos-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 30px;
-        }
-
-        .producto-card {
-            background-color: var(--color-blanco);
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: var(--sombra);
-            transition: var(--transicion);
-            position: relative;
-        }
-
-        .producto-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-        }
-
-        .producto-img {
-            height: 200px;
-            width: 100%;
-            object-fit: cover;
-        }
-
-        .producto-info {
-            padding: 20px;
-        }
-
-        .producto-marca {
-            color: var(--color-secundario);
+            font-weight: 600;
+            transition: all 0.3s ease;
             font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 5px;
         }
 
-        .producto-precio {
-            font-weight: bold;
-            color: var(--color-primario);
-            font-size: 1.2rem;
-            margin-top: 10px;
+        .btn-primary {
+            background: var(--color-primario);
+            color: white;
         }
 
-        /* Sección sobre nosotros */
-        .sobre-nosotros {
-            padding: 80px 0;
-            background-color: var(--color-blanco);
+        .btn-danger {
+            background: var(--color-peligro);
+            color: white;
         }
 
-        .sobre-container {
-            display: flex;
-            align-items: center;
-            gap: 50px;
+        .btn-warning {
+            background: #ff9800;
+            color: white;
         }
 
-        .sobre-img {
-            flex: 1;
-            border-radius: 10px;
-            overflow: hidden;
+        .btn:hover {
+            transform: translateY(-2px);
             box-shadow: var(--sombra);
         }
 
-        .sobre-img img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        .sobre-texto {
-            flex: 1;
-        }
-
-        /* Sección envíos */
-        .envios {
-            padding: 80px 0;
-            background-color: var(--color-fondo);
-            text-align: center;
-        }
-
-        .envios-info {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .iconos-envios {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            margin-top: 40px;
-        }
-
-        .icono-envio {
-            text-align: center;
-            max-width: 200px;
-        }
-
-        .icono-envio i {
-            font-size: 2.5rem;
-            color: var(--color-primario);
-            margin-bottom: 15px;
-        }
-
-        /* Footer */
-        footer {
-            background-color: var(--color-primario);
-            color: var(--color-blanco);
-            padding: 60px 0 20px;
-        }
-
-        .footer-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
-            margin-bottom: 40px;
-        }
-
-        .footer-col h3 {
-            color: var(--color-blanco);
-            margin-bottom: 20px;
-            position: relative;
-            padding-bottom: 10px;
-        }
-
-        .footer-col h3::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: 0;
-            width: 50px;
-            height: 2px;
-            background-color: var(--color-acento);
-        }
-
-        .footer-col ul {
-            list-style: none;
-        }
-
-        .footer-col ul li {
-            margin-bottom: 10px;
-        }
-
-        .footer-col ul li a {
-            color: var(--color-blanco);
-            opacity: 0.8;
-        }
-
-        .footer-col ul li a:hover {
-            opacity: 1;
-            padding-left: 5px;
-        }
-
-        .redes-sociales {
-            display: flex;
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .red-social {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            transition: var(--transicion);
-        }
-
-        .red-social:hover {
-            background-color: var(--color-acento);
-            transform: translateY(-3px);
-        }
-
-        .copyright {
-            text-align: center;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            font-size: 0.9rem;
-            opacity: 0.7;
-        }
-
-        /* Panel de administración simplificado */
-        .admin-panel {
-            background-color: var(--color-blanco);
-            padding: 20px;
+        /* Login */
+        .login-container {
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 40px;
+            background: white;
             border-radius: 10px;
             box-shadow: var(--sombra);
-            margin: 40px auto;
-            max-width: 800px;
-        }
-
-        .admin-panel h3 {
-            text-align: center;
-            margin-bottom: 20px;
         }
 
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
 
         .form-group label {
             display: block;
             margin-bottom: 5px;
-            font-weight: bold;
+            font-weight: 600;
         }
 
-        .form-group input, .form-group select, .form-group textarea {
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
             width: 100%;
             padding: 10px;
             border: 1px solid #ddd;
@@ -450,437 +99,476 @@
             font-family: inherit;
         }
 
-        .admin-buttons {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
+        /* Dashboard */
+        .dashboard {
+            display: none;
         }
 
-        /* Responsive */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: var(--sombra);
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--color-primario);
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #ddd;
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            padding: 15px 25px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .tab.active {
+            border-bottom: 3px solid var(--color-primario);
+            color: var(--color-primario);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Tabla de productos */
+        .table {
+            width: 100%;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--sombra);
+            margin-bottom: 30px;
+        }
+
+        .table th,
+        .table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .table th {
+            background: var(--color-primario);
+            color: white;
+        }
+
+        .acciones {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+
+        .stock-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .stock-alto {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .stock-medio {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .stock-bajo {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .stock-agotado {
+            background: #6c757d;
+            color: white;
+        }
+
+        /* Formulario productos */
+        .form-producto {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: var(--sombra);
+            margin-bottom: 30px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .preview-imagen {
+            max-width: 200px;
+            max-height: 150px;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+
+        /* Gestión de stock */
+        .stock-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stock-input {
+            width: 80px;
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-align: center;
+        }
+
         @media (max-width: 768px) {
-            .header-container {
-                flex-wrap: wrap;
+            .form-row {
+                grid-template-columns: 1fr;
             }
-
-            .mobile-menu {
-                display: block;
-            }
-
-            nav {
-                width: 100%;
-                display: none;
-                margin-top: 15px;
-            }
-
-            nav.active {
-                display: block;
-            }
-
-            nav ul {
-                flex-direction: column;
-            }
-
-            nav ul li {
-                margin: 10px 0;
-            }
-
-            .hero h1 {
-                font-size: 2.2rem;
-            }
-
-            .sobre-container {
-                flex-direction: column;
-            }
-
-            .iconos-envios {
-                flex-direction: column;
-                align-items: center;
-                gap: 30px;
-            }
-
-            .filtros-categorias {
-                justify-content: flex-start;
+            
+            .tabs {
                 overflow-x: auto;
-                padding-bottom: 10px;
+            }
+            
+            .table {
+                font-size: 0.9rem;
+            }
+            
+            .acciones {
+                flex-direction: column;
             }
         }
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <div class="container header-container">
-            <div class="logo">Saucha <span>Espacio Holístico</span></div>
-            <div class="mobile-menu">
-                <i class="fas fa-bars"></i>
-            </div>
-            <nav>
-                <ul>
-                    <li><a href="#inicio">Inicio</a></li>
-                    <li><a href="#productos">Productos</a></li>
-                    <li><a href="#sobre-nosotros">Sobre Nosotros</a></li>
-                    <li><a href="#envios">Envíos</a></li>
-                    <li><a href="#contacto">Contacto</a></li>
-                </ul>
-            </nav>
+    <!-- Sistema de Login -->
+    <div id="login" class="login-container">
+        <h2>Acceso Administración</h2>
+        <div class="form-group">
+            <label>Contraseña:</label>
+            <input type="password" id="password" placeholder="Ingresa la contraseña">
         </div>
-    </header>
+        <button class="btn btn-primary" onclick="verificarLogin()">Acceder</button>
+        <p id="error-msg" style="color: red; margin-top: 10px; display: none;">Contraseña incorrecta</p>
+    </div>
 
-    <!-- Hero Section -->
-    <section class="hero" id="inicio">
-        <div class="container">
-            <h1>Bienvenidos a Saucha Espacio Holístico</h1>
-            <p>Descubre productos místicos para equilibrar tu mente, cuerpo y espíritu. Sahumerios, cartas de tarot, cristales y más.</p>
-            <a href="#productos" class="btn">Explorar Productos</a>
-        </div>
-    </section>
-
-    <!-- Sección de Productos -->
-    <section class="productos" id="productos">
-        <div class="container">
-            <h2 class="section-title">Nuestros Productos</h2>
-            
-            <!-- Filtros por categoría -->
-            <div class="filtros-categorias">
-                <button class="filtro-btn active" data-categoria="todos">Todos</button>
-                <button class="filtro-btn" data-categoria="sahumerios">Sahumerios</button>
-                <button class="filtro-btn" data-categoria="tarot">Tarot y Oráculos</button>
-                <button class="filtro-btn" data-categoria="piedras">Piedras y Cristales</button>
-                <button class="filtro-btn" data-categoria="velas">Velas</button>
-                <button class="filtro-btn" data-categoria="accesorios">Accesorios</button>
-                <button class="filtro-btn" data-categoria="esencias">Esencias y Difusores</button>
-            </div>
-            
-            <div class="productos-grid" id="productos-grid">
-                <!-- Los productos se cargarán dinámicamente con JavaScript -->
+    <!-- Panel de Administración -->
+    <div id="dashboard" class="dashboard">
+        <div class="header">
+            <div class="container">
+                <h1>Panel de Administración - Saucha</h1>
+                <button class="btn btn-danger" onclick="cerrarSesion()" style="margin-top: 10px;">Cerrar Sesión</button>
             </div>
         </div>
-    </section>
 
-    <!-- Sección Sobre Nosotros -->
-    <section class="sobre-nosotros" id="sobre-nosotros">
         <div class="container">
-            <h2 class="section-title">Sobre Saucha</h2>
-            <div class="sobre-container">
-                <div class="sobre-img">
-                    <img src="https://images.unsplash.com/photo-1544787219-7f47ccb76574?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Espacio Saucha">
+            <!-- Estadísticas -->
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-number" id="total-productos">0</div>
+                    <div>Total Productos</div>
                 </div>
-                <div class="sobre-texto">
-                    <h3>Nuestra Misión</h3>
-                    <p>En Saucha Espacio Holístico nos dedicamos a ofrecer productos místicos de alta calidad para acompañarte en tu camino espiritual y de autoconocimiento.</p>
-                    <p>Creemos en la importancia de conectar con nuestra esencia y el entorno, por eso seleccionamos cuidadosamente cada producto, priorizando marcas reconocidas como Sagrada Madre y Aromanza.</p>
-                    <p>Nuestro nombre "Saucha" proviene del sánscrito y significa pureza, limpieza y claridad, valores que representan nuestro compromiso con ofrecer productos auténticos que contribuyan a tu bienestar integral.</p>
-                    <a href="#contacto" class="btn">Conoce Más</a>
+                <div class="stat-card">
+                    <div class="stat-number" id="total-unidades">0</div>
+                    <div>Unidades en Stock</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="productos-bajo-stock">0</div>
+                    <div>Stock Bajo</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="productos-agotados">0</div>
+                    <div>Agotados</div>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <!-- Sección Envíos -->
-    <section class="envios" id="envios">
-        <div class="container">
-            <h2 class="section-title">Envíos Nacionales</h2>
-            <div class="envios-info">
-                <p>Realizamos envíos a todo el país. Trabajamos con servicios de logística confiables para que recibas tus productos en perfectas condiciones y en el menor tiempo posible.</p>
-                
-                <div class="iconos-envios">
-                    <div class="icono-envio">
-                        <i class="fas fa-shipping-fast"></i>
-                        <h3>Envío Express</h3>
-                        <p>Entrega en 24-48 horas en zonas urbanas</p>
-                    </div>
-                    <div class="icono-envio">
-                        <i class="fas fa-box"></i>
-                        <h3>Envío Estándar</h3>
-                        <p>Entrega en 3-5 días hábiles a todo el país</p>
-                    </div>
-                    <div class="icono-envio">
-                        <i class="fas fa-gift"></i>
-                        <h3>Embalaje Especial</h3>
-                        <p>Productos cuidadosamente empaquetados</p>
-                    </div>
-                </div>
+            <!-- Pestañas -->
+            <div class="tabs">
+                <button class="tab active" onclick="cambiarTab('productos')">Productos</button>
+                <button class="tab" onclick="cambiarTab('nuevo')">Agregar Producto</button>
+                <button class="tab" onclick="cambiarTab('stock')">Gestión de Stock</button>
+                <button class="tab" onclick="cambiarTab('ventas')">Historial de Ventas</button>
+                <button class="tab" onclick="cambiarTab('config')">Configuración</button>
+            </div>
 
-                <p><strong>Envío gratuito</strong> en compras superiores a $5.000</p>
-                <p><strong>Habilitamos envíos</strong> a todo el territorio argentino</p>
-                <a href="#contacto" class="btn">Consultar Zonas</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Panel de Administración Simplificado -->
-    <section class="admin-panel" id="admin">
-        <div class="container">
-            <h3>Panel de Administración</h3>
-            <p>Desde aquí puedes agregar o modificar productos fácilmente:</p>
-            
-            <div class="form-group">
-                <label for="producto-nombre">Nombre del Producto:</label>
-                <input type="text" id="producto-nombre" placeholder="Ej: Sahumerios Sagrada Madre">
-            </div>
-            
-            <div class="form-group">
-                <label for="producto-marca">Marca:</label>
-                <input type="text" id="producto-marca" placeholder="Ej: Sagrada Madre">
-            </div>
-            
-            <div class="form-group">
-                <label for="producto-categoria">Categoría:</label>
-                <select id="producto-categoria">
-                    <option value="sahumerios">Sahumerios</option>
-                    <option value="tarot">Tarot y Oráculos</option>
-                    <option value="piedras">Piedras y Cristales</option>
-                    <option value="velas">Velas</option>
-                    <option value="accesorios">Accesorios</option>
-                    <option value="esencias">Esencias y Difusores</option>
-                </select>
-            </div>
-            
-            <div class="form-group">
-                <label for="producto-precio">Precio:</label>
-                <input type="number" id="producto-precio" placeholder="Ej: 450">
-            </div>
-            
-            <div class="form-group">
-                <label for="producto-stock">Stock:</label>
-                <select id="producto-stock">
-                    <option value="disponible">Disponible</option>
-                    <option value="agotado">Agotado</option>
-                </select>
-            </div>
-            
-            <div class="form-group">
-                <label for="producto-descripcion">Descripción:</label>
-                <textarea id="producto-descripcion" rows="3" placeholder="Descripción del producto"></textarea>
-            </div>
-            
-            <div class="form-group">
-                <label for="producto-imagen">URL de la imagen:</label>
-                <input type="text" id="producto-imagen" placeholder="https://ejemplo.com/imagen.jpg">
-            </div>
-            
-            <div class="admin-buttons">
-                <button class="btn" id="agregar-producto">Agregar Producto</button>
-                <button class="btn" id="limpiar-formulario">Limpiar Formulario</button>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer id="contacto">
-        <div class="container">
-            <div class="footer-container">
-                <div class="footer-col">
-                    <h3>Saucha Espacio Holístico</h3>
-                    <p>Tu espacio para productos místicos. Envíos a todo el país.</p>
-                    <div class="redes-sociales">
-                        <a href="#" class="red-social"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="red-social"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="red-social"><i class="fab fa-whatsapp"></i></a>
-                    </div>
-                </div>
-                <div class="footer-col">
-                    <h3>Enlaces Rápidos</h3>
-                    <ul>
-                        <li><a href="#inicio">Inicio</a></li>
-                        <li><a href="#productos">Productos</a></li>
-                        <li><a href="#sobre-nosotros">Sobre Nosotros</a></li>
-                        <li><a href="#envios">Envíos</a></li>
-                        <li><a href="#admin">Administración</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h3>Contacto</h3>
-                    <ul>
-                        <li><i class="fas fa-envelope"></i> info@saucha.com</li>
-                        <li><i class="fas fa-phone"></i> +54 11 1234-5678</li>
-                        <li><i class="fas fa-map-marker-alt"></i> Buenos Aires, Argentina</li>
-                    </ul>
+            <!-- Contenido de pestañas -->
+            <div id="tab-productos" class="tab-content active">
+                <h3>Gestión de Productos</h3>
+                <div class="table-container">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Imagen</th>
+                                <th>Nombre</th>
+                                <th>Marca</th>
+                                <th>Precio</th>
+                                <th>Stock</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-productos">
+                            <!-- Los productos se cargan aquí -->
+                        </tbody>
+                    </table>
                 </div>
             </div>
-            <div class="copyright">
-                <p>&copy; 2023 Saucha Espacio Holístico. Todos los derechos reservados.</p>
-            </div>
-        </div>
-    </footer>
 
-    <script>
-        // Datos de productos (se pueden agregar/modificar desde el panel de admin)
-        let productos = [
-            {
-                id: 1,
-                nombre: "Sahumerios Sagrada Madre",
-                marca: "Sagrada Madre",
-                categoria: "sahumerios",
-                precio: 450,
-                stock: "disponible",
-                descripcion: "Sahumerios de alta calidad con aromas únicos.",
-                imagen: "https://images.unsplash.com/photo-1594736797933-d0c1382c7e1e?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
-            },
-            {
-                id: 2,
-                nombre: "Mazo de Tarot Rider-Waite",
-                marca: "US Games",
-                categoria: "tarot",
-                precio: 1200,
-                stock: "disponible",
-                descripcion: "Clásico mazo de tarot para principiantes y expertos.",
-                imagen: "https://images.unsplash.com/photo-1587590227261-2e0c243f7c88?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
-            },
-            {
-                id: 3,
-                nombre: "Kit de Piedras y Cristales",
-                marca: "Piedras Energéticas",
-                categoria: "piedras",
-                precio: 890,
-                stock: "agotado",
-                descripcion: "Selección de cristales naturales para armonizar energías.",
-                imagen: "https://images.unsplash.com/photo-1589674781759-c21dfa1caa6e?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
-            },
-            {
-                id: 4,
-                nombre: "Velas Aromáticas Aromanza",
-                marca: "Aromanza",
-                categoria: "velas",
-                precio: 680,
-                stock: "disponible",
-                descripcion: "Velas con esencias puras para meditación y relajación.",
-                imagen: "https://images.unsplash.com/photo-1589674781759-c21dfa1caa6e?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
-            },
-            {
-                id: 5,
-                nombre: "Difusor Aromanza",
-                marca: "Aromanza",
-                categoria: "esencias",
-                precio: 1250,
-                stock: "disponible",
-                descripcion: "Difusor de aromas con tecnología de última generación.",
-                imagen: "https://images.unsplash.com/photo-1589674781759-c21dfa1caa6e?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
-            },
-            {
-                id: 6,
-                nombre: "Hornito para Sahumerios",
-                marca: "Accesorios Místicos",
-                categoria: "accesorios",
-                precio: 750,
-                stock: "disponible",
-                descripcion: "Hornito cerámico para quemar sahumerios de forma segura.",
-                imagen: "https://images.unsplash.com/photo-1589674781759-c21dfa1caa6e?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
-            }
-        ];
-
-        // Menú móvil
-        document.querySelector('.mobile-menu').addEventListener('click', function() {
-            document.querySelector('nav').classList.toggle('active');
-        });
-
-        // Cerrar menú al hacer clic en un enlace (en móviles)
-        document.querySelectorAll('nav a').forEach(link => {
-            link.addEventListener('click', function() {
-                if (window.innerWidth <= 768) {
-                    document.querySelector('nav').classList.remove('active');
-                }
-            });
-        });
-
-        // Función para renderizar productos
-        function renderizarProductos(productosAFiltrar = productos) {
-            const productosGrid = document.getElementById('productos-grid');
-            productosGrid.innerHTML = '';
-
-            productosAFiltrar.forEach(producto => {
-                const stockClass = producto.stock === 'disponible' ? 'stock-disponible' : 'stock-agotado';
-                const stockText = producto.stock === 'disponible' ? 'En Stock' : 'Sin Stock';
-                const btnClass = producto.stock === 'disponible' ? 'btn' : 'btn btn-deshabilitado';
-                const btnText = producto.stock === 'disponible' ? 'Comprar' : 'Agotado';
-
-                const productoHTML = `
-                    <div class="producto-card" data-categoria="${producto.categoria}">
-                        <img src="${producto.imagen}" alt="${producto.nombre}" class="producto-img">
-                        <div class="producto-info">
-                            <span class="producto-marca">${producto.marca}</span>
-                            <span class="stock ${stockClass}">${stockText}</span>
-                            <h3>${producto.nombre}</h3>
-                            <p>${producto.descripcion}</p>
-                            <p class="producto-precio">$${producto.precio}</p>
-                            <a href="#" class="${btnClass}">${btnText}</a>
+            <div id="tab-nuevo" class="tab-content">
+                <h3>Agregar Nuevo Producto</h3>
+                <div class="form-producto">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Nombre del Producto *</label>
+                            <input type="text" id="nuevo-nombre" placeholder="Ej: Sahumerios Sagrada Madre">
+                        </div>
+                        <div class="form-group">
+                            <label>Marca *</label>
+                            <input type="text" id="nuevo-marca" placeholder="Ej: Sagrada Madre">
                         </div>
                     </div>
-                `;
-                productosGrid.innerHTML += productoHTML;
-            });
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Categoría *</label>
+                            <select id="nuevo-categoria">
+                                <option value="sahumerios">Sahumerios</option>
+                                <option value="tarot">Tarot y Oráculos</option>
+                                <option value="piedras">Piedras y Cristales</option>
+                                <option value="velas">Velas</option>
+                                <option value="accesorios">Accesorios</option>
+                                <option value="esencias">Esencias y Difusores</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Precio *</label>
+                            <input type="number" id="nuevo-precio" placeholder="450">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Unidades Iniciales *</label>
+                            <input type="number" id="nuevo-unidades" value="10" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label>URL de la Imagen *</label>
+                            <input type="text" id="nuevo-imagen" placeholder="https://ejemplo.com/imagen.jpg" onchange="mostrarPreview(this.value)">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Descripción *</label>
+                        <textarea id="nuevo-descripcion" rows="3" placeholder="Describe el producto"></textarea>
+                    </div>
+
+                    <img id="preview-imagen" class="preview-imagen" style="display: none;">
+
+                    <button class="btn btn-primary" onclick="agregarProducto()">Agregar Producto</button>
+                </div>
+            </div>
+
+            <div id="tab-stock" class="tab-content">
+                <h3>Gestión de Stock</h3>
+                <div class="table-container">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th>Stock Actual</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-stock">
+                            <!-- Gestión de stock -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="tab-ventas" class="tab-content">
+                <h3>Historial de Ventas</h3>
+                <div class="table-container">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Producto</th>
+                                <th>Cantidad</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-ventas">
+                            <!-- Historial de ventas -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="tab-config" class="tab-content">
+                <h3>Configuración</h3>
+                <div class="form-producto">
+                    <div class="form-group">
+                        <label>Cambiar Contraseña de Administración</label>
+                        <input type="password" id="nueva-password" placeholder="Nueva contraseña">
+                    </div>
+                    <button class="btn btn-primary" onclick="cambiarPassword()">Cambiar Contraseña</button>
+                    
+                    <div style="margin-top: 30px;">
+                        <button class="btn btn-danger" onclick="resetearDatos()">Restablecer Datos de Ejemplo</button>
+                        <p style="font-size: 0.9rem; color: #666; margin-top: 10px;">
+                            Esto eliminará todos los productos y ventas actuales.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Contraseña por defecto
+        const PASSWORD = "saucha123";
+
+        // Verificar login
+        function verificarLogin() {
+            const password = document.getElementById('password').value;
+            if (password === PASSWORD) {
+                document.getElementById('login').style.display = 'none';
+                document.getElementById('dashboard').style.display = 'block';
+                cargarDashboard();
+            } else {
+                document.getElementById('error-msg').style.display = 'block';
+            }
         }
 
-        // Filtros de categoría
-        document.querySelectorAll('.filtro-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                // Remover clase active de todos los botones
-                document.querySelectorAll('.filtro-btn').forEach(b => {
-                    b.classList.remove('active');
-                });
-                
-                // Agregar clase active al botón clickeado
-                this.classList.add('active');
-                
-                const categoria = this.getAttribute('data-categoria');
-                
-                if (categoria === 'todos') {
-                    renderizarProductos();
-                } else {
-                    const productosFiltrados = productos.filter(producto => producto.categoria === categoria);
-                    renderizarProductos(productosFiltrados);
-                }
+        // Cerrar sesión
+        function cerrarSesion() {
+            document.getElementById('login').style.display = 'block';
+            document.getElementById('dashboard').style.display = 'none';
+            document.getElementById('password').value = '';
+        }
+
+        // Cambiar entre pestañas
+        function cambiarTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
             });
-        });
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
 
-        // Funcionalidad del panel de administración
-        document.getElementById('agregar-producto').addEventListener('click', function() {
-            const nombre = document.getElementById('producto-nombre').value;
-            const marca = document.getElementById('producto-marca').value;
-            const categoria = document.getElementById('producto-categoria').value;
-            const precio = document.getElementById('producto-precio').value;
-            const stock = document.getElementById('producto-stock').value;
-            const descripcion = document.getElementById('producto-descripcion').value;
-            const imagen = document.getElementById('producto-imagen').value;
-
-            if (nombre && marca && precio && descripcion && imagen) {
-                const nuevoProducto = {
-                    id: productos.length + 1,
-                    nombre: nombre,
-                    marca: marca,
-                    categoria: categoria,
-                    precio: parseInt(precio),
-                    stock: stock,
-                    descripcion: descripcion,
-                    imagen: imagen
-                };
-
-                productos.push(nuevoProducto);
-                renderizarProductos();
-                alert('Producto agregado correctamente');
-                
-                // Limpiar formulario
-                document.getElementById('limpiar-formulario').click();
-            } else {
-                alert('Por favor, completa todos los campos');
+            document.getElementById('tab-' + tabName).classList.add('active');
+            event.target.classList.add('active');
+            
+            // Recargar datos específicos de la pestaña
+            if (tabName === 'ventas') {
+                cargarVentas();
+            } else if (tabName === 'stock') {
+                cargarGestionStock();
             }
-        });
+        }
 
-        document.getElementById('limpiar-formulario').addEventListener('click', function() {
-            document.getElementById('producto-nombre').value = '';
-            document.getElementById('producto-marca').value = '';
-            document.getElementById('producto-categoria').value = 'sahumerios';
-            document.getElementById('producto-precio').value = '';
-            document.getElementById('producto-stock').value = 'disponible';
-            document.getElementById('producto-descripcion').value = '';
-            document.getElementById('producto-imagen').value = '';
-        });
+        // Mostrar preview de imagen
+        function mostrarPreview(url) {
+            const preview = document.getElementById('preview-imagen');
+            if (url) {
+                preview.src = url;
+                preview.style.display = 'block';
+            } else {
+                preview.style.display = 'none';
+            }
+        }
 
-        // Inicializar la página
-        document.addEventListener('DOMContentLoaded', function() {
-            renderizarProductos();
-        });
-    </script>
-</body>
-</html>
+        // Cargar datos del dashboard
+        function cargarDashboard() {
+            const productos = JSON.parse(localStorage.getItem('saucha_productos')) || [];
+            const ventas = JSON.parse(localStorage.getItem('saucha_ventas')) || [];
+            
+            // Calcular estadísticas
+            const totalUnidades = productos.reduce((sum, p) => sum + p.unidades, 0);
+            const productosBajoStock = productos.filter(p => p.unidades > 0 && p.unidades <= 5).length;
+            const productosAgotados = productos.filter(p => p.unidades <= 0).length;
+
+            // Actualizar estadísticas
+            document.getElementById('total-productos').textContent = productos.length;
+            document.getElementById('total-unidades').textContent = totalUnidades;
+            document.getElementById('productos-bajo-stock').textContent = productosBajoStock;
+            document.getElementById('productos-agotados').textContent = productosAgotados;
+
+            // Actualizar tabla de productos
+            const tabla = document.getElementById('tabla-productos');
+            tabla.innerHTML = productos.map(producto => {
+                let stockClass, stockText;
+                if (producto.unidades <= 0) {
+                    stockClass = 'stock-agotado';
+                    stockText = 'Agotado';
+                } else if (producto.unidades <= 3) {
+                    stockClass = 'stock-bajo';
+                    stockText = 'Muy bajo';
+                } else if (producto.unidades <= 10) {
+                    stockClass = 'stock-medio';
+                    stockText = 'Bajo';
+                } else {
+                    stockClass = 'stock-alto';
+                    stockText = 'OK';
+                }
+
+                return `
+                    <tr>
+                        <td><img src="${producto.imagen}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px;" onerror="this.src='https://via.placeholder.com/50x50?text=Imagen'"></td>
+                        <td>${producto.nombre}</td>
+                        <td>${producto.marca}</td>
+                        <td>$${producto.precio}</td>
+                        <td>
+                            <span class="stock-badge ${stockClass}">
+                                ${producto.unidades} unidades
+                            </span>
+                        </td>
+                        <td class="acciones">
+                            <button class="btn btn-warning" onclick="editarProducto(${producto.id})">Editar</button>
+                            <button class="btn btn-danger" onclick="eliminarProducto(${producto.id})">Eliminar</button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // Cargar gestión de stock
+        function cargarGestionStock() {
+            const productos = JSON.parse(localStorage.getItem('saucha_productos')) || [];
+            const tabla = document.getElementById('tabla-stock');
+            
+            tabla.innerHTML = productos.map(producto => {
+                let stockClass, stockText;
+                if (producto.unidades <= 0) {
+                    stockClass = 'stock-agotado';
+                    stockText = 'Agotado';
+                } else if (producto.unidades <= 3) {
+                    stock
