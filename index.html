@@ -7,11 +7,9 @@
     
     <!-- Firebase SDK -->
     <script type="module">
-        // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, collection, getDocs, doc, updateDoc, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, collection, onSnapshot, doc, updateDoc, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        // Your web app's Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyAFHkhLIHbix55Mrz8PstmJ2Uc-bCnBn6w",
             authDomain: "saucha-espacio-holistico-dec80.firebaseapp.com",
@@ -21,22 +19,11 @@
             appId: "1:371653588839:web:0561876148457c54dbe1c2"
         };
 
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // Hacer Firebase disponible globalmente
         window.firebaseApp = app;
-        window.firestore = {
-            db,
-            collection,
-            getDocs,
-            doc,
-            updateDoc,
-            addDoc,
-            onSnapshot
-        };
-
+        window.firestore = { db, collection, onSnapshot, doc, updateDoc, addDoc };
         console.log('Firebase inicializado correctamente');
     </script>
 
@@ -93,27 +80,6 @@
             transform: translateY(-3px);
         }
 
-        .btn-deshabilitado {
-            background-color: #cccccc;
-            cursor: not-allowed;
-        }
-
-        .btn-deshabilitado:hover {
-            background-color: #cccccc;
-            transform: none;
-        }
-
-        .btn-secundario {
-            background-color: transparent;
-            border: 2px solid var(--color-primario);
-            color: var(--color-primario);
-        }
-
-        .btn-secundario:hover {
-            background-color: var(--color-primario);
-            color: var(--color-blanco);
-        }
-
         .loading {
             text-align: center;
             padding: 40px;
@@ -167,30 +133,6 @@
             text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
         }
 
-        /* Filtros */
-        .filtros-categorias {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin: 30px 0;
-        }
-
-        .filtro-btn {
-            background-color: var(--color-blanco);
-            border: 1px solid var(--color-primario);
-            color: var(--color-primario);
-            padding: 8px 15px;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: var(--transicion);
-        }
-
-        .filtro-btn:hover, .filtro-btn.active {
-            background-color: var(--color-primario);
-            color: var(--color-blanco);
-        }
-
         /* Productos */
         .productos-grid {
             display: grid;
@@ -219,10 +161,6 @@
 
         .producto-info {
             padding: 20px;
-        }
-
-        .stock-info {
-            margin-bottom: 10px;
         }
 
         .stock-badge {
@@ -256,180 +194,7 @@
             margin: 10px 0;
         }
 
-        .producto-marca {
-            color: var(--color-secundario);
-            font-size: 0.9rem;
-            margin-bottom: 5px;
-        }
-
-        /* Sobre Nosotros */
-        .sobre-nosotros {
-            padding: 80px 0;
-            background-color: var(--color-blanco);
-        }
-
-        .sobre-container {
-            display: flex;
-            align-items: center;
-            gap: 50px;
-        }
-
-        .sobre-img {
-            flex: 1;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: var(--sombra);
-        }
-
-        .sobre-img img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        .sobre-texto {
-            flex: 1;
-        }
-
-        .sobre-texto h2 {
-            font-family: Georgia, 'Times New Roman', Times, serif;
-            margin-bottom: 20px;
-            position: relative;
-        }
-
-        .sobre-texto h2::after {
-            content: '';
-            display: block;
-            width: 80px;
-            height: 3px;
-            background-color: var(--color-acento);
-            margin: 15px 0;
-        }
-
-        /* Envíos */
-        .envios {
-            padding: 80px 0;
-            background-color: var(--color-fondo);
-            text-align: center;
-        }
-
-        .envios h2 {
-            font-family: Georgia, 'Times New Roman', Times, serif;
-            margin-bottom: 30px;
-            position: relative;
-        }
-
-        .envios h2::after {
-            content: '';
-            display: block;
-            width: 80px;
-            height: 3px;
-            background-color: var(--color-acento);
-            margin: 15px auto;
-        }
-
-        .iconos-envios {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            margin-top: 40px;
-        }
-
-        .icono-envio {
-            text-align: center;
-            max-width: 200px;
-        }
-
-        .icono-envio i {
-            font-size: 2.5rem;
-            color: var(--color-primario);
-            margin-bottom: 15px;
-        }
-
-        /* Footer */
-        footer {
-            background-color: var(--color-primario);
-            color: var(--color-blanco);
-            padding: 60px 0 20px;
-        }
-
-        .footer-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
-            margin-bottom: 40px;
-        }
-
-        .footer-col h3 {
-            color: var(--color-blanco);
-            margin-bottom: 20px;
-            position: relative;
-            padding-bottom: 10px;
-            font-family: Georgia, 'Times New Roman', Times, serif;
-        }
-
-        .footer-col h3::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: 0;
-            width: 50px;
-            height: 2px;
-            background-color: var(--color-acento);
-        }
-
-        .footer-col ul {
-            list-style: none;
-        }
-
-        .footer-col ul li {
-            margin-bottom: 10px;
-        }
-
-        .footer-col ul li a {
-            color: var(--color-blanco);
-            opacity: 0.8;
-            text-decoration: none;
-        }
-
-        .footer-col ul li a:hover {
-            opacity: 1;
-            padding-left: 5px;
-        }
-
-        .redes-sociales {
-            display: flex;
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .red-social {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            transition: var(--transicion);
-            color: white;
-            text-decoration: none;
-        }
-
-        .red-social:hover {
-            background-color: var(--color-acento);
-            transform: translateY(-3px);
-        }
-
-        .copyright {
-            text-align: center;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            font-size: 0.9rem;
-            opacity: 0.7;
-        }
-
-        /* Modales */
+        /* Modal */
         .modal {
             display: none;
             position: fixed;
@@ -441,17 +206,14 @@
             z-index: 2000;
             align-items: center;
             justify-content: center;
-            padding: 20px;
         }
 
         .modal-content {
             background: white;
             padding: 30px;
             border-radius: 10px;
-            max-width: 600px;
+            max-width: 500px;
             width: 90%;
-            max-height: 90vh;
-            overflow-y: auto;
             box-shadow: var(--sombra);
         }
 
@@ -460,8 +222,6 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
-            border-bottom: 2px solid var(--color-fondo);
-            padding-bottom: 15px;
         }
 
         .close-modal {
@@ -489,222 +249,55 @@
             font-size: 1.2rem;
         }
 
-        .cantidad-display {
-            font-size: 1.2rem;
-            font-weight: bold;
-            min-width: 50px;
-            text-align: center;
-        }
-
-        /* Formularios de checkout */
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 5px;
             font-weight: 600;
-            color: var(--color-texto);
         }
 
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
+        .form-group input, .form-group select {
             width: 100%;
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: var(--transicion);
-            font-family: inherit;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
         }
 
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            border-color: var(--color-primario);
-            outline: none;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
-
-        .metodo-envio,
         .metodo-pago {
-            background: var(--color-fondo);
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
             border: 2px solid transparent;
-            transition: var(--transicion);
             cursor: pointer;
         }
 
-        .metodo-envio:hover,
-        .metodo-pago:hover {
-            border-color: var(--color-primario);
-        }
-
-        .metodo-envio.selected,
         .metodo-pago.selected {
             border-color: var(--color-primario);
-            background: rgba(74, 108, 96, 0.1);
-        }
-
-        .metodo-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 10px;
-        }
-
-        .metodo-header i {
-            font-size: 1.5rem;
-            color: var(--color-primario);
-        }
-
-        .costo-envio {
-            font-weight: bold;
-            color: var(--color-primario);
-            margin-top: 5px;
         }
 
         .resumen-pedido {
-            background: var(--color-fondo);
-            padding: 20px;
-            border-radius: 10px;
-            margin: 20px 0;
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
         }
 
         .resumen-item {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 10px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #e0e0e0;
+            margin-bottom: 8px;
         }
 
         .resumen-total {
-            display: flex;
-            justify-content: space-between;
-            font-size: 1.2rem;
-            font-weight: bold;
-            margin-top: 15px;
-            padding-top: 15px;
             border-top: 2px solid var(--color-primario);
-        }
-
-        .pasos-checkout {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 30px;
-            position: relative;
-        }
-
-        .pasos-checkout::before {
-            content: '';
-            position: absolute;
-            top: 20px;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: #e0e0e0;
-            z-index: 1;
-        }
-
-        .paso {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: relative;
-            z-index: 2;
-        }
-
-        .paso-numero {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: #e0e0e0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            padding-top: 10px;
+            margin-top: 10px;
             font-weight: bold;
-            margin-bottom: 8px;
-            transition: var(--transicion);
-        }
-
-        .paso.activo .paso-numero {
-            background: var(--color-primario);
-            color: white;
-        }
-
-        .paso-texto {
-            font-size: 0.9rem;
-            text-align: center;
-        }
-
-        .paso-contenido {
-            display: none;
-        }
-
-        .paso-contenido.activo {
-            display: block;
-        }
-
-        .botones-navegacion {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 30px;
-            gap: 15px;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2rem;
-            }
-
-            .sobre-container {
-                flex-direction: column;
-            }
-
-            .iconos-envios {
-                flex-direction: column;
-                align-items: center;
-                gap: 30px;
-            }
-
-            .productos-grid {
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-                gap: 20px;
-            }
-
-            .filtros-categorias {
-                justify-content: flex-start;
-                overflow-x: auto;
-                padding-bottom: 10px;
-            }
-
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-
-            .modal-content {
-                padding: 20px;
-            }
-
-            .pasos-checkout {
-                flex-direction: column;
-                gap: 20px;
-            }
-
-            .pasos-checkout::before {
-                display: none;
-            }
+            font-size: 1.1rem;
         }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -731,70 +324,13 @@
         <div class="container">
             <h2>Nuestros Productos</h2>
             
-            <!-- Filtros por categoría -->
-            <div class="filtros-categorias">
-                <button class="filtro-btn active" data-categoria="todos">Todos</button>
-                <button class="filtro-btn" data-categoria="sahumerios">Sahumerios</button>
-                <button class="filtro-btn" data-categoria="tarot">Tarot y Oráculos</button>
-                <button class="filtro-btn" data-categoria="piedras">Piedras y Cristales</button>
-                <button class="filtro-btn" data-categoria="velas">Velas</button>
-                <button class="filtro-btn" data-categoria="accesorios">Accesorios</button>
-                <button class="filtro-btn" data-categoria="esencias">Esencias y Difusores</button>
-            </div>
-            
             <div id="loading-productos" class="loading">
-                <i class="fas fa-spinner fa-spin"></i> Conectando con Firebase...
+                <i class="fas fa-spinner fa-spin"></i> Cargando productos...
             </div>
             
             <div id="productos-container" class="productos-grid" style="display: none;">
-                <!-- Los productos se cargan dinámicamente desde Firebase -->
+                <!-- Los productos se cargan dinámicamente -->
             </div>
-        </div>
-    </section>
-
-    <!-- Sobre Nosotros -->
-    <section class="sobre-nosotros" id="sobre-nosotros">
-        <div class="container">
-            <div class="sobre-container">
-                <div class="sobre-img">
-                    <img src="https://i.ibb.co/1ff4V37q/logo-saucha.jpg" alt="Logo Saucha Espacio Holístico">
-                </div>
-                <div class="sobre-texto">
-                    <h2>Sobre Saucha</h2>
-                    <p>En Saucha Espacio Holístico nos dedicamos a ofrecer productos místicos de alta calidad para acompañarte en tu camino espiritual y de autoconocimiento.</p>
-                    <p>Creemos en la importancia de conectar con nuestra esencia y el entorno, por eso seleccionamos cuidadosamente cada producto, priorizando marcas reconocidas como Sagrada Madre y Aromanza.</p>
-                    <p>Nuestro nombre "Saucha" proviene del sánscrito y significa pureza, limpieza y claridad, valores que representan nuestro compromiso con ofrecer productos auténticos que contribuyan a tu bienestar integral.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Envíos -->
-    <section class="envios" id="envios">
-        <div class="container">
-            <h2>Envíos Nacionales</h2>
-            <p>Realizamos envíos a todo el país. Trabajamos con servicios de logística confiables para que recibas tus productos en perfectas condiciones.</p>
-            
-            <div class="iconos-envios">
-                <div class="icono-envio">
-                    <i class="fas fa-shipping-fast"></i>
-                    <h3>Envío Express</h3>
-                    <p>Entrega en 24-48 horas en zonas urbanas</p>
-                </div>
-                <div class="icono-envio">
-                    <i class="fas fa-box"></i>
-                    <h3>Envío Estándar</h3>
-                    <p>Entrega en 3-5 días hábiles a todo el país</p>
-                </div>
-                <div class="icono-envio">
-                    <i class="fas fa-store"></i>
-                    <h3>Retiro en Tienda</h3>
-                    <p>Sin costo adicional en nuestro local</p>
-                </div>
-            </div>
-
-            <p><strong>Envío gratuito</strong> en compras superiores a $5.000</p>
-            <p><strong>Habilitamos envíos</strong> a todo el territorio argentino</p>
         </div>
     </section>
 
@@ -818,99 +354,24 @@
                 <h3>Finalizar Compra</h3>
                 <button class="close-modal" onclick="cerrarCheckout()">&times;</button>
             </div>
-            
-            <div class="pasos-checkout">
-                <div class="paso activo" data-paso="1">
-                    <div class="paso-numero">1</div>
-                    <div class="paso-texto">Envío</div>
-                </div>
-                <div class="paso" data-paso="2">
-                    <div class="paso-numero">2</div>
-                    <div class="paso-texto">Pago</div>
-                </div>
-                <div class="paso" data-paso="3">
-                    <div class="paso-numero">3</div>
-                    <div class="paso-texto">Confirmación</div>
-                </div>
-            </div>
-
             <div id="checkout-contenido">
                 <!-- Contenido dinámico del checkout -->
             </div>
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer id="contacto">
-        <div class="container">
-            <div class="footer-container">
-                <div class="footer-col">
-                    <h3>Saucha Espacio Holístico</h3>
-                    <p>Tu espacio para productos místicos. Envíos a todo el país.</p>
-                    <div class="redes-sociales">
-                        <a href="#" class="red-social"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="red-social"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="red-social"><i class="fab fa-whatsapp"></i></a>
-                    </div>
-                </div>
-                <div class="footer-col">
-                    <h3>Enlaces Rápidos</h3>
-                    <ul>
-                        <li><a href="#inicio">Inicio</a></li>
-                        <li><a href="#productos">Productos</a></li>
-                        <li><a href="#sobre-nosotros">Sobre Nosotros</a></li>
-                        <li><a href="#envios">Envíos</a></li>
-                        <li><a href="#contacto">Contacto</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h3>Contacto</h3>
-                    <ul>
-                        <li><i class="fas fa-envelope"></i> info@saucha.com</li>
-                        <li><i class="fas fa-phone"></i> +54 11 1234-5678</li>
-                        <li><i class="fas fa-map-marker-alt"></i> Buenos Aires, Argentina</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="copyright">
-                <p>&copy; 2023 Saucha Espacio Holístico. Todos los derechos reservados.</p>
-            </div>
-        </div>
-    </footer>
-
     <script>
         // Variables globales
         let productos = [];
         let productoSeleccionado = null;
         let cantidadSeleccionada = 1;
-        let pasoActual = 1;
-        let datosEnvio = {};
-        let metodoPagoSeleccionado = '';
-
-        // Esperar a que Firebase se cargue
-        window.addEventListener('DOMContentLoaded', async function() {
-            console.log('Inicializando aplicación...');
-            
-            // Esperar un momento para que Firebase se inicialice
-            setTimeout(() => {
-                if (window.firestore) {
-                    cargarProductos();
-                } else {
-                    document.getElementById('loading-productos').innerHTML = 
-                        '❌ Error: Firebase no se pudo inicializar. Recarga la página.';
-                }
-            }, 1000);
-        });
 
         // Cargar productos desde Firebase
-        async function cargarProductos() {
+        function cargarProductos() {
             const loadingElement = document.getElementById('loading-productos');
             const productosContainer = document.getElementById('productos-container');
             
             try {
-                console.log('Conectando a Firebase...');
-                
-                // Escuchar cambios en tiempo real
                 const productosRef = window.firestore.collection(window.firestore.db, 'productos');
                 
                 window.firestore.onSnapshot(productosRef, (snapshot) => {
@@ -922,35 +383,27 @@
                         });
                     });
                     
-                    console.log('Productos cargados:', productos.length);
-                    
-                    // Ocultar loading y mostrar productos
                     loadingElement.style.display = 'none';
                     productosContainer.style.display = 'grid';
-                    
                     renderizarProductos();
-                }, (error) => {
-                    console.error("Error cargando productos:", error);
-                    loadingElement.innerHTML = '❌ Error cargando productos. Verifica la conexión.';
                 });
 
             } catch (error) {
-                console.error("Error en carga de productos:", error);
-                loadingElement.innerHTML = '❌ Error de conexión. Recarga la página.';
+                console.error("Error:", error);
+                loadingElement.innerHTML = '❌ Error cargando productos.';
             }
         }
 
-        // Renderizar productos en la página
-        function renderizarProductos(productosAFiltrar = productos) {
+        // Renderizar productos
+        function renderizarProductos() {
             const productosContainer = document.getElementById('productos-container');
             
-            if (productosAFiltrar.length === 0) {
-                productosContainer.innerHTML = '<p class="loading">No hay productos disponibles en este momento.</p>';
+            if (productos.length === 0) {
+                productosContainer.innerHTML = '<p class="loading">No hay productos disponibles.</p>';
                 return;
             }
 
-            productosContainer.innerHTML = productosAFiltrar.map(producto => {
-                // Determinar estado del stock
+            productosContainer.innerHTML = productos.map(producto => {
                 let stockClass, stockText;
                 if (producto.stock <= 0) {
                     stockClass = 'stock-agotado';
@@ -964,19 +417,15 @@
                 }
 
                 return `
-                    <div class="producto-card" data-categoria="${producto.categoria}">
-                        <img src="${producto.imagen}" alt="${producto.nombre}" class="producto-img" onerror="this.src='https://via.placeholder.com/300x200?text=Imagen+no+disponible'">
+                    <div class="producto-card">
+                        <img src="${producto.imagen}" alt="${producto.nombre}" class="producto-img">
                         <div class="producto-info">
-                            <div class="stock-info">
-                                <span class="stock-badge ${stockClass}">${stockText}</span>
-                            </div>
+                            <span class="stock-badge ${stockClass}">${stockText}</span>
                             <h3>${producto.nombre}</h3>
                             <p>${producto.descripcion}</p>
-                            <p class="producto-marca">Marca: ${producto.marca}</p>
+                            <p><strong>Marca:</strong> ${producto.marca}</p>
                             <p class="producto-precio">$${producto.precio}</p>
-                            <button class="btn ${producto.stock <= 0 ? 'btn-deshabilitado' : ''}" 
-                                    ${producto.stock <= 0 ? 'disabled' : ''}
-                                    onclick="abrirModalCompra('${producto.id}')">
+                            <button class="btn" onclick="abrirModalCompra('${producto.id}')" ${producto.stock <= 0 ? 'disabled' : ''}>
                                 ${producto.stock <= 0 ? 'Agotado' : 'Comprar'}
                             </button>
                         </div>
@@ -985,93 +434,204 @@
             }).join('');
         }
 
-        // Filtros de categoría
-        document.querySelectorAll('.filtro-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                document.querySelectorAll('.filtro-btn').forEach(b => {
-                    b.classList.remove('active');
-                });
-                
-                this.classList.add('active');
-                
-                const categoria = this.getAttribute('data-categoria');
-                
-                if (categoria === 'todos') {
-                    renderizarProductos();
-                } else {
-                    const productosFiltrados = productos.filter(producto => producto.categoria === categoria);
-                    renderizarProductos(productosFiltrados);
-                }
-            });
-        });
-
         // Abrir modal de compra
         function abrirModalCompra(productoId) {
             productoSeleccionado = productos.find(p => p.id === productoId);
-            
-            if (!productoSeleccionado) return;
-
             cantidadSeleccionada = 1;
 
             document.getElementById('modal-titulo').textContent = `Comprar: ${productoSeleccionado.nombre}`;
             
             document.getElementById('modal-contenido').innerHTML = `
-                <div class="producto-info-modal">
-                    <img src="${productoSeleccionado.imagen}" style="width: 100px; height: 100px; object-fit: cover; border-radius: 5px; float: left; margin-right: 15px;" onerror="this.src='https://via.placeholder.com/100x100?text=Imagen'">
-                    <div style="overflow: hidden;">
+                <div style="display: flex; gap: 15px; margin-bottom: 20px;">
+                    <img src="${productoSeleccionado.imagen}" style="width: 100px; height: 100px; object-fit: cover; border-radius: 5px;">
+                    <div>
                         <h4>${productoSeleccionado.nombre}</h4>
                         <p>${productoSeleccionado.descripcion}</p>
-                        <p><strong>Precio unitario: $${productoSeleccionado.precio}</strong></p>
+                        <p><strong>Precio: $${productoSeleccionado.precio}</strong></p>
                     </div>
                 </div>
                 
                 <div class="cantidad-selector">
                     <label><strong>Cantidad:</strong></label>
                     <button class="cantidad-btn" onclick="cambiarCantidad(-1)">-</button>
-                    <span class="cantidad-display" id="cantidad-display">${cantidadSeleccionada}</span>
+                    <span style="font-size: 1.2rem; font-weight: bold; min-width: 30px; text-align: center;">${cantidadSeleccionada}</span>
                     <button class="cantidad-btn" onclick="cambiarCantidad(1)">+</button>
-                    <span style="margin-left: 10px;">Máx: ${productoSeleccionado.stock}</span>
                 </div>
                 
                 <div style="margin: 20px 0; padding: 15px; background: #f9f9f9; border-radius: 5px;">
-                    <strong>Total: $<span id="total-precio">${productoSeleccionado.precio * cantidadSeleccionada}</span></strong>
+                    <strong>Total: $${productoSeleccionado.precio * cantidadSeleccionada}</strong>
                 </div>
                 
-                <button class="btn" style="width: 100%;" onclick="iniciarCheckout()">
-                    Proceder al Checkout
+                <button class="btn" style="width: 100%;" onclick="mostrarCheckout()">
+                    Continuar con la compra
                 </button>
             `;
 
             document.getElementById('modal-compra').style.display = 'flex';
         }
 
-        // Cambiar cantidad en el modal
+        // Cambiar cantidad
         function cambiarCantidad(cambio) {
             const nuevaCantidad = cantidadSeleccionada + cambio;
-            
             if (nuevaCantidad >= 1 && nuevaCantidad <= productoSeleccionado.stock) {
                 cantidadSeleccionada = nuevaCantidad;
-                document.getElementById('cantidad-display').textContent = cantidadSeleccionada;
-                document.getElementById('total-precio').textContent = productoSeleccionado.precio * cantidadSeleccionada;
+                // Actualizar la visualización
+                document.querySelector('.cantidad-selector span').textContent = cantidadSeleccionada;
+                document.querySelector('.modal-contenido strong').textContent = 
+                    `Total: $${productoSeleccionado.precio * cantidadSeleccionada}`;
             }
         }
 
-        // Iniciar proceso de checkout
-        function iniciarCheckout() {
-            cerrarModal();
-            pasoActual = 1;
-            mostrarPasoCheckout(1);
+        // Mostrar checkout
+        function mostrarCheckout() {
+            const total = productoSeleccionado.precio * cantidadSeleccionada;
+            
+            document.getElementById('checkout-contenido').innerHTML = `
+                <h4>Resumen del pedido</h4>
+                <div class="resumen-pedido">
+                    <div class="resumen-item">
+                        <span>${productoSeleccionado.nombre} x${cantidadSeleccionada}</span>
+                        <span>$${total}</span>
+                    </div>
+                    <div class="resumen-item resumen-total">
+                        <span>Total</span>
+                        <span>$${total}</span>
+                    </div>
+                </div>
+
+                <h4>Método de envío</h4>
+                <div class="form-group">
+                    <select id="metodo-envio">
+                        <option value="retiro">Retiro en tienda (Gratis)</option>
+                        <option value="envio">Envío a domicilio (+$500)</option>
+                    </select>
+                </div>
+
+                <h4>Información de contacto</h4>
+                <div class="form-group">
+                    <input type="text" id="nombre" placeholder="Nombre completo" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" id="email" placeholder="Email" required>
+                </div>
+                <div class="form-group">
+                    <input type="tel" id="telefono" placeholder="Teléfono" required>
+                </div>
+
+                <div id="datos-envio" style="display: none;">
+                    <h4>Dirección de envío</h4>
+                    <div class="form-group">
+                        <input type="text" id="direccion" placeholder="Dirección">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="ciudad" placeholder="Ciudad">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="codigo-postal" placeholder="Código Postal">
+                    </div>
+                </div>
+
+                <h4>Método de pago</h4>
+                <div class="metodo-pago" onclick="seleccionarPago('transferencia')">
+                    <strong>Transferencia bancaria</strong>
+                    <p>Realiza la transferencia y envía el comprobante</p>
+                </div>
+                <div class="metodo-pago" onclick="seleccionarPago('mercado-pago')">
+                    <strong>Mercado Pago</strong>
+                    <p>Pago seguro con tarjeta o efectivo</p>
+                </div>
+                <div class="metodo-pago" onclick="seleccionarPago('efectivo')">
+                    <strong>Efectivo</strong>
+                    <p>Al retirar en tienda</p>
+                </div>
+
+                <button class="btn" style="width: 100%; margin-top: 20px;" onclick="finalizarCompra()">
+                    Confirmar Pedido
+                </button>
+            `;
+
+            // Mostrar/ocultar datos de envío
+            document.getElementById('metodo-envio').addEventListener('change', function() {
+                document.getElementById('datos-envio').style.display = 
+                    this.value === 'envio' ? 'block' : 'none';
+            });
+
+            document.getElementById('modal-compra').style.display = 'none';
             document.getElementById('modal-checkout').style.display = 'flex';
         }
 
-        // Mostrar paso específico del checkout
-        function mostrarPasoCheckout(paso) {
-            pasoActual = paso;
-            
-            // Actualizar pasos activos
-            document.querySelectorAll('.paso').forEach(p => {
-                p.classList.remove('activo');
-                if (parseInt(p.dataset.paso) <= paso) {
-                    p.classList.add('activo');
+        // Seleccionar método de pago
+        function seleccionarPago(metodo) {
+            document.querySelectorAll('.metodo-pago').forEach(m => m.classList.remove('selected'));
+            event.currentTarget.classList.add('selected');
+            window.metodoPagoSeleccionado = metodo;
+        }
+
+        // Finalizar compra
+        async function finalizarCompra() {
+            if (!window.metodoPagoSeleccionado) {
+                alert('Por favor selecciona un método de pago');
+                return;
+            }
+
+            const nombre = document.getElementById('nombre').value;
+            const email = document.getElementById('email').value;
+            const telefono = document.getElementById('telefono').value;
+
+            if (!nombre || !email || !telefono) {
+                alert('Por favor completa todos los campos obligatorios');
+                return;
+            }
+
+            try {
+                // Actualizar stock en Firebase
+                const nuevoStock = productoSeleccionado.stock - cantidadSeleccionada;
+                const productoRef = window.firestore.doc(window.firestore.db, 'productos', productoSeleccionado.id);
+                await window.firestore.updateDoc(productoRef, {
+                    stock: nuevoStock
+                });
+
+                // Registrar pedido
+                await window.firestore.addDoc(window.firestore.collection(window.firestore.db, 'pedidos'), {
+                    producto: productoSeleccionado.nombre,
+                    cantidad: cantidadSeleccionada,
+                    total: productoSeleccionado.precio * cantidadSeleccionada,
+                    metodoPago: window.metodoPagoSeleccionado,
+                    cliente: { nombre, email, telefono },
+                    fecha: new Date().toISOString(),
+                    estado: 'pendiente'
+                });
+
+                alert('¡Pedido realizado con éxito! Te contactaremos pronto para coordinar el pago y envío.');
+                cerrarCheckout();
+                cargarProductos(); // Recargar productos para actualizar stock
+
+            } catch (error) {
+                console.error("Error:", error);
+                alert('Error al procesar el pedido. Intenta nuevamente.');
+            }
+        }
+
+        // Cerrar modales
+        function cerrarModal() {
+            document.getElementById('modal-compra').style.display = 'none';
+        }
+
+        function cerrarCheckout() {
+            document.getElementById('modal-checkout').style.display = 'none';
+        }
+
+        // Inicializar
+        window.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                if (window.firestore) {
+                    cargarProductos();
+                } else {
+                    document.getElementById('loading-productos').innerHTML = 
+                        'Error de conexión. Recarga la página.';
                 }
-           
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
