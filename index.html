@@ -171,11 +171,11 @@
 
         .stock-badge {
             display: inline-block;
-            padding: 3px 10px;
+            padding: 5px 12px;
             border-radius: 15px;
             font-size: 0.8rem;
             font-weight: bold;
-            margin-bottom: 5px;
+            margin-bottom: 10px;
         }
 
         .stock-disponible {
@@ -191,11 +191,6 @@
         .stock-agotado {
             background: var(--color-sin-stock);
             color: white;
-        }
-
-        .unidades-stock {
-            font-size: 0.9rem;
-            color: #666;
         }
 
         .producto-precio {
@@ -686,7 +681,7 @@
             const productosContainer = document.getElementById('productos-container');
             
             productosContainer.innerHTML = productosAFiltrar.map(producto => {
-                // Determinar estado del stock
+                // Determinar estado del stock (sin mostrar unidades exactas)
                 let stockClass, stockText;
                 if (producto.unidades <= 0) {
                     stockClass = 'stock-agotado';
@@ -696,7 +691,7 @@
                     stockText = 'Últimas unidades';
                 } else {
                     stockClass = 'stock-disponible';
-                    stockText = 'En Stock';
+                    stockText = 'Disponible';
                 }
 
                 return `
@@ -705,7 +700,6 @@
                         <div class="producto-info">
                             <div class="stock-info">
                                 <span class="stock-badge ${stockClass}">${stockText}</span>
-                                <div class="unidades-stock">${producto.unidades} unidades disponibles</div>
                             </div>
                             <h3>${producto.nombre}</h3>
                             <p>${producto.descripcion}</p>
@@ -761,7 +755,6 @@
                         <h4>${productoSeleccionado.nombre}</h4>
                         <p>${productoSeleccionado.descripcion}</p>
                         <p><strong>Precio unitario: $${productoSeleccionado.precio}</strong></p>
-                        <p>Unidades disponibles: ${productoSeleccionado.unidades}</p>
                     </div>
                 </div>
                 
@@ -770,7 +763,6 @@
                     <button class="cantidad-btn" onclick="cambiarCantidad(-1)">-</button>
                     <span class="cantidad-display" id="cantidad-display">${cantidadSeleccionada}</span>
                     <button class="cantidad-btn" onclick="cambiarCantidad(1)">+</button>
-                    <span style="margin-left: 10px;">Máx: ${productoSeleccionado.unidades}</span>
                 </div>
                 
                 <div style="margin: 20px 0; padding: 15px; background: #f9f9f9; border-radius: 5px;">
@@ -822,13 +814,12 @@
         });
     </script>
 </body>
-</html>
 
+//Agregar Firebase y Firestore a tu web
 
-<script type="module">
-  // Importar Firebase
+    <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-analytics.js";
+  import { getFirestore, collection, getDocs, doc, updateDoc } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
 
   // Configuración de tu proyecto Firebase
   const firebaseConfig = {
@@ -843,6 +834,70 @@
 
   // Inicializar Firebase
   const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
+  const db = getFirestore(app);
+
+  // Función para cargar productos desde Firestore
+  async function cargarProductos() {
+      const productosCol = collection(db, "productos");
+      const productosSnapshot = await getDocs(productosCol);
+      const productos = productosSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+      const productosContainer = document.getElementById('productos-container');
+      productosContainer.innerHTML = productos.map(producto => {
+          let stockClass, stockText;
+          if (producto.unidades <= 0) {
+              stockClass = 'stock-agotado';
+              stockText = 'Agotado';
+          } else if (producto.unidades <= 5) {
+              stockClass = 'stock-poco';
+              stockText = 'Últimas unidades';
+          } else {
+              stockClass = 'stock-disponible';
+              stockText = 'En Stock';
+          }
+
+          return `
+              <div class="producto-card" data-categoria="${producto.categoria}">
+                  <img src="${producto.imagen}" class="producto-img">
+                  <div class="producto-info">
+                      <span class="stock-badge ${stockClass}">${stockText}</span>
+                      <div class="unidades-stock">${producto.unidades} unidades</div>
+                      <h3>${producto.nombre}</h3>
+                      <p>${producto.descripcion}</p>
+                      <p class="producto-marca">${producto.marca}</p>
+                      <p class="producto-precio">$${producto.precio}</p>
+                      <button class="btn ${producto.unidades <= 0 ? 'btn-deshabilitado' : ''}" 
+                              ${producto.unidades <= 0 ? 'disabled' : ''}
+                              onclick="comprarProducto('${producto.id}')">
+                        ${producto.unidades <= 0 ? 'Agotado' : 'Comprar'}
+                      </button>
+                  </div>
+              </div>
+          `;
+      }).join('');
+  }
+
+  // Función para comprar un producto y actualizar stock
+  async function comprarProducto(id) {
+      const productoRef = doc(db, "productos", id);
+      const productoSnap = await getDocs(productoRef);
+      const data = productoSnap.data();
+
+      if (data.unidades > 0) {
+          await updateDoc(productoRef, {
+              unidades: data.unidades - 1
+          });
+          alert(`¡Compra realizada!`);
+          cargarProductos(); // recarga productos para actualizar stock
+      } else {
+          alert("Producto agotado");
+      }
+  }
+
+  // Inicializar cuando carga la página
+  document.addEventListener('DOMContentLoaded', cargarProductos);
 </script>
+
+</html>
+
 
