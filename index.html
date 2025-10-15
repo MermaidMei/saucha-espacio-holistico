@@ -1,827 +1,101 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Saucha Espacio Holístico - Sahumerios, Tarot y Productos Místicos</title>
-    <style>
-        :root {
-            --color-primario: #4a6c60;
-            --color-secundario: #8a9b8c;
-            --color-acento: #c9a87a;
-            --color-texto: #333333;
-            --color-fondo: #f9f7f2;
-            --color-blanco: #ffffff;
-            --color-stock: #4CAF50;
-            --color-poco-stock: #ff9800;
-            --color-sin-stock: #f44336;
-            --sombra: 0 4px 6px rgba(0, 0, 0, 0.1);
-            --transicion: all 0.3s ease;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: var(--color-texto);
-            background-color: var(--color-fondo);
-        }
-
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 15px;
-        }
-
-        .btn {
-            display: inline-block;
-            background-color: var(--color-primario);
-            color: var(--color-blanco);
-            padding: 10px 20px;
-            border-radius: 30px;
-            font-weight: 600;
-            transition: var(--transicion);
-            border: none;
-            cursor: pointer;
-            text-decoration: none;
-        }
-
-        .btn:hover {
-            background-color: var(--color-acento);
-            transform: translateY(-3px);
-        }
-
-        .btn-deshabilitado {
-            background-color: #cccccc;
-            cursor: not-allowed;
-        }
-
-        .btn-deshabilitado:hover {
-            background-color: #cccccc;
-            transform: none;
-        }
-
-        /* Header */
-        header {
-            background: white;
-            box-shadow: var(--sombra);
-            padding: 20px 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .logo {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: var(--color-primario);
-            text-align: center;
-            font-family: Georgia, 'Times New Roman', Times, serif;
-        }
-
-        .logo span {
-            color: var(--color-acento);
-        }
-
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(rgba(74, 108, 96, 0.7), rgba(74, 108, 96, 0.7)), url('https://images.unsplash.com/photo-1544787219-7f47ccb76574?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
-            background-size: cover;
-            background-position: center;
-            color: var(--color-blanco);
-            text-align: center;
-            padding: 100px 0;
-        }
-
-        .hero h1 {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-            font-family: Georgia, 'Times New Roman', Times, serif;
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            max-width: 600px;
-            margin: 0 auto 30px;
-        }
-
-        /* Filtros */
-        .filtros-categorias {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin: 30px 0;
-        }
-
-        .filtro-btn {
-            background-color: var(--color-blanco);
-            border: 1px solid var(--color-primario);
-            color: var(--color-primario);
-            padding: 8px 15px;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: var(--transicion);
-        }
-
-        .filtro-btn:hover, .filtro-btn.active {
-            background-color: var(--color-primario);
-            color: var(--color-blanco);
-        }
-
-        /* Productos */
-        .productos-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 30px;
-            margin: 40px 0;
-        }
-
-        .producto-card {
-            background: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: var(--sombra);
-            transition: var(--transicion);
-        }
-
-        .producto-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .producto-img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-
-        .producto-info {
-            padding: 20px;
-        }
-
-        .stock-info {
-            margin-bottom: 10px;
-        }
-
-        .stock-badge {
-            display: inline-block;
-            padding: 5px 12px;
-            border-radius: 15px;
-            font-size: 0.8rem;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .stock-disponible {
-            background: var(--color-stock);
-            color: white;
-        }
-
-        .stock-poco {
-            background: var(--color-poco-stock);
-            color: white;
-        }
-
-        .stock-agotado {
-            background: var(--color-sin-stock);
-            color: white;
-        }
-
-        .producto-precio {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: var(--color-primario);
-            margin: 10px 0;
-        }
-
-        .producto-marca {
-            color: var(--color-secundario);
-            font-size: 0.9rem;
-            margin-bottom: 5px;
-        }
-
-        /* Sobre Nosotros */
-        .sobre-nosotros {
-            padding: 80px 0;
-            background-color: var(--color-blanco);
-        }
-
-        .sobre-container {
-            display: flex;
-            align-items: center;
-            gap: 50px;
-        }
-
-        .sobre-img {
-            flex: 1;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: var(--sombra);
-        }
-
-        .sobre-img img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        .sobre-texto {
-            flex: 1;
-        }
-
-        .sobre-texto h2 {
-            font-family: Georgia, 'Times New Roman', Times, serif;
-            margin-bottom: 20px;
-            position: relative;
-        }
-
-        .sobre-texto h2::after {
-            content: '';
-            display: block;
-            width: 80px;
-            height: 3px;
-            background-color: var(--color-acento);
-            margin: 15px 0;
-        }
-
-        /* Envíos */
-        .envios {
-            padding: 80px 0;
-            background-color: var(--color-fondo);
-            text-align: center;
-        }
-
-        .envios h2 {
-            font-family: Georgia, 'Times New Roman', Times, serif;
-            margin-bottom: 30px;
-            position: relative;
-        }
-
-        .envios h2::after {
-            content: '';
-            display: block;
-            width: 80px;
-            height: 3px;
-            background-color: var(--color-acento);
-            margin: 15px auto;
-        }
-
-        .iconos-envios {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            margin-top: 40px;
-        }
-
-        .icono-envio {
-            text-align: center;
-            max-width: 200px;
-        }
-
-        .icono-envio i {
-            font-size: 2.5rem;
-            color: var(--color-primario);
-            margin-bottom: 15px;
-        }
-
-        /* Footer */
-        footer {
-            background-color: var(--color-primario);
-            color: var(--color-blanco);
-            padding: 60px 0 20px;
-        }
-
-        .footer-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
-            margin-bottom: 40px;
-        }
-
-        .footer-col h3 {
-            color: var(--color-blanco);
-            margin-bottom: 20px;
-            position: relative;
-            padding-bottom: 10px;
-            font-family: Georgia, 'Times New Roman', Times, serif;
-        }
-
-        .footer-col h3::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: 0;
-            width: 50px;
-            height: 2px;
-            background-color: var(--color-acento);
-        }
-
-        .footer-col ul {
-            list-style: none;
-        }
-
-        .footer-col ul li {
-            margin-bottom: 10px;
-        }
-
-        .footer-col ul li a {
-            color: var(--color-blanco);
-            opacity: 0.8;
-            text-decoration: none;
-        }
-
-        .footer-col ul li a:hover {
-            opacity: 1;
-            padding-left: 5px;
-        }
-
-        .redes-sociales {
-            display: flex;
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .red-social {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            transition: var(--transicion);
-            color: white;
-            text-decoration: none;
-        }
-
-        .red-social:hover {
-            background-color: var(--color-acento);
-            transform: translateY(-3px);
-        }
-
-        .copyright {
-            text-align: center;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            font-size: 0.9rem;
-            opacity: 0.7;
-        }
-
-        /* Modal de compra */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 2000;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-content {
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            max-width: 500px;
-            width: 90%;
-            box-shadow: var(--sombra);
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .close-modal {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: #666;
-        }
-
-        .cantidad-selector {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin: 20px 0;
-        }
-
-        .cantidad-btn {
-            width: 40px;
-            height: 40px;
-            border: 1px solid #ddd;
-            background: white;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1.2rem;
-        }
-
-        .cantidad-display {
-            font-size: 1.2rem;
-            font-weight: bold;
-            min-width: 50px;
-            text-align: center;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2rem;
-            }
-
-            .sobre-container {
-                flex-direction: column;
-            }
-
-            .iconos-envios {
-                flex-direction: column;
-                align-items: center;
-                gap: 30px;
-            }
-
-            .productos-grid {
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-                gap: 20px;
-            }
-
-            .filtros-categorias {
-                justify-content: flex-start;
-                overflow-x: auto;
-                padding-bottom: 10px;
-            }
-        }
-    </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Saucha Espacio Holístico - Sahumerios, Tarot y Productos Místicos</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* Tu CSS existente */
+    :root {
+      --color-primario: #4a6c60;
+      --color-secundario: #8a9b8c;
+      --color-acento: #c9a87a;
+      --color-texto: #333333;
+      --color-fondo: #f9f7f2;
+      --color-blanco: #ffffff;
+      --color-stock: #4CAF50;
+      --color-poco-stock: #ff9800;
+      --color-sin-stock: #f44336;
+      --sombra: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --transicion: all 0.3s ease;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: var(--color-texto); background-color: var(--color-fondo); }
+    .container { width: 90%; max-width: 1200px; margin: 0 auto; padding: 0 15px; }
+    .btn { display: inline-block; background-color: var(--color-primario); color: var(--color-blanco); padding: 10px 20px; border-radius: 30px; font-weight: 600; transition: var(--transicion); border: none; cursor: pointer; text-decoration: none; }
+    .btn:hover { background-color: var(--color-acento); transform: translateY(-3px); }
+    .btn-deshabilitado { background-color: #cccccc; cursor: not-allowed; }
+    .btn-deshabilitado:hover { background-color: #cccccc; transform: none; }
+
+    header { background: white; box-shadow: var(--sombra); padding: 20px 0; position: sticky; top: 0; z-index: 100; }
+    .logo { font-size: 1.8rem; font-weight: bold; color: var(--color-primario); text-align: center; font-family: Georgia, 'Times New Roman', Times, serif; }
+    .logo span { color: var(--color-acento); }
+
+    .hero { background: linear-gradient(rgba(74, 108, 96, 0.7), rgba(74, 108, 96, 0.7)), url('https://images.unsplash.com/photo-1544787219-7f47ccb76574?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'); background-size: cover; background-position: center; color: var(--color-blanco); text-align: center; padding: 100px 0; }
+    .hero h1 { font-size: 2.5rem; margin-bottom: 20px; font-family: Georgia, 'Times New Roman', Times, serif; }
+    .hero p { font-size: 1.2rem; max-width: 600px; margin: 0 auto 30px; }
+
+    .filtros-categorias { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin: 30px 0; }
+    .filtro-btn { background-color: var(--color-blanco); border: 1px solid var(--color-primario); color: var(--color-primario); padding: 8px 15px; border-radius: 20px; cursor: pointer; transition: var(--transicion); }
+    .filtro-btn:hover, .filtro-btn.active { background-color: var(--color-primario); color: var(--color-blanco); }
+
+    .productos-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; margin: 40px 0; }
+    .producto-card { background: white; border-radius: 10px; overflow: hidden; box-shadow: var(--sombra); transition: var(--transicion); }
+    .producto-card:hover { transform: translateY(-5px); }
+    .producto-img { width: 100%; height: 200px; object-fit: cover; }
+    .producto-info { padding: 20px; }
+    .stock-badge { display: inline-block; padding: 5px 12px; border-radius: 15px; font-size: 0.8rem; font-weight: bold; margin-bottom: 10px; }
+    .stock-disponible { background: var(--color-stock); color: white; }
+    .stock-poco { background: var(--color-poco-stock); color: white; }
+    .stock-agotado { background: var(--color-sin-stock); color: white; }
+
+    @media (max-width: 768px) { .hero h1 { font-size: 2rem; } .productos-grid { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; } .filtros-categorias { justify-content: flex-start; overflow-x: auto; padding-bottom: 10px; } }
+  </style>
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <div class="container">
-            <div class="logo">Saucha <span>Espacio Holístico</span></div>
-        </div>
-    </header>
 
-    <!-- Hero Section -->
-    <section class="hero" id="inicio">
-        <div class="container">
-            <h1>Bienvenidos a Saucha Espacio Holístico</h1>
-            <p>Descubre productos místicos para equilibrar tu mente, cuerpo y espíritu</p>
-            <a href="#productos" class="btn">Explorar Productos</a>
-        </div>
-    </section>
+<header>
+  <div class="container">
+    <div class="logo">Saucha <span>Espacio Holístico</span></div>
+  </div>
+</header>
 
-    <!-- Productos -->
-    <section class="productos" id="productos">
-        <div class="container">
-            <h2>Nuestros Productos</h2>
-            
-            <!-- Filtros por categoría -->
-            <div class="filtros-categorias">
-                <button class="filtro-btn active" data-categoria="todos">Todos</button>
-                <button class="filtro-btn" data-categoria="sahumerios">Sahumerios</button>
-                <button class="filtro-btn" data-categoria="tarot">Tarot y Oráculos</button>
-                <button class="filtro-btn" data-categoria="piedras">Piedras y Cristales</button>
-                <button class="filtro-btn" data-categoria="velas">Velas</button>
-                <button class="filtro-btn" data-categoria="accesorios">Accesorios</button>
-                <button class="filtro-btn" data-categoria="esencias">Esencias y Difusores</button>
-            </div>
-            
-            <div id="productos-container" class="productos-grid">
-                <!-- Los productos se cargan dinámicamente -->
-            </div>
-        </div>
-    </section>
+<section class="hero" id="inicio">
+  <div class="container">
+    <h1>Bienvenidos a Saucha Espacio Holístico</h1>
+    <p>Descubre productos místicos para equilibrar tu mente, cuerpo y espíritu</p>
+    <a href="#productos" class="btn">Explorar Productos</a>
+  </div>
+</section>
 
-    <!-- Sobre Nosotros -->
-    <section class="sobre-nosotros" id="sobre-nosotros">
-        <div class="container">
-            <div class="sobre-container">
-                <div class="sobre-img">
-                    <img src="https://images.unsplash.com/photo-1544787219-7f47ccb76574?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Espacio Saucha">
-                </div>
-                <div class="sobre-texto">
-                    <h2>Sobre Saucha</h2>
-                    <p>En Saucha Espacio Holístico nos dedicamos a ofrecer productos místicos de alta calidad para acompañarte en tu camino espiritual y de autoconocimiento.</p>
-                    <p>Creemos en la importancia de conectar con nuestra esencia y el entorno, por eso seleccionamos cuidadosamente cada producto, priorizando marcas reconocidas como Sagrada Madre y Aromanza.</p>
-                    <p>Nuestro nombre "Saucha" proviene del sánscrito y significa pureza, limpieza y claridad, valores que representan nuestro compromiso con ofrecer productos auténticos que contribuyan a tu bienestar integral.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Envíos -->
-    <section class="envios" id="envios">
-        <div class="container">
-            <h2>Envíos Nacionales</h2>
-            <p>Realizamos envíos a todo el país. Trabajamos con servicios de logística confiables para que recibas tus productos en perfectas condiciones.</p>
-            
-            <div class="iconos-envios">
-                <div class="icono-envio">
-                    <i class="fas fa-shipping-fast"></i>
-                    <h3>Envío Express</h3>
-                    <p>Entrega en 24-48 horas en zonas urbanas</p>
-                </div>
-                <div class="icono-envio">
-                    <i class="fas fa-box"></i>
-                    <h3>Envío Estándar</h3>
-                    <p>Entrega en 3-5 días hábiles a todo el país</p>
-                </div>
-                <div class="icono-envio">
-                    <i class="fas fa-gift"></i>
-                    <h3>Embalaje Especial</h3>
-                    <p>Productos cuidadosamente empaquetados</p>
-                </div>
-            </div>
-
-            <p><strong>Envío gratuito</strong> en compras superiores a $5.000</p>
-            <p><strong>Habilitamos envíos</strong> a todo el territorio argentino</p>
-        </div>
-    </section>
-
-    <!-- Modal de Compra -->
-    <div id="modal-compra" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="modal-titulo">Comprar Producto</h3>
-                <button class="close-modal" onclick="cerrarModal()">&times;</button>
-            </div>
-            <div id="modal-contenido">
-                <!-- Contenido dinámico -->
-            </div>
-        </div>
+<section class="productos" id="productos">
+  <div class="container">
+    <h2>Nuestros Productos</h2>
+    <div class="filtros-categorias">
+      <button class="filtro-btn active" data-categoria="todos">Todos</button>
+      <button class="filtro-btn" data-categoria="sahumerios">Sahumerios</button>
+      <button class="filtro-btn" data-categoria="tarot">Tarot y Oráculos</button>
+      <button class="filtro-btn" data-categoria="piedras">Piedras y Cristales</button>
+      <button class="filtro-btn" data-categoria="velas">Velas</button>
+      <button class="filtro-btn" data-categoria="accesorios">Accesorios</button>
+      <button class="filtro-btn" data-categoria="esencias">Esencias y Difusores</button>
     </div>
+    <div id="productos-container" class="productos-grid"></div>
+  </div>
+</section>
 
-    <!-- Footer -->
-    <footer id="contacto">
-        <div class="container">
-            <div class="footer-container">
-                <div class="footer-col">
-                    <h3>Saucha Espacio Holístico</h3>
-                    <p>Tu espacio para productos místicos. Envíos a todo el país.</p>
-                    <div class="redes-sociales">
-                        <a href="#" class="red-social"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="red-social"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="red-social"><i class="fab fa-whatsapp"></i></a>
-                    </div>
-                </div>
-                <div class="footer-col">
-                    <h3>Enlaces Rápidos</h3>
-                    <ul>
-                        <li><a href="#inicio">Inicio</a></li>
-                        <li><a href="#productos">Productos</a></li>
-                        <li><a href="#sobre-nosotros">Sobre Nosotros</a></li>
-                        <li><a href="#envios">Envíos</a></li>
-                        <li><a href="#contacto">Contacto</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h3>Contacto</h3>
-                    <ul>
-                        <li><i class="fas fa-envelope"></i> info@saucha.com</li>
-                        <li><i class="fas fa-phone"></i> +54 11 1234-5678</li>
-                        <li><i class="fas fa-map-marker-alt"></i> Buenos Aires, Argentina</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="copyright">
-                <p>&copy; 2023 Saucha Espacio Holístico. Todos los derechos reservados.</p>
-            </div>
-        </div>
-    </footer>
+<!-- Footer simplificado -->
+<footer style="padding: 40px; text-align:center; background: var(--color-primario); color: white;">
+  &copy; 2025 Saucha Espacio Holístico
+</footer>
 
-    <script>
-        // Datos de productos - AQUÍ PUEDES CAMBIAR LOS PRODUCTOS
-        const productos = [
-            {
-                id: 1,
-                nombre: "Sahumerios Sagrada Madre",
-                marca: "Sagrada Madre",
-                categoria: "sahumerios",
-                precio: 450,
-                unidades: 10,
-                descripcion: "Sahumerios de alta calidad con aromas únicos",
-                // CAMBIA ESTA URL POR TU IMAGEN:
-                imagen: "https://images.unsplash.com/photo-1594736797933-d0c1382c7e1e?ixlib=rb-1.2.1&w=400&h=300&fit=crop"
-            },
-            {
-                id: 2,
-                nombre: "Mazo Tarot Rider-Waite",
-                marca: "US Games",
-                categoria: "tarot",
-                precio: 1200,
-                unidades: 5,
-                descripcion: "Clásico mazo de tarot para principiantes y expertos",
-                // CAMBIA ESTA URL POR TU IMAGEN:
-                imagen: "https://images.unsplash.com/photo-1587590227261-2e0c243f7c88?ixlib=rb-1.2.1&w=400&h=300&fit=crop"
-            },
-            {
-                id: 3,
-                nombre: "Kit Piedras Energéticas",
-                marca: "Piedras Místicas",
-                categoria: "piedras",
-                precio: 890,
-                unidades: 3,
-                descripcion: "Selección de cristales naturales para armonizar energías",
-                // CAMBIA ESTA URL POR TU IMAGEN:
-                imagen: "https://images.unsplash.com/photo-1589674781759-c21dfa1caa6e?ixlib=rb-1.2.1&w=400&h=300&fit=crop"
-            },
-            {
-                id: 4,
-                nombre: "Velas Aromáticas Aromanza",
-                marca: "Aromanza",
-                categoria: "velas",
-                precio: 680,
-                unidades: 8,
-                descripcion: "Velas con esencias puras para meditación y relajación",
-                // CAMBIA ESTA URL POR TU IMAGEN:
-                imagen: "https://images.unsplash.com/photo-1589674781759-c21dfa1caa6e?ixlib=rb-1.2.1&w=400&h=300&fit=crop"
-            },
-            {
-                id: 5,
-                nombre: "Difusor Aromanza",
-                marca: "Aromanza",
-                categoria: "esencias",
-                precio: 1250,
-                unidades: 4,
-                descripcion: "Difusor de aromas con tecnología de última generación",
-                // CAMBIA ESTA URL POR TU IMAGEN:
-                imagen: "https://images.unsplash.com/photo-1589674781759-c21dfa1caa6e?ixlib=rb-1.2.1&w=400&h=300&fit=crop"
-            },
-            {
-                id: 6,
-                nombre: "Hornito para Sahumerios",
-                marca: "Accesorios Místicos",
-                categoria: "accesorios",
-                precio: 750,
-                unidades: 6,
-                descripcion: "Hornito cerámico para quemar sahumerios de forma segura",
-                // CAMBIA ESTA URL POR TU IMAGEN:
-                imagen: "https://images.unsplash.com/photo-1589674781759-c21dfa1caa6e?ixlib=rb-1.2.1&w=400&h=300&fit=crop"
-            }
-        ];
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/12.4.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore-compat.js"></script>
 
-        // Variables globales
-        let productoSeleccionado = null;
-        let cantidadSeleccionada = 1;
-
-        // Cargar productos
-        function cargarProductos(productosAFiltrar = productos) {
-            const productosContainer = document.getElementById('productos-container');
-            
-            productosContainer.innerHTML = productosAFiltrar.map(producto => {
-                // Determinar estado del stock (sin mostrar unidades exactas)
-                let stockClass, stockText;
-                if (producto.unidades <= 0) {
-                    stockClass = 'stock-agotado';
-                    stockText = 'Agotado';
-                } else if (producto.unidades <= 5) {
-                    stockClass = 'stock-poco';
-                    stockText = 'Últimas unidades';
-                } else {
-                    stockClass = 'stock-disponible';
-                    stockText = 'Disponible';
-                }
-
-                return `
-                    <div class="producto-card" data-categoria="${producto.categoria}">
-                        <img src="${producto.imagen}" alt="${producto.nombre}" class="producto-img" onerror="this.src='https://via.placeholder.com/300x200?text=Imagen+no+disponible'">
-                        <div class="producto-info">
-                            <div class="stock-info">
-                                <span class="stock-badge ${stockClass}">${stockText}</span>
-                            </div>
-                            <h3>${producto.nombre}</h3>
-                            <p>${producto.descripcion}</p>
-                            <p class="producto-marca">Marca: ${producto.marca}</p>
-                            <p class="producto-precio">$${producto.precio}</p>
-                            <button class="btn ${producto.unidades <= 0 ? 'btn-deshabilitado' : ''}" 
-                                    ${producto.unidades <= 0 ? 'disabled' : ''}
-                                    onclick="abrirModalCompra(${producto.id})">
-                                ${producto.unidades <= 0 ? 'Agotado' : 'Comprar'}
-                            </button>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        // Filtros de categoría
-        document.querySelectorAll('.filtro-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                // Remover clase active de todos los botones
-                document.querySelectorAll('.filtro-btn').forEach(b => {
-                    b.classList.remove('active');
-                });
-                
-                // Agregar clase active al botón clickeado
-                this.classList.add('active');
-                
-                const categoria = this.getAttribute('data-categoria');
-                
-                if (categoria === 'todos') {
-                    cargarProductos();
-                } else {
-                    const productosFiltrados = productos.filter(producto => producto.categoria === categoria);
-                    cargarProductos(productosFiltrados);
-                }
-            });
-        });
-
-        // Abrir modal de compra
-        function abrirModalCompra(productoId) {
-            productoSeleccionado = productos.find(p => p.id === productoId);
-            
-            if (!productoSeleccionado) return;
-
-            cantidadSeleccionada = 1;
-
-            document.getElementById('modal-titulo').textContent = `Comprar: ${productoSeleccionado.nombre}`;
-            
-            document.getElementById('modal-contenido').innerHTML = `
-                <div class="producto-info-modal">
-                    <img src="${productoSeleccionado.imagen}" style="width: 100px; height: 100px; object-fit: cover; border-radius: 5px; float: left; margin-right: 15px;" onerror="this.src='https://via.placeholder.com/100x100?text=Imagen'">
-                    <div style="overflow: hidden;">
-                        <h4>${productoSeleccionado.nombre}</h4>
-                        <p>${productoSeleccionado.descripcion}</p>
-                        <p><strong>Precio unitario: $${productoSeleccionado.precio}</strong></p>
-                    </div>
-                </div>
-                
-                <div class="cantidad-selector">
-                    <label><strong>Cantidad:</strong></label>
-                    <button class="cantidad-btn" onclick="cambiarCantidad(-1)">-</button>
-                    <span class="cantidad-display" id="cantidad-display">${cantidadSeleccionada}</span>
-                    <button class="cantidad-btn" onclick="cambiarCantidad(1)">+</button>
-                </div>
-                
-                <div style="margin: 20px 0; padding: 15px; background: #f9f9f9; border-radius: 5px;">
-                    <strong>Total: $<span id="total-precio">${productoSeleccionado.precio * cantidadSeleccionada}</span></strong>
-                </div>
-                
-                <button class="btn" style="width: 100%;" onclick="procesarCompra()">
-                    Confirmar Compra
-                </button>
-            `;
-
-            document.getElementById('modal-compra').style.display = 'flex';
-        }
-
-        // Cambiar cantidad en el modal
-        function cambiarCantidad(cambio) {
-            const nuevaCantidad = cantidadSeleccionada + cambio;
-            
-            if (nuevaCantidad >= 1 && nuevaCantidad <= productoSeleccionado.unidades) {
-                cantidadSeleccionada = nuevaCantidad;
-                document.getElementById('cantidad-display').textContent = cantidadSeleccionada;
-                document.getElementById('total-precio').textContent = productoSeleccionado.precio * cantidadSeleccionada;
-            }
-        }
-
-        // Procesar compra
-        function procesarCompra() {
-            if (!productoSeleccionado) return;
-
-            // Actualizar stock en los datos
-            productoSeleccionado.unidades -= cantidadSeleccionada;
-            
-            alert(`¡Compra realizada!\n${cantidadSeleccionada} x ${productoSeleccionado.nombre}\nTotal: $${productoSeleccionado.precio * cantidadSeleccionada}`);
-            
-            cerrarModal();
-            cargarProductos();
-        }
-
-        // Cerrar modal
-        function cerrarModal() {
-            document.getElementById('modal-compra').style.display = 'none';
-            productoSeleccionado = null;
-            cantidadSeleccionada = 1;
-        }
-
-        // Inicializar cuando carga la página
-        document.addEventListener('DOMContentLoaded', function() {
-            cargarProductos();
-        });
-    </script>
-</body>
-
-//Agregar Firebase y Firestore a tu web
-
-    <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
-  import { getFirestore, collection, getDocs, doc, updateDoc } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
-
-  // Configuración de tu proyecto Firebase
+<script>
+  // Configuración de Firebase
   const firebaseConfig = {
     apiKey: "AIzaSyDNLtKtM4Ai36BBLg2VnxrYjPycd_bNEZE",
     authDomain: "sauchaespacioholistico-a95eb.firebaseapp.com",
@@ -832,72 +106,22 @@
     measurementId: "G-1D3CE8R82D"
   };
 
-  // Inicializar Firebase
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
+  const app = firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
 
-  // Función para cargar productos desde Firestore
+  const productosContainer = document.getElementById('productos-container');
+
+  // Cargar productos desde Firestore
   async function cargarProductos() {
-      const productosCol = collection(db, "productos");
-      const productosSnapshot = await getDocs(productosCol);
-      const productos = productosSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    const snapshot = await db.collection("productos").get();
+    const productos = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
-      const productosContainer = document.getElementById('productos-container');
-      productosContainer.innerHTML = productos.map(producto => {
-          let stockClass, stockText;
-          if (producto.unidades <= 0) {
-              stockClass = 'stock-agotado';
-              stockText = 'Agotado';
-          } else if (producto.unidades <= 5) {
-              stockClass = 'stock-poco';
-              stockText = 'Últimas unidades';
-          } else {
-              stockClass = 'stock-disponible';
-              stockText = 'En Stock';
-          }
+    productosContainer.innerHTML = productos.map(producto => {
+      let stockClass, stockText;
+      if (producto.unidades <= 0) { stockClass = 'stock-agotado'; stockText = 'Agotado'; }
+      else if (producto.unidades <= 5) { stockClass = 'stock-poco'; stockText = 'Últimas unidades'; }
+      else { stockClass = 'stock-disponible'; stockText = 'En Stock'; }
 
-          return `
-              <div class="producto-card" data-categoria="${producto.categoria}">
-                  <img src="${producto.imagen}" class="producto-img">
-                  <div class="producto-info">
-                      <span class="stock-badge ${stockClass}">${stockText}</span>
-                      <div class="unidades-stock">${producto.unidades} unidades</div>
-                      <h3>${producto.nombre}</h3>
-                      <p>${producto.descripcion}</p>
-                      <p class="producto-marca">${producto.marca}</p>
-                      <p class="producto-precio">$${producto.precio}</p>
-                      <button class="btn ${producto.unidades <= 0 ? 'btn-deshabilitado' : ''}" 
-                              ${producto.unidades <= 0 ? 'disabled' : ''}
-                              onclick="comprarProducto('${producto.id}')">
-                        ${producto.unidades <= 0 ? 'Agotado' : 'Comprar'}
-                      </button>
-                  </div>
-              </div>
-          `;
-      }).join('');
-  }
 
-  // Función para comprar un producto y actualizar stock
-  async function comprarProducto(id) {
-      const productoRef = doc(db, "productos", id);
-      const productoSnap = await getDocs(productoRef);
-      const data = productoSnap.data();
-
-      if (data.unidades > 0) {
-          await updateDoc(productoRef, {
-              unidades: data.unidades - 1
-          });
-          alert(`¡Compra realizada!`);
-          cargarProductos(); // recarga productos para actualizar stock
-      } else {
-          alert("Producto agotado");
-      }
-  }
-
-  // Inicializar cuando carga la página
-  document.addEventListener('DOMContentLoaded', cargarProductos);
-</script>
-
-</html>
 
 
