@@ -103,6 +103,17 @@
             transform: none;
         }
 
+        .btn-secundario {
+            background-color: transparent;
+            border: 2px solid var(--color-primario);
+            color: var(--color-primario);
+        }
+
+        .btn-secundario:hover {
+            background-color: var(--color-primario);
+            color: var(--color-blanco);
+        }
+
         .loading {
             text-align: center;
             padding: 40px;
@@ -418,7 +429,7 @@
             opacity: 0.7;
         }
 
-        /* Modal de compra */
+        /* Modales */
         .modal {
             display: none;
             position: fixed;
@@ -430,14 +441,17 @@
             z-index: 2000;
             align-items: center;
             justify-content: center;
+            padding: 20px;
         }
 
         .modal-content {
             background: white;
             padding: 30px;
             border-radius: 10px;
-            max-width: 500px;
+            max-width: 600px;
             width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
             box-shadow: var(--sombra);
         }
 
@@ -446,6 +460,8 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
+            border-bottom: 2px solid var(--color-fondo);
+            padding-bottom: 15px;
         }
 
         .close-modal {
@@ -480,6 +496,172 @@
             text-align: center;
         }
 
+        /* Formularios de checkout */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--color-texto);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: var(--transicion);
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--color-primario);
+            outline: none;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .metodo-envio,
+        .metodo-pago {
+            background: var(--color-fondo);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 2px solid transparent;
+            transition: var(--transicion);
+            cursor: pointer;
+        }
+
+        .metodo-envio:hover,
+        .metodo-pago:hover {
+            border-color: var(--color-primario);
+        }
+
+        .metodo-envio.selected,
+        .metodo-pago.selected {
+            border-color: var(--color-primario);
+            background: rgba(74, 108, 96, 0.1);
+        }
+
+        .metodo-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .metodo-header i {
+            font-size: 1.5rem;
+            color: var(--color-primario);
+        }
+
+        .costo-envio {
+            font-weight: bold;
+            color: var(--color-primario);
+            margin-top: 5px;
+        }
+
+        .resumen-pedido {
+            background: var(--color-fondo);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .resumen-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .resumen-total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px solid var(--color-primario);
+        }
+
+        .pasos-checkout {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .pasos-checkout::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #e0e0e0;
+            z-index: 1;
+        }
+
+        .paso {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .paso-numero {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-bottom: 8px;
+            transition: var(--transicion);
+        }
+
+        .paso.activo .paso-numero {
+            background: var(--color-primario);
+            color: white;
+        }
+
+        .paso-texto {
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        .paso-contenido {
+            display: none;
+        }
+
+        .paso-contenido.activo {
+            display: block;
+        }
+
+        .botones-navegacion {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            gap: 15px;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .hero h1 {
@@ -505,6 +687,23 @@
                 justify-content: flex-start;
                 overflow-x: auto;
                 padding-bottom: 10px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-content {
+                padding: 20px;
+            }
+
+            .pasos-checkout {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .pasos-checkout::before {
+                display: none;
             }
         }
     </style>
@@ -558,7 +757,6 @@
         <div class="container">
             <div class="sobre-container">
                 <div class="sobre-img">
-                    <!-- Aquí también puedes usar tu logo si quieres -->
                     <img src="https://i.ibb.co/1ff4V37q/logo-saucha.jpg" alt="Logo Saucha Espacio Holístico">
                 </div>
                 <div class="sobre-texto">
@@ -589,9 +787,9 @@
                     <p>Entrega en 3-5 días hábiles a todo el país</p>
                 </div>
                 <div class="icono-envio">
-                    <i class="fas fa-gift"></i>
-                    <h3>Embalaje Especial</h3>
-                    <p>Productos cuidadosamente empaquetados</p>
+                    <i class="fas fa-store"></i>
+                    <h3>Retiro en Tienda</h3>
+                    <p>Sin costo adicional en nuestro local</p>
                 </div>
             </div>
 
@@ -609,6 +807,35 @@
             </div>
             <div id="modal-contenido">
                 <!-- Contenido dinámico -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Checkout -->
+    <div id="modal-checkout" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Finalizar Compra</h3>
+                <button class="close-modal" onclick="cerrarCheckout()">&times;</button>
+            </div>
+            
+            <div class="pasos-checkout">
+                <div class="paso activo" data-paso="1">
+                    <div class="paso-numero">1</div>
+                    <div class="paso-texto">Envío</div>
+                </div>
+                <div class="paso" data-paso="2">
+                    <div class="paso-numero">2</div>
+                    <div class="paso-texto">Pago</div>
+                </div>
+                <div class="paso" data-paso="3">
+                    <div class="paso-numero">3</div>
+                    <div class="paso-texto">Confirmación</div>
+                </div>
+            </div>
+
+            <div id="checkout-contenido">
+                <!-- Contenido dinámico del checkout -->
             </div>
         </div>
     </div>
@@ -639,8 +866,8 @@
                 <div class="footer-col">
                     <h3>Contacto</h3>
                     <ul>
-                        <li><i class="fas fa-envelope"></i> sauchaespacioholistico@gmail.com</li>
-                        <li><i class="fas fa-phone"></i> +54 11 7013-9419</li>
+                        <li><i class="fas fa-envelope"></i> info@saucha.com</li>
+                        <li><i class="fas fa-phone"></i> +54 11 1234-5678</li>
                         <li><i class="fas fa-map-marker-alt"></i> Buenos Aires, Argentina</li>
                     </ul>
                 </div>
@@ -656,6 +883,9 @@
         let productos = [];
         let productoSeleccionado = null;
         let cantidadSeleccionada = 1;
+        let pasoActual = 1;
+        let datosEnvio = {};
+        let metodoPagoSeleccionado = '';
 
         // Esperar a que Firebase se cargue
         window.addEventListener('DOMContentLoaded', async function() {
@@ -807,8 +1037,8 @@
                     <strong>Total: $<span id="total-precio">${productoSeleccionado.precio * cantidadSeleccionada}</span></strong>
                 </div>
                 
-                <button class="btn" style="width: 100%;" onclick="procesarCompra()">
-                    Confirmar Compra
+                <button class="btn" style="width: 100%;" onclick="iniciarCheckout()">
+                    Proceder al Checkout
                 </button>
             `;
 
@@ -826,44 +1056,22 @@
             }
         }
 
-        // Procesar compra y actualizar Firebase
-        async function procesarCompra() {
-            if (!productoSeleccionado) return;
-
-            try {
-                // Actualizar stock en Firebase
-                const nuevoStock = productoSeleccionado.stock - cantidadSeleccionada;
-                
-                const productoRef = window.firestore.doc(window.firestore.db, 'productos', productoSeleccionado.id);
-                await window.firestore.updateDoc(productoRef, {
-                    stock: nuevoStock
-                });
-
-                // Registrar la venta
-                await window.firestore.addDoc(window.firestore.collection(window.firestore.db, 'ventas'), {
-                    productoId: productoSeleccionado.id,
-                    productoNombre: productoSeleccionado.nombre,
-                    cantidad: cantidadSeleccionada,
-                    total: productoSeleccionado.precio * cantidadSeleccionada,
-                    fecha: new Date().toISOString()
-                });
-
-                alert(`¡Compra realizada!\n${cantidadSeleccionada} x ${productoSeleccionado.nombre}\nTotal: $${productoSeleccionado.precio * cantidadSeleccionada}`);
-                
-                cerrarModal();
-                
-            } catch (error) {
-                console.error("Error procesando compra:", error);
-                alert('Error al procesar la compra. Intenta nuevamente.');
-            }
+        // Iniciar proceso de checkout
+        function iniciarCheckout() {
+            cerrarModal();
+            pasoActual = 1;
+            mostrarPasoCheckout(1);
+            document.getElementById('modal-checkout').style.display = 'flex';
         }
 
-        // Cerrar modal
-        function cerrarModal() {
-            document.getElementById('modal-compra').style.display = 'none';
-            productoSeleccionado = null;
-            cantidadSeleccionada = 1;
-        }
-    </script>
-</body>
-</html>
+        // Mostrar paso específico del checkout
+        function mostrarPasoCheckout(paso) {
+            pasoActual = paso;
+            
+            // Actualizar pasos activos
+            document.querySelectorAll('.paso').forEach(p => {
+                p.classList.remove('activo');
+                if (parseInt(p.dataset.paso) <= paso) {
+                    p.classList.add('activo');
+                }
+           
