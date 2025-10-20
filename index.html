@@ -58,6 +58,25 @@
             font-size: 16px;
         }
 
+        /* Prevenir selección de texto y clic derecho */
+        body {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        /* Ocultar consola del navegador */
+        /* Nota: Esto es solo una medida básica de seguridad */
+        * {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
         .container {
             width: 90%;
             max-width: 1200px;
@@ -217,23 +236,23 @@
 
         /* Hero Section */
         .hero {
-            background: linear-gradient(rgba(74, 108, 96, 0.7), rgba(74, 108, 96, 0.7)), url('https://i.ibb.co/1ff4V37q/logo-saucha.jpg');
+            background: linear-gradient(rgba(74, 108, 96, 0.8), rgba(74, 108, 96, 0.8)), url('https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80');
             background-size: cover;
             background-position: center;
             color: var(--color-blanco);
             text-align: center;
-            padding: 80px 0;
+            padding: 100px 0;
         }
 
         .hero h1 {
-            font-size: 2rem;
+            font-size: 2.5rem;
             margin-bottom: 20px;
             font-family: Georgia, 'Times New Roman', Times, serif;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
         }
 
         .hero p {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             max-width: 600px;
             margin: 0 auto 30px;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
@@ -248,8 +267,27 @@
 
         .sobre-nosotros p {
             margin-bottom: 20px;
-            font-size: 1rem;
-            line-height: 1.7;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .sobre-iconos {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .sobre-icono {
+            text-align: center;
+            max-width: 200px;
+        }
+
+        .sobre-icono i {
+            font-size: 2.5rem;
+            color: var(--color-acento);
+            margin-bottom: 15px;
         }
 
         /* Categorías */
@@ -508,6 +546,11 @@
             font-size: 0.9rem;
         }
 
+        .form-group label.required::after {
+            content: " *";
+            color: var(--color-sin-stock);
+        }
+
         .form-group input, .form-group select, .form-group textarea {
             width: 100%;
             padding: 10px;
@@ -590,6 +633,18 @@
             margin-bottom: 10px;
         }
 
+        .btn-mercado-pago {
+            background: #009ee3;
+            display: block;
+            width: 100%;
+            text-align: center;
+            margin: 15px 0;
+        }
+
+        .btn-mercado-pago:hover {
+            background: #007eb5;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .menu-toggle {
@@ -666,6 +721,10 @@
                 padding: 10px 20px;
                 font-size: 0.9rem;
             }
+
+            .sobre-iconos {
+                gap: 20px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -733,7 +792,7 @@
                 </div>
                 <div id="login-section">
                     <button class="btn" id="login-button">
-                        <i class="fab fa-google"></i> Iniciar Sesión
+                        <i class="fab fa-google" style="margin-right: 8px;"></i> Iniciar Sesión
                     </button>
                 </div>
             </div>
@@ -744,7 +803,7 @@
     <section class="hero" id="inicio">
         <div class="container">
             <h1>Bienvenidos a Saucha Espacio Holístico</h1>
-            <p>Descubre productos místicos para equilibrar tu mente, cuerpo y espíritu</p>
+            <p>Descubre productos místicos y terapias holísticas para equilibrar tu mente, cuerpo y espíritu</p>
             <a href="#productos" class="btn">Explorar Productos</a>
         </div>
     </section>
@@ -755,8 +814,26 @@
             <h2>Sobre Nosotros</h2>
             <div class="sobre-nosotros">
                 <p>Saucha Espacio Holístico nace como un refugio espiritual en medio del ajetreo de la vida moderna. Nuestro nombre "Saucha" proviene del sánscrito y significa pureza, limpieza y claridad, valores que representan la esencia de nuestro espacio.</p>
-                <p>Nos dedicamos a ofrecer productos y servicios que ayuden a las personas a reconectar con su ser interior, encontrar equilibrio y armonía en sus vidas. Creemos en el poder transformador de las prácticas espirituales y en la importancia de rodearnos de elementos que vibren en sintonía con nuestra esencia.</p>
-                <p>En Saucha encontrarás un equipo de profesionales comprometidos con tu bienestar integral, guiándote en tu camino de autodescubrimiento y crecimiento personal.</p>
+                <p>Nos dedicamos a ofrecer productos y terapias holísticas que ayudan a las personas a reconectar con su ser interior, encontrar equilibrio y armonía en sus vidas. Creemos en el poder transformador de las prácticas espirituales y en la importancia de rodearnos de elementos que vibren en sintonía con nuestra esencia.</p>
+                <p>En Saucha encontrarás diversas terapias holísticas diseñadas para acompañarte en tu camino de autodescubrimiento y crecimiento personal, ayudándote a restaurar el equilibrio energético y encontrar tu paz interior.</p>
+                
+                <div class="sobre-iconos">
+                    <div class="sobre-icono">
+                        <i class="fas fa-heart"></i>
+                        <h4>Energía Positiva</h4>
+                        <p>Productos seleccionados con la mejor energía</p>
+                    </div>
+                    <div class="sobre-icono">
+                        <i class="fas fa-leaf"></i>
+                        <h4>Natural & Orgánico</h4>
+                        <p>Ingredientes naturales y de calidad</p>
+                    </div>
+                    <div class="sobre-icono">
+                        <i class="fas fa-hands-helping"></i>
+                        <h4>Acompañamiento</h4>
+                        <p>Guía en tu camino espiritual</p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -788,7 +865,7 @@
         <div class="container">
             <h2>Nuestros Servicios</h2>
             <p style="text-align: center; max-width: 800px; margin: 0 auto 30px;">
-                Ofrecemos diversos servicios espirituales para ayudarte en tu camino de crecimiento personal. 
+                Ofrecemos diversas terapias holísticas para ayudarte en tu camino de crecimiento personal. 
                 Contáctanos por WhatsApp para más información y reservas.
             </p>
             
@@ -857,7 +934,7 @@
             <div class="footer-content">
                 <div class="footer-section">
                     <h3>Contacto</h3>
-                    <p><i class="fas fa-map-marker-alt"></i> Dirección: Salta 2129, Don Torcuato</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Dirección: Calle Ejemplo 123, Ciudad</p>
                     <p><i class="fas fa-phone"></i> Teléfono: +54 9 11 7013-9419</p>
                     <p><i class="fas fa-envelope"></i> Email: sauchaespacioholistico@gmail.com</p>
                     
@@ -938,21 +1015,48 @@
         let categoriaActiva = 'todos';
         let carrito = [];
 
-        // Categorías de productos
+        // Categorías de productos (actualizadas)
         const categorias = [
             { id: 'todos', nombre: 'Todos los Productos' },
             { id: 'sahumerios', nombre: 'Sahumerios' },
             { id: 'cristales', nombre: 'Cristales' },
             { id: 'velas', nombre: 'Velas' },
             { id: 'hornitos', nombre: 'Hornitos' },
-            { id: 'lamparas-sal', nombre: 'Lámparas de Sal' },
             { id: 'accesorios', nombre: 'Accesorios' },
             { id: 'decoracion', nombre: 'Decoración Holística' },
             { id: 'defumacion', nombre: 'Productos de Defumación' },
             { id: 'aromatizantes', nombre: 'Spray Aromatizantes' },
             { id: 'difusores', nombre: 'Difusores' },
-            { id: 'bijou', nombre: 'Bijouterie Espiritual' }
+            { id: 'bijou', nombre: 'Bijou Energética' }
         ];
+
+        // Medidas de seguridad básicas
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+
+        document.addEventListener('keydown', function(e) {
+            // Prevenir F12
+            if(e.key === 'F12') {
+                e.preventDefault();
+                return false;
+            }
+            // Prevenir Ctrl+Shift+I
+            if(e.ctrlKey && e.shiftKey && e.key === 'I') {
+                e.preventDefault();
+                return false;
+            }
+            // Prevenir Ctrl+Shift+J
+            if(e.ctrlKey && e.shiftKey && e.key === 'J') {
+                e.preventDefault();
+                return false;
+            }
+            // Prevenir Ctrl+U
+            if(e.ctrlKey && e.key === 'u') {
+                e.preventDefault();
+                return false;
+            }
+        });
 
         // Inicializar autenticación
         function inicializarAuth() {
@@ -1015,8 +1119,6 @@
                 
             } catch (error) {
                 console.error("Error detallado al iniciar sesión:", error);
-                console.error("Código de error:", error.code);
-                console.error("Mensaje de error:", error.message);
                 
                 let mensajeError = "Error al iniciar sesión. ";
                 
@@ -1027,7 +1129,7 @@
                 } else if (error.code === 'auth/unauthorized-domain') {
                     mensajeError += "Dominio no autorizado. Contacta al administrador.";
                 } else {
-                    mensajeError += "Intenta nuevamente. Detalles: " + error.message;
+                    mensajeError += "Intenta nuevamente.";
                 }
                 
                 alert(mensajeError);
@@ -1128,7 +1230,7 @@
 
                 return `
                     <div class="producto-card">
-                        <img src="${producto.imagen || 'https://via.placeholder.com/250x180?text=Imagen+No+Disponible'}" alt="${producto.nombre}" class="producto-img">
+                        <img src="${producto.imagen || 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'}" alt="${producto.nombre}" class="producto-img">
                         <div class="producto-info">
                             <span class="stock-badge ${stockClass}">${stockText}</span>
                             <h3>${producto.nombre}</h3>
@@ -1254,7 +1356,6 @@
         }
 
         function mostrarNotificacion(mensaje) {
-            // Crear notificación temporal
             const notificacion = document.createElement('div');
             notificacion.style.cssText = `
                 position: fixed;
@@ -1296,15 +1397,14 @@
 
             document.getElementById('modal-titulo').textContent = `Comprar: ${productoSeleccionado.nombre}`;
             
-            // Generar opciones personalizadas según el producto
             let opcionesPersonalizadas = '';
             
             if (productoSeleccionado.categoria === 'sahumerios' || 
                 productoSeleccionado.categoria === 'aromatizantes') {
                 opcionesPersonalizadas = `
                     <div class="form-group">
-                        <label for="aroma">Selecciona el aroma:</label>
-                        <select id="aroma">
+                        <label for="aroma" class="required">Selecciona el aroma:</label>
+                        <select id="aroma" required>
                             <option value="lavanda">Lavanda</option>
                             <option value="sandalwood">Sándalo</option>
                             <option value="vainilla">Vainilla</option>
@@ -1317,8 +1417,8 @@
             } else if (productoSeleccionado.categoria === 'cristales') {
                 opcionesPersonalizadas = `
                     <div class="form-group">
-                        <label for="piedra">Selecciona la piedra:</label>
-                        <select id="piedra">
+                        <label for="piedra" class="required">Selecciona la piedra:</label>
+                        <select id="piedra" required>
                             <option value="amatista">Amatista</option>
                             <option value="cuarzo-rosa">Cuarzo Rosa</option>
                             <option value="cuarzo-cristal">Cuarzo Cristal</option>
@@ -1331,8 +1431,8 @@
             } else if (productoSeleccionado.categoria === 'velas') {
                 opcionesPersonalizadas = `
                     <div class="form-group">
-                        <label for="color">Selecciona el color:</label>
-                        <select id="color">
+                        <label for="color" class="required">Selecciona el color:</label>
+                        <select id="color" required>
                             <option value="blanco">Blanco</option>
                             <option value="rojo">Rojo</option>
                             <option value="azul">Azul</option>
@@ -1346,7 +1446,7 @@
             
             document.getElementById('modal-contenido').innerHTML = `
                 <div style="display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap;">
-                    <img src="${productoSeleccionado.imagen || 'https://via.placeholder.com/100x100?text=Imagen'}" style="width: 100px; height: 100px; object-fit: cover; border-radius: 5px;">
+                    <img src="${productoSeleccionado.imagen || 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'}" style="width: 100px; height: 100px; object-fit: cover; border-radius: 5px;">
                     <div style="flex: 1; min-width: 200px;">
                         <h4>${productoSeleccionado.nombre}</h4>
                         <p>${productoSeleccionado.descripcion}</p>
@@ -1383,7 +1483,6 @@
             const nuevaCantidad = cantidadSeleccionada + cambio;
             if (nuevaCantidad >= 1 && nuevaCantidad <= productoSeleccionado.stock) {
                 cantidadSeleccionada = nuevaCantidad;
-                // Actualizar la visualización
                 document.querySelector('.cantidad-selector span').textContent = cantidadSeleccionada;
                 const totalElement = document.querySelector('.modal-contenido strong');
                 if (totalElement) {
@@ -1394,7 +1493,6 @@
 
         // Mostrar checkout para compra individual
         function mostrarCheckoutIndividual() {
-            // Agregar producto individual al carrito temporal
             const carritoTemporal = [{
                 ...productoSeleccionado,
                 cantidad: cantidadSeleccionada
@@ -1437,11 +1535,14 @@
                 </div>
 
                 <div class="info-pago">
-                    <h4>💳 Información para Transferencia/Mercado Pago</h4>
-                    <p><strong>CVU:</strong> 0000003100096964104401</p>
-                    <p><strong>Alias:</strong> ruizanav.mp</p>
-                    <p><strong>Titular:</strong> Analía Verónica Ruiz</p>
-                    <p>📱 <strong>Envía comprobante al WhatsApp:</strong> 11 7013-9419</p>
+                    <h4>💳 Pago con Mercado Pago</h4>
+                    <p>Haz click en el botón de abajo para pagar directamente con Mercado Pago de forma segura.</p>
+                    <a href="https://www.mercadopago.com.ar" target="_blank" class="btn btn-mercado-pago">
+                        <i class="fas fa-credit-card"></i> Pagar con Mercado Pago
+                    </a>
+                    <p style="margin-top: 10px; font-size: 0.8rem; color: #666;">
+                        O envía transferencia al CVU: 0000003100096964104401
+                    </p>
                 </div>
 
                 <h4>Método de envío</h4>
@@ -1454,40 +1555,32 @@
 
                 <h4>Información de contacto</h4>
                 <div class="form-group">
+                    <label for="nombre" class="required">Nombre completo</label>
                     <input type="text" id="nombre" placeholder="Nombre completo" value="${usuario.displayName || ''}" required>
                 </div>
                 <div class="form-group">
+                    <label for="email" class="required">Email</label>
                     <input type="email" id="email" placeholder="Email" value="${usuario.email || ''}" required>
                 </div>
                 <div class="form-group">
+                    <label for="telefono" class="required">Teléfono</label>
                     <input type="tel" id="telefono" placeholder="Teléfono" required>
                 </div>
 
                 <div id="datos-envio" style="display: none;">
                     <h4>Dirección de envío</h4>
                     <div class="form-group">
-                        <input type="text" id="direccion" placeholder="Dirección">
+                        <label for="direccion" class="required">Dirección</label>
+                        <input type="text" id="direccion" placeholder="Dirección" required>
                     </div>
                     <div class="form-group">
-                        <input type="text" id="ciudad" placeholder="Ciudad">
+                        <label for="ciudad" class="required">Ciudad</label>
+                        <input type="text" id="ciudad" placeholder="Ciudad" required>
                     </div>
                     <div class="form-group">
-                        <input type="text" id="codigo-postal" placeholder="Código Postal">
+                        <label for="codigo-postal" class="required">Código Postal</label>
+                        <input type="text" id="codigo-postal" placeholder="Código Postal" required>
                     </div>
-                </div>
-
-                <h4>Método de pago</h4>
-                <div class="metodo-pago" onclick="seleccionarPago('transferencia')">
-                    <strong>Transferencia bancaria</strong>
-                    <p>Realiza la transferencia y envía el comprobante al WhatsApp</p>
-                </div>
-                <div class="metodo-pago" onclick="seleccionarPago('mercado-pago')">
-                    <strong>Mercado Pago</strong>
-                    <p>Usa el CVU proporcionado arriba</p>
-                </div>
-                <div class="metodo-pago" onclick="seleccionarPago('efectivo')">
-                    <strong>Efectivo</strong>
-                    <p>Al retirar en tienda</p>
                 </div>
 
                 <button class="btn" style="width: 100%; margin-top: 20px;" onclick="finalizarCompra('${tipo}')">
@@ -1495,40 +1588,38 @@
                 </button>
             `;
 
-            // Mostrar/ocultar datos de envío
             document.getElementById('metodo-envio').addEventListener('change', function() {
                 document.getElementById('datos-envio').style.display = 
                     this.value === 'envio' ? 'block' : 'none';
             });
 
-            // Cerrar modales anteriores
             cerrarModal();
             cerrarCarrito();
             document.getElementById('modal-checkout').style.display = 'flex';
         }
 
-        // Seleccionar método de pago
-        function seleccionarPago(metodo) {
-            document.querySelectorAll('.metodo-pago').forEach(m => m.classList.remove('selected'));
-            event.currentTarget.classList.add('selected');
-            window.metodoPagoSeleccionado = metodo;
-        }
-
         // Finalizar compra
         async function finalizarCompra(tipo) {
-            if (!window.metodoPagoSeleccionado) {
-                alert('Por favor selecciona un método de pago');
-                return;
-            }
-
             const nombre = document.getElementById('nombre').value;
             const email = document.getElementById('email').value;
             const telefono = document.getElementById('telefono').value;
             const metodoEnvio = document.getElementById('metodo-envio').value;
 
+            // Validar campos obligatorios
             if (!nombre || !email || !telefono) {
-                alert('Por favor completa todos los campos obligatorios');
+                alert('Por favor completa todos los campos obligatorios marcados con *');
                 return;
+            }
+
+            if (metodoEnvio === 'envio') {
+                const direccion = document.getElementById('direccion').value;
+                const ciudad = document.getElementById('ciudad').value;
+                const codigoPostal = document.getElementById('codigo-postal').value;
+                
+                if (!direccion || !ciudad || !codigoPostal) {
+                    alert('Por favor completa todos los campos de dirección para envío a domicilio');
+                    return;
+                }
             }
 
             try {
@@ -1551,6 +1642,9 @@
                     totalCompra += 500;
                 }
 
+                // Generar número de pedido único
+                const numeroPedido = 'SAU' + Date.now();
+
                 // Actualizar stock en Firebase
                 for (const item of itemsCompra) {
                     const nuevoStock = item.stock - item.cantidad;
@@ -1559,8 +1653,9 @@
                     });
                 }
 
-                // Registrar pedido
-                const pedidoRef = await db.collection('pedidos').add({
+                // Registrar pedido con número único
+                const pedidoData = {
+                    numeroPedido: numeroPedido,
                     productos: itemsCompra.map(item => ({
                         nombre: item.nombre,
                         cantidad: item.cantidad,
@@ -1568,7 +1663,6 @@
                         categoria: item.categoria
                     })),
                     total: totalCompra,
-                    metodoPago: window.metodoPagoSeleccionado,
                     metodoEnvio: metodoEnvio,
                     cliente: { 
                         nombre, 
@@ -1579,21 +1673,30 @@
                     fecha: new Date().toISOString(),
                     estado: 'pendiente',
                     notificado: false
-                });
+                };
 
-                // Enviar notificación por email (simulado)
-                await enviarNotificacionEmail(pedidoRef.id, itemsCompra, totalCompra, nombre, email, telefono);
+                if (metodoEnvio === 'envio') {
+                    pedidoData.direccion = {
+                        direccion: document.getElementById('direccion').value,
+                        ciudad: document.getElementById('ciudad').value,
+                        codigoPostal: document.getElementById('codigo-postal').value
+                    };
+                }
 
-                alert(`¡Pedido realizado con éxito! Número de pedido: ${pedidoRef.id}\n\nPor favor envía el comprobante de pago al WhatsApp: 11 7013-9419\n\nTe contactaremos para coordinar el envío.`);
+                await db.collection('pedidos').add(pedidoData);
+
+                // Enviar notificación por email
+                await enviarNotificacionEmail(numeroPedido, itemsCompra, totalCompra, nombre, email, telefono, metodoEnvio);
+
+                alert(`¡Pedido realizado con éxito! 🎉\n\nNúmero de pedido: ${numeroPedido}\n\nTe contactaremos pronto para coordinar el envío.`);
                 
-                // Limpiar carrito si era compra desde carrito
                 if (tipo === 'carrito') {
                     carrito = [];
                     actualizarCarrito();
                 }
                 
                 cerrarCheckout();
-                cargarProductos(); // Recargar productos para actualizar stock
+                cargarProductos();
 
             } catch (error) {
                 console.error("Error:", error);
@@ -1601,18 +1704,25 @@
             }
         }
 
-        // Función para enviar notificación por email (simulada)
-        async function enviarNotificacionEmail(pedidoId, productos, total, nombre, email, telefono) {
-            // En un entorno real, aquí conectarías con un servicio de email
-            // Por ahora simulamos el envío
-            console.log(`📧 Notificación enviada a: sauchaespacioholistico@gmail.com`);
-            console.log(`📦 Nuevo pedido #${pedidoId}`);
-            console.log(`👤 Cliente: ${nombre} (${email}, ${telefono})`);
-            console.log(`🛒 Productos:`, productos);
+        // Función para enviar notificación por email
+        async function enviarNotificacionEmail(numeroPedido, productos, total, nombre, email, telefono, metodoEnvio) {
+            // Simulación de envío de email
+            console.log(`📧 NOTIFICACIÓN DE NUEVO PEDIDO`);
+            console.log(`===============================`);
+            console.log(`🆔 Número de Pedido: ${numeroPedido}`);
+            console.log(`👤 Cliente: ${nombre}`);
+            console.log(`📧 Email: ${email}`);
+            console.log(`📱 Teléfono: ${telefono}`);
+            console.log(`🚚 Envío: ${metodoEnvio}`);
+            console.log(`🛒 Productos:`);
+            productos.forEach(item => {
+                console.log(`   - ${item.nombre} x${item.cantidad} - $${item.precio * item.cantidad}`);
+            });
             console.log(`💰 Total: $${total}`);
-            console.log(`📱 Por favor contactar al cliente para coordinar envío`);
+            console.log(`📧 Email enviado a: sauchaespacioholistico@gmail.com`);
+            console.log(`===============================`);
             
-            // Aquí podrías integrar con EmailJS, SendGrid, o otro servicio de email
+            // En producción, aquí integrarías con un servicio de email como EmailJS, SendGrid, etc.
         }
 
         // Cerrar modales
@@ -1637,7 +1747,6 @@
                 navMenu.classList.toggle('active');
             });
 
-            // Cerrar menú al hacer click en un enlace
             document.querySelectorAll('.nav-menu a').forEach(link => {
                 link.addEventListener('click', () => {
                     navMenu.classList.remove('active');
@@ -1648,10 +1757,7 @@
         // Inicializar
         document.addEventListener('DOMContentLoaded', function() {
             console.log("DOM cargado, inicializando aplicación...");
-            // Inicializar menú hamburguesa
             inicializarMenu();
-            
-            // Inicializar Firebase
             inicializarAuth();
             cargarProductos();
             cargarCarrito();
