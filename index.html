@@ -873,9 +873,12 @@
             { id: 'bijou', nombre: 'Bijouterie Espiritual' }
         ];
 
-        // Inicializar autenticación
+        // Inicializar autenticación - CORREGIDO
         function inicializarAuth() {
+            console.log("Inicializando autenticación...");
+            
             auth.onAuthStateChanged((user) => {
+                console.log("Estado de autenticación cambiado:", user);
                 if (user) {
                     usuario = user;
                     mostrarInfoUsuario(user);
@@ -885,41 +888,75 @@
                 }
             });
 
-            // Agregar evento al botón de login
-            document.getElementById('login-button').addEventListener('click', iniciarSesion);
+            // Agregar evento al botón de login - CORREGIDO
+            document.getElementById('login-button').addEventListener('click', function(e) {
+                e.preventDefault();
+                console.log("Botón de login clickeado");
+                iniciarSesion();
+            });
         }
 
         // Mostrar información del usuario
         function mostrarInfoUsuario(user) {
+            console.log("Mostrando información del usuario:", user);
             document.getElementById('user-info').style.display = 'flex';
             document.getElementById('login-section').style.display = 'none';
-            document.getElementById('user-avatar').src = user.photoURL;
-            document.getElementById('user-name').textContent = user.displayName;
+            if (user.photoURL) {
+                document.getElementById('user-avatar').src = user.photoURL;
+            }
+            document.getElementById('user-name').textContent = user.displayName || user.email;
         }
 
         // Ocultar información del usuario
         function ocultarInfoUsuario() {
+            console.log("Ocultando información del usuario");
             document.getElementById('user-info').style.display = 'none';
             document.getElementById('login-section').style.display = 'block';
         }
 
-        // Iniciar sesión con Google
+        // Iniciar sesión con Google - CORREGIDO
         async function iniciarSesion() {
+            console.log("Iniciando proceso de login...");
             try {
                 const provider = new firebase.auth.GoogleAuthProvider();
-                await auth.signInWithPopup(provider);
+                // Agregar scopes si es necesario
+                provider.addScope('profile');
+                provider.addScope('email');
+                
+                console.log("Abriendo popup de autenticación...");
+                const result = await auth.signInWithPopup(provider);
+                console.log("Login exitoso:", result.user);
+                
             } catch (error) {
-                console.error("Error al iniciar sesión:", error);
-                alert("Error al iniciar sesión. Intenta nuevamente.");
+                console.error("Error detallado al iniciar sesión:", error);
+                console.error("Código de error:", error.code);
+                console.error("Mensaje de error:", error.message);
+                
+                let mensajeError = "Error al iniciar sesión. ";
+                
+                if (error.code === 'auth/popup-blocked') {
+                    mensajeError += "El popup fue bloqueado. Por favor permite los popups para este sitio.";
+                } else if (error.code === 'auth/popup-closed-by-user') {
+                    mensajeError += "Cerraste la ventana de inicio de sesión.";
+                } else if (error.code === 'auth/unauthorized-domain') {
+                    mensajeError += "Dominio no autorizado. Contacta al administrador.";
+                } else {
+                    mensajeError += "Intenta nuevamente. Detalles: " + error.message;
+                }
+                
+                alert(mensajeError);
             }
         }
 
         // Cerrar sesión
         async function cerrarSesion() {
             try {
+                console.log("Cerrando sesión...");
                 await auth.signOut();
+                console.log("Sesión cerrada exitosamente");
             } catch (error) {
                 console.error("Error al cerrar sesión:", error);
+                alert("Error al cerrar sesión. Intenta nuevamente.");
             }
         }
 
@@ -929,6 +966,7 @@
             const productosContainer = document.getElementById('productos-container');
             
             try {
+                console.log("Cargando productos desde Firebase...");
                 db.collection('productos').onSnapshot((snapshot) => {
                     productos = [];
                     snapshot.forEach((doc) => {
@@ -938,10 +976,14 @@
                         });
                     });
                     
+                    console.log("Productos cargados:", productos.length);
                     loadingElement.style.display = 'none';
                     productosContainer.style.display = 'grid';
                     renderizarCategorias();
                     renderizarProductos();
+                }, (error) => {
+                    console.error("Error en snapshot de productos:", error);
+                    loadingElement.innerHTML = '❌ Error cargando productos. Recarga la página.';
                 });
 
             } catch (error) {
@@ -1000,7 +1042,7 @@
 
                 return `
                     <div class="producto-card">
-                        <img src="${producto.imagen}" alt="${producto.nombre}" class="producto-img">
+                        <img src="${producto.imagen || 'https://via.placeholder.com/250x180?text=Imagen+No+Disponible'}" alt="${producto.nombre}" class="producto-img">
                         <div class="producto-info">
                             <span class="stock-badge ${stockClass}">${stockText}</span>
                             <h3>${producto.nombre}</h3>
@@ -1079,7 +1121,7 @@
             
             document.getElementById('modal-contenido').innerHTML = `
                 <div style="display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap;">
-                    <img src="${productoSeleccionado.imagen}" style="width: 100px; height: 100px; object-fit: cover; border-radius: 5px;">
+                    <img src="${productoSeleccionado.imagen || 'https://via.placeholder.com/100x100?text=Imagen'}" style="width: 100px; height: 100px; object-fit: cover; border-radius: 5px;">
                     <div style="flex: 1; min-width: 200px;">
                         <h4>${productoSeleccionado.nombre}</h4>
                         <p>${productoSeleccionado.descripcion}</p>
@@ -1149,10 +1191,10 @@
 
                 <h4>Información de contacto</h4>
                 <div class="form-group">
-                    <input type="text" id="nombre" placeholder="Nombre completo" value="${usuario.displayName}" required>
+                    <input type="text" id="nombre" placeholder="Nombre completo" value="${usuario.displayName || ''}" required>
                 </div>
                 <div class="form-group">
-                    <input type="email" id="email" placeholder="Email" value="${usuario.email}" required>
+                    <input type="email" id="email" placeholder="Email" value="${usuario.email || ''}" required>
                 </div>
                 <div class="form-group">
                     <input type="tel" id="telefono" placeholder="Teléfono" required>
@@ -1280,6 +1322,7 @@
 
         // Inicializar
         document.addEventListener('DOMContentLoaded', function() {
+            console.log("DOM cargado, inicializando aplicación...");
             // Inicializar menú hamburguesa
             inicializarMenu();
             
