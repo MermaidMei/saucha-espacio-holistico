@@ -25,16 +25,24 @@
         const auth = getAuth(app);
         const provider = new GoogleAuthProvider();
 
+        // Hacer las variables globales de forma correcta
         window.firebaseApp = app;
-        window.firestore = { db, collection, onSnapshot, doc, updateDoc, addDoc };
+        window.firestore = { 
+            db, 
+            collection: (...args) => collection(...args), 
+            onSnapshot: (...args) => onSnapshot(...args), 
+            doc: (...args) => doc(...args), 
+            updateDoc: (...args) => updateDoc(...args), 
+            addDoc: (...args) => addDoc(...args) 
+        };
         window.auth = auth;
         window.authFunctions = { 
-            GoogleAuthProvider, 
-            signInWithPopup, 
-            signOut, 
-            onAuthStateChanged,
+            signInWithPopup: (...args) => signInWithPopup(...args), 
+            signOut: (...args) => signOut(...args), 
+            onAuthStateChanged: (...args) => onAuthStateChanged(...args),
             provider
         };
+        
         console.log('Firebase inicializado correctamente');
     </script>
 
@@ -163,6 +171,9 @@
             display: none;
             flex-direction: column;
             cursor: pointer;
+            background: none;
+            border: none;
+            padding: 5px;
         }
 
         .menu-toggle span {
@@ -518,14 +529,6 @@
             font-size: 1.1rem;
         }
 
-        .login-required {
-            text-align: center;
-            padding: 20px;
-            background: #f9f9f9;
-            border-radius: 10px;
-            margin: 20px 0;
-        }
-
         /* Responsive */
         @media (max-width: 768px) {
             .menu-toggle {
@@ -542,6 +545,7 @@
                 flex-direction: column;
                 padding: 20px;
                 box-shadow: var(--sombra);
+                z-index: 1000;
             }
 
             .nav-menu.active {
@@ -574,11 +578,11 @@
             <div class="header-content">
                 <div class="logo">Saucha <span>Espacio Holístico</span></div>
                 
-                <div class="menu-toggle" id="menu-toggle">
+                <button class="menu-toggle" id="menu-toggle">
                     <span></span>
                     <span></span>
                     <span></span>
-                </div>
+                </button>
                 
                 <nav class="nav-menu" id="nav-menu">
                     <a href="#inicio">Inicio</a>
@@ -875,8 +879,8 @@
                 });
 
             } catch (error) {
-                console.error("Error:", error);
-                loadingElement.innerHTML = '❌ Error cargando productos.';
+                console.error("Error cargando productos:", error);
+                loadingElement.innerHTML = '❌ Error cargando productos. Recarga la página.';
             }
         }
 
@@ -1010,4 +1014,214 @@
             document.getElementById('modal-contenido').innerHTML = `
                 <div style="display: flex; gap: 15px; margin-bottom: 20px;">
                     <img src="${productoSeleccionado.imagen}" style="width: 100px; height: 100px; object-fit: cover; border-radius: 5px;">
-                   
+                    <div>
+                        <h4>${productoSeleccionado.nombre}</h4>
+                        <p>${productoSeleccionado.descripcion}</p>
+                        <p><strong>Precio: $${productoSeleccionado.precio}</strong></p>
+                    </div>
+                </div>
+                
+                ${opcionesPersonalizadas}
+                
+                <div class="cantidad-selector">
+                    <label><strong>Cantidad:</strong></label>
+                    <button class="cantidad-btn" onclick="cambiarCantidad(-1)">-</button>
+                    <span style="font-size: 1.2rem; font-weight: bold; min-width: 30px; text-align: center;">${cantidadSeleccionada}</span>
+                    <button class="cantidad-btn" onclick="cambiarCantidad(1)">+</button>
+                </div>
+                
+                <div style="margin: 20px 0; padding: 15px; background: #f9f9f9; border-radius: 5px;">
+                    <strong>Total: $${productoSeleccionado.precio * cantidadSeleccionada}</strong>
+                </div>
+                
+                <button class="btn" style="width: 100%;" onclick="mostrarCheckout()">
+                    Continuar con la compra
+                </button>
+            `;
+
+            document.getElementById('modal-compra').style.display = 'flex';
+        }
+
+        // Cambiar cantidad
+        function cambiarCantidad(cambio) {
+            const nuevaCantidad = cantidadSeleccionada + cambio;
+            if (nuevaCantidad >= 1 && nuevaCantidad <= productoSeleccionado.stock) {
+                cantidadSeleccionada = nuevaCantidad;
+                // Actualizar la visualización
+                document.querySelector('.cantidad-selector span').textContent = cantidadSeleccionada;
+                const totalElement = document.querySelector('.modal-contenido strong');
+                if (totalElement) {
+                    totalElement.textContent = `Total: $${productoSeleccionado.precio * cantidadSeleccionada}`;
+                }
+            }
+        }
+
+        // Mostrar checkout
+        function mostrarCheckout() {
+            const total = productoSeleccionado.precio * cantidadSeleccionada;
+            
+            document.getElementById('checkout-contenido').innerHTML = `
+                <h4>Resumen del pedido</h4>
+                <div class="resumen-pedido">
+                    <div class="resumen-item">
+                        <span>${productoSeleccionado.nombre} x${cantidadSeleccionada}</span>
+                        <span>$${total}</span>
+                    </div>
+                    <div class="resumen-item resumen-total">
+                        <span>Total</span>
+                        <span>$${total}</span>
+                    </div>
+                </div>
+
+                <h4>Método de envío</h4>
+                <div class="form-group">
+                    <select id="metodo-envio">
+                        <option value="retiro">Retiro en tienda (Gratis)</option>
+                        <option value="envio">Envío a domicilio (+$500)</option>
+                    </select>
+                </div>
+
+                <h4>Información de contacto</h4>
+                <div class="form-group">
+                    <input type="text" id="nombre" placeholder="Nombre completo" value="${usuario.displayName}" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" id="email" placeholder="Email" value="${usuario.email}" required>
+                </div>
+                <div class="form-group">
+                    <input type="tel" id="telefono" placeholder="Teléfono" required>
+                </div>
+
+                <div id="datos-envio" style="display: none;">
+                    <h4>Dirección de envío</h4>
+                    <div class="form-group">
+                        <input type="text" id="direccion" placeholder="Dirección">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="ciudad" placeholder="Ciudad">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="codigo-postal" placeholder="Código Postal">
+                    </div>
+                </div>
+
+                <h4>Método de pago</h4>
+                <div class="metodo-pago" onclick="seleccionarPago('transferencia')">
+                    <strong>Transferencia bancaria</strong>
+                    <p>Realiza la transferencia y envía el comprobante</p>
+                </div>
+                <div class="metodo-pago" onclick="seleccionarPago('efectivo')">
+                    <strong>Efectivo</strong>
+                    <p>Al retirar en tienda</p>
+                </div>
+
+                <button class="btn" style="width: 100%; margin-top: 20px;" onclick="finalizarCompra()">
+                    Confirmar Pedido
+                </button>
+            `;
+
+            // Mostrar/ocultar datos de envío
+            document.getElementById('metodo-envio').addEventListener('change', function() {
+                document.getElementById('datos-envio').style.display = 
+                    this.value === 'envio' ? 'block' : 'none';
+            });
+
+            document.getElementById('modal-compra').style.display = 'none';
+            document.getElementById('modal-checkout').style.display = 'flex';
+        }
+
+        // Seleccionar método de pago
+        function seleccionarPago(metodo) {
+            document.querySelectorAll('.metodo-pago').forEach(m => m.classList.remove('selected'));
+            event.currentTarget.classList.add('selected');
+            window.metodoPagoSeleccionado = metodo;
+        }
+
+        // Finalizar compra
+        async function finalizarCompra() {
+            if (!window.metodoPagoSeleccionado) {
+                alert('Por favor selecciona un método de pago');
+                return;
+            }
+
+            const nombre = document.getElementById('nombre').value;
+            const email = document.getElementById('email').value;
+            const telefono = document.getElementById('telefono').value;
+
+            if (!nombre || !email || !telefono) {
+                alert('Por favor completa todos los campos obligatorios');
+                return;
+            }
+
+            try {
+                // Actualizar stock en Firebase
+                const nuevoStock = productoSeleccionado.stock - cantidadSeleccionada;
+                const productoRef = window.firestore.doc(window.firestore.db, 'productos', productoSeleccionado.id);
+                await window.firestore.updateDoc(productoRef, {
+                    stock: nuevoStock
+                });
+
+                // Registrar pedido
+                await window.firestore.addDoc(window.firestore.collection(window.firestore.db, 'pedidos'), {
+                    producto: productoSeleccionado.nombre,
+                    cantidad: cantidadSeleccionada,
+                    total: productoSeleccionado.precio * cantidadSeleccionada,
+                    metodoPago: window.metodoPagoSeleccionado,
+                    cliente: { 
+                        nombre, 
+                        email, 
+                        telefono,
+                        uid: usuario.uid 
+                    },
+                    fecha: new Date().toISOString(),
+                    estado: 'pendiente'
+                });
+
+                alert('¡Pedido realizado con éxito! Te contactaremos pronto para coordinar el pago y envío.');
+                cerrarCheckout();
+                cargarProductos(); // Recargar productos para actualizar stock
+
+            } catch (error) {
+                console.error("Error:", error);
+                alert('Error al procesar el pedido. Intenta nuevamente.');
+            }
+        }
+
+        // Cerrar modales
+        function cerrarModal() {
+            document.getElementById('modal-compra').style.display = 'none';
+        }
+
+        function cerrarCheckout() {
+            document.getElementById('modal-checkout').style.display = 'none';
+        }
+
+        // Inicializar menú hamburguesa
+        function inicializarMenu() {
+            const menuToggle = document.getElementById('menu-toggle');
+            const navMenu = document.getElementById('nav-menu');
+            
+            menuToggle.addEventListener('click', function() {
+                navMenu.classList.toggle('active');
+            });
+        }
+
+        // Inicializar
+        window.addEventListener('DOMContentLoaded', function() {
+            // Inicializar menú hamburguesa
+            inicializarMenu();
+            
+            // Inicializar Firebase después de un breve delay
+            setTimeout(() => {
+                if (window.firestore && window.auth) {
+                    inicializarAuth();
+                    cargarProductos();
+                } else {
+                    document.getElementById('loading-productos').innerHTML = 
+                        'Error de conexión. Recarga la página.';
+                }
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
