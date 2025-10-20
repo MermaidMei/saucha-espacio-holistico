@@ -9,6 +9,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getFirestore, collection, onSnapshot, doc, updateDoc, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyAFHkhLIHbix55Mrz8PstmJ2Uc-bCnBn6w",
@@ -21,14 +22,21 @@
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
+        const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
 
         window.firebaseApp = app;
         window.firestore = { db, collection, onSnapshot, doc, updateDoc, addDoc };
+        window.auth = auth;
+        window.authFunctions = { 
+            GoogleAuthProvider, 
+            signInWithPopup, 
+            signOut, 
+            onAuthStateChanged,
+            provider
+        };
         console.log('Firebase inicializado correctamente');
     </script>
-
-    <!-- SDK de Mercado Pago -->
-    <script src="https://sdk.mercadopago.com/js/v2"></script>
 
     <style>
         :root {
@@ -120,16 +128,34 @@
             z-index: 100;
         }
 
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
         .logo {
             font-size: 1.8rem;
             font-weight: bold;
             color: var(--color-primario);
-            text-align: center;
             font-family: Georgia, 'Times New Roman', Times, serif;
         }
 
         .logo span {
             color: var(--color-acento);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
         }
 
         /* Hero Section */
@@ -418,21 +444,12 @@
             font-size: 1.1rem;
         }
 
-        #mercado-pago-container {
-            margin: 20px 0;
+        .login-required {
             text-align: center;
-        }
-
-        /* Términos y condiciones */
-        .terminos-content {
-            max-height: 400px;
-            overflow-y: auto;
-            padding: 15px;
+            padding: 20px;
             background: #f9f9f9;
-            border-radius: 5px;
-            margin: 15px 0;
-            font-size: 0.9rem;
-            line-height: 1.5;
+            border-radius: 10px;
+            margin: 20px 0;
         }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -441,7 +458,19 @@
     <!-- Header -->
     <header>
         <div class="container">
-            <div class="logo">Saucha <span>Espacio Holístico</span></div>
+            <div class="header-content">
+                <div class="logo">Saucha <span>Espacio Holístico</span></div>
+                <div class="user-info" id="user-info" style="display: none;">
+                    <img id="user-avatar" class="user-avatar" src="" alt="Avatar">
+                    <span id="user-name"></span>
+                    <button class="btn" onclick="cerrarSesion()">Cerrar Sesión</button>
+                </div>
+                <div id="login-section">
+                    <button class="btn" onclick="iniciarSesion()">
+                        <i class="fab fa-google"></i> Iniciar Sesión
+                    </button>
+                </div>
+            </div>
         </div>
     </header>
 
@@ -468,9 +497,9 @@
                     <div class="servicio-icono">
                         <i class="fas fa-cards"></i>
                     </div>
-                    <h3>Lectura de Tarot</h3>
+                    <h3>Tarot</h3>
                     <p>Consulta las cartas para obtener claridad y orientación en tu vida.</p>
-                    <a href="https://wa.me/5491111111111?text=Hola,%20me%20interesa%20una%20lectura%20de%20tarot" class="btn btn-whatsapp" target="_blank">
+                    <a href="https://wa.me/5491170139419?text=Hola,%20me%20interesa%20una%20consulta%20de%20Tarot" class="btn btn-whatsapp" target="_blank">
                         <i class="fab fa-whatsapp"></i> Contactar
                     </a>
                 </div>
@@ -479,9 +508,9 @@
                     <div class="servicio-icono">
                         <i class="fas fa-feather-alt"></i>
                     </div>
-                    <h3>Limpieza Energética</h3>
-                    <p>Elimina energías negativas y restaura tu equilibrio energético.</p>
-                    <a href="https://wa.me/5491111111111?text=Hola,%20me%20interesa%20una%20limpieza%20energética" class="btn btn-whatsapp" target="_blank">
+                    <h3>Tameana</h3>
+                    <p>Sanación energética con técnicas ancestrales para armonizar tu ser.</p>
+                    <a href="https://wa.me/5491170139419?text=Hola,%20me%20interesa%20una%20sesión%20de%20Tameana" class="btn btn-whatsapp" target="_blank">
                         <i class="fab fa-whatsapp"></i> Contactar
                     </a>
                 </div>
@@ -490,20 +519,31 @@
                     <div class="servicio-icono">
                         <i class="fas fa-hand-holding-heart"></i>
                     </div>
-                    <h3>Sanación con Reiki</h3>
-                    <p>Terapia de sanación energética para equilibrar cuerpo y mente.</p>
-                    <a href="https://wa.me/5491111111111?text=Hola,%20me%20interesa%20una%20sesión%20de%20Reiki" class="btn btn-whatsapp" target="_blank">
+                    <h3>Limpiezas Energéticas</h3>
+                    <p>Elimina energías negativas y restaura tu equilibrio energético.</p>
+                    <a href="https://wa.me/5491170139419?text=Hola,%20me%20interesa%20una%20limpieza%20energética" class="btn btn-whatsapp" target="_blank">
                         <i class="fab fa-whatsapp"></i> Contactar
                     </a>
                 </div>
                 
                 <div class="servicio-card">
                     <div class="servicio-icono">
-                        <i class="fas fa-moon"></i>
+                        <i class="fas fa-star-of-life"></i>
                     </div>
-                    <h3>Talleres Espirituales</h3>
-                    <p>Aprende técnicas de meditación, mindfulness y crecimiento personal.</p>
-                    <a href="https://wa.me/5491111111111?text=Hola,%20me%20interesan%20los%20talleres%20espirituales" class="btn btn-whatsapp" target="_blank">
+                    <h3>Alineación de Chacras</h3>
+                    <p>Equilibra tus centros energéticos para mejorar tu bienestar integral.</p>
+                    <a href="https://wa.me/5491170139419?text=Hola,%20me%20interesa%20una%20alineación%20de%20chacras" class="btn btn-whatsapp" target="_blank">
+                        <i class="fab fa-whatsapp"></i> Contactar
+                    </a>
+                </div>
+                
+                <div class="servicio-card">
+                    <div class="servicio-icono">
+                        <i class="fas fa-compass"></i>
+                    </div>
+                    <h3>Radiestesia</h3>
+                    <p>Utilización de péndulos para detectar y armonizar energías.</p>
+                    <a href="https://wa.me/5491170139419?text=Hola,%20me%20interesa%20una%20sesión%20de%20Radiestesia" class="btn btn-whatsapp" target="_blank">
                         <i class="fab fa-whatsapp"></i> Contactar
                     </a>
                 </div>
@@ -533,13 +573,13 @@
                 <div class="footer-section">
                     <h3>Contacto</h3>
                     <p><i class="fas fa-map-marker-alt"></i> Dirección: Calle Ejemplo 123, Ciudad</p>
-                    <p><i class="fas fa-phone"></i> Teléfono: +54 9 11 1234-5678</p>
+                    <p><i class="fas fa-phone"></i> Teléfono: +54 9 11 7013-9419</p>
                     <p><i class="fas fa-envelope"></i> Email: info@saucha.com</p>
                     
                     <div class="social-links">
                         <a href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
                         <a href="https://www.instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
-                        <a href="https://wa.me/5491111111111" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                        <a href="https://wa.me/5491170139419" target="_blank"><i class="fab fa-whatsapp"></i></a>
                     </div>
                 </div>
                 
@@ -548,8 +588,6 @@
                     <a href="#inicio">Inicio</a>
                     <a href="#servicios">Servicios</a>
                     <a href="#productos">Productos</a>
-                    <a href="#" onclick="mostrarTerminos()">Términos y Condiciones</a>
-                    <a href="#" onclick="mostrarPolitica()">Política de Privacidad</a>
                 </div>
                 
                 <div class="footer-section">
@@ -592,89 +630,57 @@
         </div>
     </div>
 
-    <!-- Modal de Términos y Condiciones -->
-    <div id="modal-terminos" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Términos y Condiciones</h3>
-                <button class="close-modal" onclick="cerrarTerminos()">&times;</button>
-            </div>
-            <div class="terminos-content">
-                <h4>1. Aceptación de los Términos</h4>
-                <p>Al acceder y utilizar este sitio web, usted acepta estar sujeto a estos Términos y Condiciones de uso.</p>
-                
-                <h4>2. Productos y Servicios</h4>
-                <p>Los productos y servicios ofrecidos en este sitio están sujetos a disponibilidad. Nos reservamos el derecho de modificar o discontinuar cualquier producto o servicio sin previo aviso.</p>
-                
-                <h4>3. Precios y Pagos</h4>
-                <p>Todos los precios están expresados en pesos argentinos e incluyen IVA. Los precios pueden cambiar sin previo aviso.</p>
-                
-                <h4>4. Envíos y Entregas</h4>
-                <p>Los tiempos de entrega son estimados y pueden variar. No nos hacemos responsables por retrasos causados por terceros.</p>
-                
-                <h4>5. Devoluciones y Reembolsos</h4>
-                <p>Aceptamos devoluciones dentro de los 10 días posteriores a la compra, siempre que el producto esté en su estado original.</p>
-                
-                <h4>6. Propiedad Intelectual</h4>
-                <p>Todo el contenido de este sitio web es propiedad de Saucha Espacio Holístico y está protegido por leyes de derechos de autor.</p>
-                
-                <h4>7. Limitación de Responsabilidad</h4>
-                <p>No nos hacemos responsables por daños indirectos, incidentales o consecuentes resultantes del uso de nuestros productos o servicios.</p>
-                
-                <h4>8. Ley Aplicable</h4>
-                <p>Estos términos se rigen por las leyes de la República Argentina.</p>
-            </div>
-            <button class="btn" onclick="cerrarTerminos()" style="width: 100%;">Aceptar</button>
-        </div>
-    </div>
-
-    <!-- Modal de Política de Privacidad -->
-    <div id="modal-politica" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Política de Privacidad</h3>
-                <button class="close-modal" onclick="cerrarPolitica()">&times;</button>
-            </div>
-            <div class="terminos-content">
-                <h4>1. Información que Recopilamos</h4>
-                <p>Recopilamos información que usted nos proporciona directamente, como nombre, dirección de correo electrónico, dirección postal, número de teléfono e información de pago.</p>
-                
-                <h4>2. Uso de la Información</h4>
-                <p>Utilizamos la información que recopilamos para procesar pedidos, comunicarnos con usted, mejorar nuestros servicios y cumplir con obligaciones legales.</p>
-                
-                <h4>3. Protección de la Información</h4>
-                <p>Implementamos medidas de seguridad para proteger su información personal contra acceso no autorizado, alteración, divulgación o destrucción.</p>
-                
-                <h4>4. Cookies</h4>
-                <p>Utilizamos cookies para mejorar su experiencia en nuestro sitio web. Puede configurar su navegador para rechazar cookies, pero esto puede afectar la funcionalidad del sitio.</p>
-                
-                <h4>5. Compartir Información</h4>
-                <p>No vendemos, comerciamos ni transferimos su información personal a terceros, excepto para procesar pagos o cumplir con la ley.</p>
-                
-                <h4>6. Sus Derechos</h4>
-                <p>Tiene derecho a acceder, corregir o eliminar su información personal. Para ejercer estos derechos, contáctenos a través de los medios proporcionados en este sitio.</p>
-                
-                <h4>7. Cambios a esta Política</h4>
-                <p>Nos reservamos el derecho de modificar esta política de privacidad en cualquier momento. Los cambios entrarán en vigor inmediatamente después de su publicación en el sitio.</p>
-            </div>
-            <button class="btn" onclick="cerrarPolitica()" style="width: 100%;">Aceptar</button>
-        </div>
-    </div>
-
     <script>
         // Variables globales
         let productos = [];
         let productoSeleccionado = null;
         let cantidadSeleccionada = 1;
-        let metodoPagoSeleccionado = null;
-        let mp = null; // Objeto de Mercado Pago
+        let usuario = null;
 
-        // Inicializar Mercado Pago
-        function inicializarMercadoPago() {
-            // Reemplaza 'TEST-...' con tus credenciales de Mercado Pago
-            mp = new MercadoPago('TEST-12345678-1234-1234-1234-123456789012', {
-                locale: 'es-AR'
+        // Inicializar autenticación
+        function inicializarAuth() {
+            window.authFunctions.onAuthStateChanged(window.auth, (user) => {
+                if (user) {
+                    usuario = user;
+                    mostrarInfoUsuario(user);
+                } else {
+                    usuario = null;
+                    ocultarInfoUsuario();
+                }
             });
+        }
+
+        // Mostrar información del usuario
+        function mostrarInfoUsuario(user) {
+            document.getElementById('user-info').style.display = 'flex';
+            document.getElementById('login-section').style.display = 'none';
+            document.getElementById('user-avatar').src = user.photoURL;
+            document.getElementById('user-name').textContent = user.displayName;
+        }
+
+        // Ocultar información del usuario
+        function ocultarInfoUsuario() {
+            document.getElementById('user-info').style.display = 'none';
+            document.getElementById('login-section').style.display = 'block';
+        }
+
+        // Iniciar sesión con Google
+        async function iniciarSesion() {
+            try {
+                await window.authFunctions.signInWithPopup(window.auth, window.authFunctions.provider);
+            } catch (error) {
+                console.error("Error al iniciar sesión:", error);
+                alert("Error al iniciar sesión. Intenta nuevamente.");
+            }
+        }
+
+        // Cerrar sesión
+        async function cerrarSesion() {
+            try {
+                await window.authFunctions.signOut(window.auth);
+            } catch (error) {
+                console.error("Error al cerrar sesión:", error);
+            }
         }
 
         // Cargar productos desde Firebase
@@ -747,6 +753,12 @@
 
         // Abrir modal de compra
         function abrirModalCompra(productoId) {
+            // Verificar si el usuario está logueado
+            if (!usuario) {
+                alert("Debes iniciar sesión para comprar productos.");
+                return;
+            }
+
             productoSeleccionado = productos.find(p => p.id === productoId);
             cantidadSeleccionada = 1;
 
@@ -822,10 +834,10 @@
 
                 <h4>Información de contacto</h4>
                 <div class="form-group">
-                    <input type="text" id="nombre" placeholder="Nombre completo" required>
+                    <input type="text" id="nombre" placeholder="Nombre completo" value="${usuario.displayName}" required>
                 </div>
                 <div class="form-group">
-                    <input type="email" id="email" placeholder="Email" required>
+                    <input type="email" id="email" placeholder="Email" value="${usuario.email}" required>
                 </div>
                 <div class="form-group">
                     <input type="tel" id="telefono" placeholder="Teléfono" required>
@@ -849,22 +861,9 @@
                     <strong>Transferencia bancaria</strong>
                     <p>Realiza la transferencia y envía el comprobante</p>
                 </div>
-                <div class="metodo-pago" onclick="seleccionarPago('mercado-pago')">
-                    <strong>Mercado Pago</strong>
-                    <p>Pago seguro con tarjeta o efectivo</p>
-                </div>
                 <div class="metodo-pago" onclick="seleccionarPago('efectivo')">
                     <strong>Efectivo</strong>
                     <p>Al retirar en tienda</p>
-                </div>
-
-                <div id="mercado-pago-container" style="display: none;"></div>
-
-                <div class="form-group" style="margin-top: 20px;">
-                    <label>
-                        <input type="checkbox" id="acepto-terminos" required>
-                        Acepto los <a href="#" onclick="mostrarTerminos()">Términos y Condiciones</a> y la <a href="#" onclick="mostrarPolitica()">Política de Privacidad</a>
-                    </label>
                 </div>
 
                 <button class="btn" style="width: 100%; margin-top: 20px;" onclick="finalizarCompra()">
@@ -886,10 +885,80 @@
         function seleccionarPago(metodo) {
             document.querySelectorAll('.metodo-pago').forEach(m => m.classList.remove('selected'));
             event.currentTarget.classList.add('selected');
-            metodoPagoSeleccionado = metodo;
-            
-            // Si selecciona Mercado Pago, mostrar el botón de pago
-            if (metodo === 'mercado-pago') {
-                crearBotonMercadoPago();
-            } else {
-                document.getElementById('mercado-pago-container').style
+            window.metodoPagoSeleccionado = metodo;
+        }
+
+        // Finalizar compra
+        async function finalizarCompra() {
+            if (!window.metodoPagoSeleccionado) {
+                alert('Por favor selecciona un método de pago');
+                return;
+            }
+
+            const nombre = document.getElementById('nombre').value;
+            const email = document.getElementById('email').value;
+            const telefono = document.getElementById('telefono').value;
+
+            if (!nombre || !email || !telefono) {
+                alert('Por favor completa todos los campos obligatorios');
+                return;
+            }
+
+            try {
+                // Actualizar stock en Firebase
+                const nuevoStock = productoSeleccionado.stock - cantidadSeleccionada;
+                const productoRef = window.firestore.doc(window.firestore.db, 'productos', productoSeleccionado.id);
+                await window.firestore.updateDoc(productoRef, {
+                    stock: nuevoStock
+                });
+
+                // Registrar pedido
+                await window.firestore.addDoc(window.firestore.collection(window.firestore.db, 'pedidos'), {
+                    producto: productoSeleccionado.nombre,
+                    cantidad: cantidadSeleccionada,
+                    total: productoSeleccionado.precio * cantidadSeleccionada,
+                    metodoPago: window.metodoPagoSeleccionado,
+                    cliente: { 
+                        nombre, 
+                        email, 
+                        telefono,
+                        uid: usuario.uid 
+                    },
+                    fecha: new Date().toISOString(),
+                    estado: 'pendiente'
+                });
+
+                alert('¡Pedido realizado con éxito! Te contactaremos pronto para coordinar el pago y envío.');
+                cerrarCheckout();
+                cargarProductos(); // Recargar productos para actualizar stock
+
+            } catch (error) {
+                console.error("Error:", error);
+                alert('Error al procesar el pedido. Intenta nuevamente.');
+            }
+        }
+
+        // Cerrar modales
+        function cerrarModal() {
+            document.getElementById('modal-compra').style.display = 'none';
+        }
+
+        function cerrarCheckout() {
+            document.getElementById('modal-checkout').style.display = 'none';
+        }
+
+        // Inicializar
+        window.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                if (window.firestore && window.auth) {
+                    inicializarAuth();
+                    cargarProductos();
+                } else {
+                    document.getElementById('loading-productos').innerHTML = 
+                        'Error de conexión. Recarga la página.';
+                }
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
