@@ -12,9 +12,6 @@
     
     <!-- EmailJS -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    
-    <!-- reCAPTCHA -->
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
     <script>
         // Firebase configuration
@@ -68,7 +65,7 @@
             color: var(--color-texto);
             background-color: var(--color-fondo);
             font-size: 16px;
-            background-image: url('https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80');
+            background-image: url('https://i.ibb.co/0yc-QQ3fV/background.jpg');
             background-attachment: fixed;
             background-size: cover;
             background-position: center;
@@ -125,26 +122,10 @@
             font-size: 1rem;
             text-align: center;
             box-shadow: var(--sombra);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            transition: left 0.5s;
-        }
-
-        .btn:hover::before {
-            left: 100%;
         }
 
         .btn:hover {
+            background: var(--degradado-secundario);
             transform: translateY(-3px);
             box-shadow: var(--sombra-intensa);
         }
@@ -326,7 +307,7 @@
 
         /* Hero Section */
         .hero {
-            background: linear-gradient(rgba(74, 108, 96, 0.85), rgba(74, 108, 96, 0.8)), url('https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80');
+            background: linear-gradient(rgba(74, 108, 96, 0.85), rgba(74, 108, 96, 0.8)), url('https://i.ibb.co/0yc-QQ3fV/background.jpg');
             background-size: cover;
             background-position: center;
             color: var(--color-blanco);
@@ -334,17 +315,6 @@
             padding: 150px 0;
             position: relative;
             overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23c9a87a' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
-            opacity: 0.3;
         }
 
         .hero h1 {
@@ -763,18 +733,17 @@
             box-shadow: 0 0 0 3px rgba(74, 108, 96, 0.1);
         }
 
-        .metodo-pago {
+        .metodo-pago-opcion {
             background: #f9f9f9;
             padding: 15px;
             border-radius: 10px;
             margin: 10px 0;
             border: 2px solid transparent;
             cursor: pointer;
-            font-size: 0.95rem;
             transition: var(--transicion);
         }
 
-        .metodo-pago.selected {
+        .metodo-pago-opcion:hover, .metodo-pago-opcion.selected {
             border-color: var(--color-primario);
             background: #f0f8f0;
         }
@@ -836,7 +805,7 @@
 
         .info-pago {
             background: #f0f8f0;
-            border: 1px solid #4CAF50;
+            border: 2px solid #4CAF50;
             border-radius: 10px;
             padding: 20px;
             margin: 20px 0;
@@ -856,25 +825,39 @@
         }
 
         .btn-mercado-pago {
-            background: #009ee3;
+            background: linear-gradient(135deg, #009ee3 0%, #007eb5 100%);
             display: block;
             width: 100%;
             text-align: center;
             margin: 15px 0;
+            border: none;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: var(--transicion);
         }
 
         .btn-mercado-pago:hover {
-            background: #007eb5;
+            background: linear-gradient(135deg, #007eb5 0%, #006699 100%);
+            transform: translateY(-2px);
         }
 
-        /* reCAPTCHA */
-        .g-recaptcha {
-            margin: 20px 0;
-            display: flex;
-            justify-content: center;
+        .alias-mp {
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px dashed #4CAF50;
+            font-family: monospace;
+            font-weight: bold;
+            color: var(--color-primario);
+            margin: 10px 0;
+            text-align: center;
         }
 
-        /* Mensajes de confirmación */
+        /* Confirmación */
         .confirmacion-pedido {
             text-align: center;
             padding: 30px;
@@ -1292,8 +1275,9 @@
         let usuario = null;
         let categoriaActiva = 'todos';
         let carrito = [];
+        let metodoPagoSeleccionado = '';
 
-        // Categorías de productos (actualizadas)
+        // Categorías de productos
         const categorias = [
             { id: 'todos', nombre: 'Todos los Productos' },
             { id: 'sahumerios', nombre: 'Sahumerios' },
@@ -1315,48 +1299,19 @@
         });
 
         document.addEventListener('keydown', function(e) {
-            // Prevenir F12
-            if(e.key === 'F12') {
-                e.preventDefault();
-                return false;
-            }
-            // Prevenir Ctrl+Shift+I
-            if(e.ctrlKey && e.shiftKey && e.key === 'I') {
-                e.preventDefault();
-                return false;
-            }
-            // Prevenir Ctrl+Shift+J
-            if(e.ctrlKey && e.shiftKey && e.key === 'J') {
-                e.preventDefault();
-                return false;
-            }
-            // Prevenir Ctrl+U
-            if(e.ctrlKey && e.key === 'u') {
-                e.preventDefault();
-                return false;
-            }
-            // Prevenir Ctrl+Shift+C
-            if(e.ctrlKey && e.shiftKey && e.key === 'C') {
+            if(e.key === 'F12' || 
+               (e.ctrlKey && e.shiftKey && e.key === 'I') ||
+               (e.ctrlKey && e.shiftKey && e.key === 'J') ||
+               (e.ctrlKey && e.key === 'u') ||
+               (e.ctrlKey && e.shiftKey && e.key === 'C')) {
                 e.preventDefault();
                 return false;
             }
         });
 
-        // Ocultar consola si se abre
-        (function() {
-            var origOpen = XMLHttpRequest.prototype.open;
-            XMLHttpRequest.prototype.open = function() {
-                console.warn = console.error = console.log = function(){};
-                origOpen.apply(this, arguments);
-            };
-        })();
-
         // Inicializar autenticación
         function inicializarAuth() {
-            console.log("Inicializando autenticación...");
-            
             auth.onAuthStateChanged((user) => {
-                console.log("Estado de autenticación cambiado:", user);
                 if (user) {
                     usuario = user;
                     mostrarInfoUsuario(user);
@@ -1366,14 +1321,11 @@
                 }
             });
 
-            // Agregar evento al botón de login
             document.getElementById('login-button').addEventListener('click', function(e) {
                 e.preventDefault();
-                console.log("Botón de login clickeado");
                 iniciarSesion();
             });
 
-            // Agregar evento al botón del carrito
             document.getElementById('carrito-btn').addEventListener('click', function(e) {
                 e.preventDefault();
                 mostrarCarrito();
@@ -1382,7 +1334,6 @@
 
         // Mostrar información del usuario
         function mostrarInfoUsuario(user) {
-            console.log("Mostrando información del usuario:", user);
             document.getElementById('user-info').style.display = 'flex';
             document.getElementById('login-section').style.display = 'none';
             if (user.photoURL) {
@@ -1393,26 +1344,20 @@
 
         // Ocultar información del usuario
         function ocultarInfoUsuario() {
-            console.log("Ocultando información del usuario");
             document.getElementById('user-info').style.display = 'none';
             document.getElementById('login-section').style.display = 'block';
         }
 
         // Iniciar sesión con Google
         async function iniciarSesion() {
-            console.log("Iniciando proceso de login...");
             try {
                 const provider = new firebase.auth.GoogleAuthProvider();
                 provider.addScope('profile');
                 provider.addScope('email');
                 
-                console.log("Abriendo popup de autenticación...");
                 const result = await auth.signInWithPopup(provider);
-                console.log("Login exitoso:", result.user);
                 
             } catch (error) {
-                console.error("Error detallado al iniciar sesión:", error);
-                
                 let mensajeError = "Error al iniciar sesión. ";
                 
                 if (error.code === 'auth/popup-blocked') {
@@ -1432,11 +1377,8 @@
         // Cerrar sesión
         async function cerrarSesion() {
             try {
-                console.log("Cerrando sesión...");
                 await auth.signOut();
-                console.log("Sesión cerrada exitosamente");
             } catch (error) {
-                console.error("Error al cerrar sesión:", error);
                 alert("Error al cerrar sesión. Intenta nuevamente.");
             }
         }
@@ -1447,7 +1389,6 @@
             const productosContainer = document.getElementById('productos-container');
             
             try {
-                console.log("Cargando productos desde Firebase...");
                 db.collection('productos').onSnapshot((snapshot) => {
                     productos = [];
                     snapshot.forEach((doc) => {
@@ -1457,18 +1398,15 @@
                         });
                     });
                     
-                    console.log("Productos cargados:", productos.length);
                     loadingElement.style.display = 'none';
                     productosContainer.style.display = 'grid';
                     renderizarCategorias();
                     renderizarProductos();
                 }, (error) => {
-                    console.error("Error en snapshot de productos:", error);
                     loadingElement.innerHTML = '❌ Error cargando productos. Recarga la página.';
                 });
 
             } catch (error) {
-                console.error("Error cargando productos:", error);
                 loadingElement.innerHTML = '❌ Error cargando productos. Recarga la página.';
             }
         }
@@ -1495,7 +1433,6 @@
         function renderizarProductos() {
             const productosContainer = document.getElementById('productos-container');
             
-            // Filtrar productos por categoría activa
             let productosFiltrados = productos;
             if (categoriaActiva !== 'todos') {
                 productosFiltrados = productos.filter(producto => 
@@ -1595,8 +1532,6 @@
         function actualizarCarrito() {
             const totalItems = carrito.reduce((total, item) => total + item.cantidad, 0);
             document.getElementById('carrito-badge').textContent = totalItems;
-            
-            // Guardar carrito en localStorage
             localStorage.setItem('carrito', JSON.stringify(carrito));
         }
 
@@ -1827,6 +1762,36 @@
                     </div>
                 </div>
 
+                <h4>Método de pago</h4>
+                <div class="metodo-pago-opcion" onclick="seleccionarMetodoPago('mercadopago')">
+                    <h4><i class="fas fa-credit-card"></i> Mercado Pago</h4>
+                    <p>Paga con tarjeta, efectivo o transferencia</p>
+                </div>
+                
+                <div class="metodo-pago-opcion" onclick="seleccionarMetodoPago('transferencia')">
+                    <h4><i class="fas fa-university"></i> Transferencia Bancaria</h4>
+                    <p>Transferencia directa a nuestra cuenta</p>
+                </div>
+
+                <div id="info-mercadopago" class="info-pago" style="display: none;">
+                    <h4><i class="fab fa-mercadopago"></i> Pago con Mercado Pago</h4>
+                    <p>Serás redirigido a Mercado Pago para completar el pago de forma segura.</p>
+                    <p><strong>Una vez completado el pago, tu pedido se confirmará automáticamente.</strong></p>
+                </div>
+
+                <div id="info-transferencia" class="info-pago" style="display: none;">
+                    <h4><i class="fas fa-university"></i> Transferencia Bancaria</h4>
+                    <p>Realiza la transferencia a los siguientes datos:</p>
+                    <div class="alias-mp">ruizanav.mp</div>
+                    <p><strong>Alias:</strong> ruizanav.mp</p>
+                    <p><strong>Una vez realizada la transferencia:</strong></p>
+                    <ul style="margin: 10px 0; padding-left: 20px;">
+                        <li>Guarda el comprobante</li>
+                        <li>Te contactaremos para confirmar el pago</li>
+                        <li>El pedido se procesará una vez confirmado el pago</li>
+                    </ul>
+                </div>
+
                 <h4>Método de entrega</h4>
                 <div class="form-group">
                     <select id="metodo-entrega" required>
@@ -1865,10 +1830,7 @@
                     <input type="tel" id="telefono" placeholder="Teléfono" required>
                 </div>
 
-                <h4>Verificación de seguridad</h4>
-                <div class="g-recaptcha" data-sitekey="6LcKj-0pAAAAAP8XyQhfhvV8v2p5K7w9Xq9ZQ9Xq"></div>
-
-                <button class="btn" style="width: 100%; margin-top: 20px;" onclick="finalizarCompra('${tipo}')">
+                <button class="btn" style="width: 100%; margin-top: 20px;" onclick="finalizarCompra('${tipo}')" id="btn-confirmar-pedido">
                     Confirmar Pedido
                 </button>
             `;
@@ -1883,23 +1845,36 @@
             document.getElementById('modal-checkout').style.display = 'flex';
         }
 
+        // Seleccionar método de pago
+        function seleccionarMetodoPago(metodo) {
+            metodoPagoSeleccionado = metodo;
+            
+            document.querySelectorAll('.metodo-pago-opcion').forEach(opcion => {
+                opcion.classList.remove('selected');
+            });
+            
+            event.currentTarget.classList.add('selected');
+            
+            document.getElementById('info-mercadopago').style.display = 
+                metodo === 'mercadopago' ? 'block' : 'none';
+            document.getElementById('info-transferencia').style.display = 
+                metodo === 'transferencia' ? 'block' : 'none';
+        }
+
         // Finalizar compra
         async function finalizarCompra(tipo) {
-            // Verificar reCAPTCHA
-            const recaptchaResponse = grecaptcha.getResponse();
-            if (!recaptchaResponse) {
-                alert('Por favor completa la verificación de seguridad (reCAPTCHA)');
-                return;
-            }
-
             const nombre = document.getElementById('nombre').value;
             const email = document.getElementById('email').value;
             const telefono = document.getElementById('telefono').value;
             const metodoEntrega = document.getElementById('metodo-entrega').value;
 
-            // Validar campos obligatorios
             if (!nombre || !email || !telefono) {
                 alert('Por favor completa todos los campos obligatorios marcados con *');
+                return;
+            }
+
+            if (!metodoPagoSeleccionado) {
+                alert('Por favor selecciona un método de pago');
                 return;
             }
 
@@ -1929,15 +1904,13 @@
                     totalCompra = calcularTotalCarrito();
                 }
 
-                // Agregar costo de envío si corresponde
                 if (metodoEntrega === 'envio') {
                     totalCompra += 500;
                 }
 
-                // Generar número de pedido único
                 const numeroPedido = 'SAU' + Date.now();
 
-                // Actualizar stock en Firebase
+                // Actualizar stock
                 for (const item of itemsCompra) {
                     const nuevoStock = item.stock - item.cantidad;
                     await db.collection('productos').doc(item.id).update({
@@ -1945,7 +1918,7 @@
                     });
                 }
 
-                // Registrar pedido con número único
+                // Registrar pedido
                 const pedidoData = {
                     numeroPedido: numeroPedido,
                     productos: itemsCompra.map(item => ({
@@ -1956,6 +1929,7 @@
                     })),
                     total: totalCompra,
                     metodoEntrega: metodoEntrega,
+                    metodoPago: metodoPagoSeleccionado,
                     cliente: { 
                         nombre, 
                         email, 
@@ -1977,11 +1951,15 @@
 
                 await db.collection('pedidos').add(pedidoData);
 
-                // Enviar notificación solo al administrador (tú)
-                await enviarNotificacionAdmin(numeroPedido, itemsCompra, totalCompra, nombre, email, telefono, metodoEntrega);
+                // Enviar notificación
+                await enviarNotificacionAdmin(numeroPedido, itemsCompra, totalCompra, nombre, email, telefono, metodoEntrega, metodoPagoSeleccionado);
 
-                // Mostrar confirmación
-                mostrarConfirmacionPedido(numeroPedido, itemsCompra, totalCompra);
+                // Redirigir a Mercado Pago si seleccionó ese método
+                if (metodoPagoSeleccionado === 'mercadopago') {
+                    redirigirAMercadoPago(numeroPedido, totalCompra, nombre, email);
+                } else {
+                    mostrarConfirmacionTransferencia(numeroPedido, itemsCompra, totalCompra);
+                }
                 
                 if (tipo === 'carrito') {
                     carrito = [];
@@ -1997,15 +1975,24 @@
             }
         }
 
-        // Función para enviar notificación solo al administrador
-        async function enviarNotificacionAdmin(numeroPedido, productos, total, nombre, email, telefono, metodoEntrega) {
+        // Redirigir a Mercado Pago
+        function redirigirAMercadoPago(numeroPedido, total, nombre, email) {
+            // URL básica de Mercado Pago - el cliente completa los datos manualmente
+            const mensaje = `Hola, quiero pagar mi pedido #${numeroPedido} de Saucha Espacio Holístico. Monto: $${total}. Mi nombre: ${nombre}, email: ${email}`;
+            const urlMP = `https://www.mercadopago.com.ar/activities?type=collect&message=${encodeURIComponent(mensaje)}`;
+            
+            window.open(urlMP, '_blank');
+            
+            mostrarConfirmacionMercadoPago(numeroPedido);
+        }
+
+        // Función para enviar notificación
+        async function enviarNotificacionAdmin(numeroPedido, productos, total, nombre, email, telefono, metodoEntrega, metodoPago) {
             try {
-                // Preparar datos para el email
                 const productosHTML = productos.map(item => 
                     `<li>${item.nombre} - Cantidad: ${item.cantidad} - $${item.precio * item.cantidad}</li>`
                 ).join('');
                 
-                // Enviar notificación al administrador
                 const adminTemplateParams = {
                     to_email: 'sauchaespacioholistico@gmail.com',
                     to_name: 'Administrador Saucha',
@@ -2017,20 +2004,46 @@
                     productos: productosHTML,
                     total: total,
                     metodo_entrega: metodoEntrega === 'envio' ? 'Envío a domicilio' : 'Retiro en tienda',
-                    fecha: new Date().toLocaleDateString('es-AR')
+                    metodo_pago: metodoPago === 'mercadopago' ? 'Mercado Pago' : 'Transferencia',
+                    fecha: new Date().toLocaleDateString('es-AR'),
+                    alias_mp: 'ruizanav.mp'
                 };
                 
                 await emailjs.send('service_8w40njg', 'template_notificacion_admin', adminTemplateParams);
                 
-                console.log('Notificación enviada correctamente al administrador');
             } catch (error) {
                 console.error('Error enviando notificación:', error);
-                // No mostrar error al usuario para no interrumpir el proceso de compra
             }
         }
 
-        // Mostrar confirmación de pedido
-        function mostrarConfirmacionPedido(numeroPedido, productos, total) {
+        // Mostrar confirmación para Mercado Pago
+        function mostrarConfirmacionMercadoPago(numeroPedido) {
+            document.getElementById('confirmacion-contenido').innerHTML = `
+                <div class="confirmacion-pedido">
+                    <i class="fab fa-mercadopago" style="font-size: 3rem; color: #009ee3; margin-bottom: 15px;"></i>
+                    <h3>Redirigiendo a Mercado Pago</h3>
+                    <p>Tu pedido #${numeroPedido} está listo para pagar.</p>
+                    
+                    <div class="numero-seguimiento">${numeroPedido}</div>
+                    
+                    <div class="info-pago">
+                        <h4><i class="fas fa-credit-card"></i> Completa el pago</h4>
+                        <p>Serás redirigido a Mercado Pago para completar el pago.</p>
+                        <p><strong>Alias para transferencia: ruizanav.mp</strong></p>
+                        <p>Una vez completado el pago, te contactaremos para coordinar la entrega.</p>
+                    </div>
+                </div>
+                
+                <button class="btn" style="width: 100%; margin-top: 20px;" onclick="cerrarConfirmacion()">
+                    Continuar Comprando
+                </button>
+            `;
+            
+            document.getElementById('modal-confirmacion').style.display = 'flex';
+        }
+
+        // Mostrar confirmación para transferencia
+        function mostrarConfirmacionTransferencia(numeroPedido, productos, total) {
             const productosHTML = productos.map(item => 
                 `<div class="resumen-item">
                     <span>${item.nombre} x${item.cantidad}</span>
@@ -2058,9 +2071,10 @@
                 </div>
                 
                 <div class="info-pago">
-                    <h4><i class="fas fa-info-circle"></i> Información importante</h4>
-                    <p>Te contactaremos pronto para coordinar la entrega.</p>
-                    <p>Para consultas sobre tu pedido, contáctanos por WhatsApp.</p>
+                    <h4><i class="fas fa-university"></i> Transferencia Pendiente</h4>
+                    <p>Por favor realiza la transferencia a:</p>
+                    <div class="alias-mp">ruizanav.mp</div>
+                    <p>Una vez realizada, envíanos el comprobante por WhatsApp.</p>
                 </div>
                 
                 <button class="btn" style="width: 100%; margin-top: 20px;" onclick="cerrarConfirmacion()">
@@ -2106,7 +2120,6 @@
 
         // Inicializar
         document.addEventListener('DOMContentLoaded', function() {
-            console.log("DOM cargado, inicializando aplicación...");
             inicializarMenu();
             inicializarAuth();
             cargarProductos();
