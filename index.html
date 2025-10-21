@@ -9,6 +9,12 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    
+    <!-- EmailJS -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    
+    <!-- reCAPTCHA -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
     <script>
         // Firebase configuration
@@ -26,7 +32,10 @@
         const db = firebase.firestore();
         const auth = firebase.auth();
         
-        console.log('Firebase inicializado correctamente');
+        // Initialize EmailJS
+        emailjs.init("service_8w40njg");
+        
+        console.log('Firebase y EmailJS inicializados correctamente');
     </script>
 
     <style>
@@ -58,16 +67,15 @@
             font-size: 16px;
         }
 
-        /* Prevenir selección de texto y clic derecho */
+        /* Medidas de seguridad mejoradas */
         body {
             -webkit-user-select: none;
             -moz-user-select: none;
             -ms-user-select: none;
             user-select: none;
+            -webkit-touch-callout: none;
         }
 
-        /* Ocultar consola del navegador */
-        /* Nota: Esto es solo una medida básica de seguridad */
         * {
             -webkit-touch-callout: none;
             -webkit-user-select: none;
@@ -75,6 +83,11 @@
             -moz-user-select: none;
             -ms-user-select: none;
             user-select: none;
+        }
+
+        /* Ocultar elementos de desarrollo */
+        .dev-tools {
+            display: none !important;
         }
 
         .container {
@@ -645,6 +658,29 @@
             background: #007eb5;
         }
 
+        /* reCAPTCHA */
+        .g-recaptcha {
+            margin: 15px 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Mensajes de confirmación */
+        .confirmacion-pedido {
+            text-align: center;
+            padding: 20px;
+            background: #f0f8f0;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .numero-seguimiento {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--color-primario);
+            margin: 15px 0;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .menu-toggle {
@@ -1006,6 +1042,19 @@
         </div>
     </div>
 
+    <!-- Modal de Confirmación -->
+    <div id="modal-confirmacion" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>¡Pedido Confirmado!</h3>
+                <button class="close-modal" onclick="cerrarConfirmacion()">&times;</button>
+            </div>
+            <div id="confirmacion-contenido">
+                <!-- Contenido dinámico de confirmación -->
+            </div>
+        </div>
+    </div>
+
     <script>
         // Variables globales
         let productos = [];
@@ -1030,9 +1079,10 @@
             { id: 'bijou', nombre: 'Bijou Energética' }
         ];
 
-        // Medidas de seguridad básicas
+        // Medidas de seguridad mejoradas
         document.addEventListener('contextmenu', function(e) {
             e.preventDefault();
+            return false;
         });
 
         document.addEventListener('keydown', function(e) {
@@ -1056,7 +1106,21 @@
                 e.preventDefault();
                 return false;
             }
+            // Prevenir Ctrl+Shift+C
+            if(e.ctrlKey && e.shiftKey && e.key === 'C') {
+                e.preventDefault();
+                return false;
+            }
         });
+
+        // Ocultar consola si se abre
+        (function() {
+            var origOpen = XMLHttpRequest.prototype.open;
+            XMLHttpRequest.prototype.open = function() {
+                console.warn = console.error = console.log = function(){};
+                origOpen.apply(this, arguments);
+            };
+        })();
 
         // Inicializar autenticación
         function inicializarAuth() {
@@ -1534,37 +1598,12 @@
                     </div>
                 </div>
 
-                <div class="info-pago">
-                    <h4>💳 Pago con Mercado Pago</h4>
-                    <p>Haz click en el botón de abajo para pagar directamente con Mercado Pago de forma segura.</p>
-                    <a href="https://www.mercadopago.com.ar" target="_blank" class="btn btn-mercado-pago">
-                        <i class="fas fa-credit-card"></i> Pagar con Mercado Pago
-                    </a>
-                    <p style="margin-top: 10px; font-size: 0.8rem; color: #666;">
-                        O envía transferencia al CVU: 0000003100096964104401
-                    </p>
-                </div>
-
-                <h4>Método de envío</h4>
+                <h4>Método de entrega</h4>
                 <div class="form-group">
-                    <select id="metodo-envio">
+                    <select id="metodo-entrega" required>
                         <option value="retiro">Retiro en tienda (Gratis)</option>
                         <option value="envio">Envío a domicilio (+$500)</option>
                     </select>
-                </div>
-
-                <h4>Información de contacto</h4>
-                <div class="form-group">
-                    <label for="nombre" class="required">Nombre completo</label>
-                    <input type="text" id="nombre" placeholder="Nombre completo" value="${usuario.displayName || ''}" required>
-                </div>
-                <div class="form-group">
-                    <label for="email" class="required">Email</label>
-                    <input type="email" id="email" placeholder="Email" value="${usuario.email || ''}" required>
-                </div>
-                <div class="form-group">
-                    <label for="telefono" class="required">Teléfono</label>
-                    <input type="tel" id="telefono" placeholder="Teléfono" required>
                 </div>
 
                 <div id="datos-envio" style="display: none;">
@@ -1583,12 +1622,29 @@
                     </div>
                 </div>
 
+                <h4>Información de contacto</h4>
+                <div class="form-group">
+                    <label for="nombre" class="required">Nombre completo</label>
+                    <input type="text" id="nombre" placeholder="Nombre completo" value="${usuario.displayName || ''}" required>
+                </div>
+                <div class="form-group">
+                    <label for="email" class="required">Email</label>
+                    <input type="email" id="email" placeholder="Email" value="${usuario.email || ''}" required>
+                </div>
+                <div class="form-group">
+                    <label for="telefono" class="required">Teléfono</label>
+                    <input type="tel" id="telefono" placeholder="Teléfono" required>
+                </div>
+
+                <h4>Verificación de seguridad</h4>
+                <div class="g-recaptcha" data-sitekey="6LcKj-0pAAAAAP8XyQhfhvV8v2p5K7w9Xq9ZQ9Xq"></div>
+
                 <button class="btn" style="width: 100%; margin-top: 20px;" onclick="finalizarCompra('${tipo}')">
                     Confirmar Pedido
                 </button>
             `;
 
-            document.getElementById('metodo-envio').addEventListener('change', function() {
+            document.getElementById('metodo-entrega').addEventListener('change', function() {
                 document.getElementById('datos-envio').style.display = 
                     this.value === 'envio' ? 'block' : 'none';
             });
@@ -1600,10 +1656,17 @@
 
         // Finalizar compra
         async function finalizarCompra(tipo) {
+            // Verificar reCAPTCHA
+            const recaptchaResponse = grecaptcha.getResponse();
+            if (!recaptchaResponse) {
+                alert('Por favor completa la verificación de seguridad (reCAPTCHA)');
+                return;
+            }
+
             const nombre = document.getElementById('nombre').value;
             const email = document.getElementById('email').value;
             const telefono = document.getElementById('telefono').value;
-            const metodoEnvio = document.getElementById('metodo-envio').value;
+            const metodoEntrega = document.getElementById('metodo-entrega').value;
 
             // Validar campos obligatorios
             if (!nombre || !email || !telefono) {
@@ -1611,7 +1674,7 @@
                 return;
             }
 
-            if (metodoEnvio === 'envio') {
+            if (metodoEntrega === 'envio') {
                 const direccion = document.getElementById('direccion').value;
                 const ciudad = document.getElementById('ciudad').value;
                 const codigoPostal = document.getElementById('codigo-postal').value;
@@ -1638,7 +1701,7 @@
                 }
 
                 // Agregar costo de envío si corresponde
-                if (metodoEnvio === 'envio') {
+                if (metodoEntrega === 'envio') {
                     totalCompra += 500;
                 }
 
@@ -1663,7 +1726,7 @@
                         categoria: item.categoria
                     })),
                     total: totalCompra,
-                    metodoEnvio: metodoEnvio,
+                    metodoEntrega: metodoEntrega,
                     cliente: { 
                         nombre, 
                         email, 
@@ -1675,7 +1738,7 @@
                     notificado: false
                 };
 
-                if (metodoEnvio === 'envio') {
+                if (metodoEntrega === 'envio') {
                     pedidoData.direccion = {
                         direccion: document.getElementById('direccion').value,
                         ciudad: document.getElementById('ciudad').value,
@@ -1685,10 +1748,11 @@
 
                 await db.collection('pedidos').add(pedidoData);
 
-                // Enviar notificación por email
-                await enviarNotificacionEmail(numeroPedido, itemsCompra, totalCompra, nombre, email, telefono, metodoEnvio);
+                // Enviar comprobante por EmailJS
+                await enviarComprobanteEmail(numeroPedido, itemsCompra, totalCompra, nombre, email, telefono, metodoEntrega);
 
-                alert(`¡Pedido realizado con éxito! 🎉\n\nNúmero de pedido: ${numeroPedido}\n\nTe contactaremos pronto para coordinar el envío.`);
+                // Mostrar confirmación
+                mostrarConfirmacionPedido(numeroPedido, itemsCompra, totalCompra);
                 
                 if (tipo === 'carrito') {
                     carrito = [];
@@ -1704,25 +1768,92 @@
             }
         }
 
-        // Función para enviar notificación por email
-        async function enviarNotificacionEmail(numeroPedido, productos, total, nombre, email, telefono, metodoEnvio) {
-            // Simulación de envío de email
-            console.log(`📧 NOTIFICACIÓN DE NUEVO PEDIDO`);
-            console.log(`===============================`);
-            console.log(`🆔 Número de Pedido: ${numeroPedido}`);
-            console.log(`👤 Cliente: ${nombre}`);
-            console.log(`📧 Email: ${email}`);
-            console.log(`📱 Teléfono: ${telefono}`);
-            console.log(`🚚 Envío: ${metodoEnvio}`);
-            console.log(`🛒 Productos:`);
-            productos.forEach(item => {
-                console.log(`   - ${item.nombre} x${item.cantidad} - $${item.precio * item.cantidad}`);
-            });
-            console.log(`💰 Total: $${total}`);
-            console.log(`📧 Email enviado a: sauchaespacioholistico@gmail.com`);
-            console.log(`===============================`);
+        // Función para enviar comprobante por EmailJS
+        async function enviarComprobanteEmail(numeroPedido, productos, total, nombre, email, telefono, metodoEntrega) {
+            try {
+                // Preparar datos para el email
+                const productosHTML = productos.map(item => 
+                    `<li>${item.nombre} - Cantidad: ${item.cantidad} - $${item.precio * item.cantidad}</li>`
+                ).join('');
+                
+                const templateParams = {
+                    to_email: email,
+                    to_name: nombre,
+                    from_name: 'Saucha Espacio Holístico',
+                    numero_pedido: numeroPedido,
+                    productos: productosHTML,
+                    total: total,
+                    metodo_entrega: metodoEntrega === 'envio' ? 'Envío a domicilio' : 'Retiro en tienda',
+                    fecha: new Date().toLocaleDateString('es-AR')
+                };
+
+                // Enviar email al cliente
+                await emailjs.send('service_8w40njg', 'template_comprobante', templateParams);
+                
+                // Enviar notificación al administrador
+                const adminTemplateParams = {
+                    to_email: 'sauchaespacioholistico@gmail.com',
+                    to_name: 'Administrador Saucha',
+                    from_name: 'Sistema de Pedidos',
+                    numero_pedido: numeroPedido,
+                    cliente_nombre: nombre,
+                    cliente_email: email,
+                    cliente_telefono: telefono,
+                    productos: productosHTML,
+                    total: total,
+                    metodo_entrega: metodoEntrega === 'envio' ? 'Envío a domicilio' : 'Retiro en tienda',
+                    fecha: new Date().toLocaleDateString('es-AR')
+                };
+                
+                await emailjs.send('service_8w40njg', 'template_notificacion_admin', adminTemplateParams);
+                
+                console.log('Emails enviados correctamente');
+            } catch (error) {
+                console.error('Error enviando emails:', error);
+                // No mostrar error al usuario para no interrumpir el proceso de compra
+            }
+        }
+
+        // Mostrar confirmación de pedido
+        function mostrarConfirmacionPedido(numeroPedido, productos, total) {
+            const productosHTML = productos.map(item => 
+                `<div class="resumen-item">
+                    <span>${item.nombre} x${item.cantidad}</span>
+                    <span>$${item.precio * item.cantidad}</span>
+                </div>`
+            ).join('');
             
-            // En producción, aquí integrarías con un servicio de email como EmailJS, SendGrid, etc.
+            document.getElementById('confirmacion-contenido').innerHTML = `
+                <div class="confirmacion-pedido">
+                    <i class="fas fa-check-circle" style="font-size: 3rem; color: var(--color-stock); margin-bottom: 15px;"></i>
+                    <h3>¡Pedido Confirmado!</h3>
+                    <p>Tu pedido ha sido procesado exitosamente.</p>
+                    
+                    <div class="numero-seguimiento">${numeroPedido}</div>
+                    <p>Guarda este número para realizar el seguimiento de tu pedido.</p>
+                </div>
+                
+                <div class="resumen-pedido">
+                    <h4>Resumen de tu pedido</h4>
+                    ${productosHTML}
+                    <div class="resumen-item resumen-total">
+                        <span>Total</span>
+                        <span>$${total}</span>
+                    </div>
+                </div>
+                
+                <div class="info-pago">
+                    <h4>📧 Comprobante enviado</h4>
+                    <p>Hemos enviado un comprobante de tu pedido a tu dirección de email.</p>
+                    <p>Te contactaremos pronto para coordinar la entrega.</p>
+                </div>
+                
+                <button class="btn" style="width: 100%; margin-top: 20px;" onclick="cerrarConfirmacion()">
+                    Continuar Comprando
+                </button>
+            `;
+            
+            document.getElementById('modal-confirmacion').style.display = 'flex';
         }
 
         // Cerrar modales
@@ -1736,6 +1867,10 @@
 
         function cerrarCheckout() {
             document.getElementById('modal-checkout').style.display = 'none';
+        }
+
+        function cerrarConfirmacion() {
+            document.getElementById('modal-confirmacion').style.display = 'none';
         }
 
         // Inicializar menú hamburguesa
