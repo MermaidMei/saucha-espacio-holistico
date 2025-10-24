@@ -1,1 +1,2330 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saucha Espacio Holístico - Sahumerios, Tarot y Productos Místicos</title>
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    
+    <!-- EmailJS -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAFHkhLIHbix55Mrz8PstmJ2Uc-bCnBn6w",
+            authDomain: "saucha-espacio-holistico-dec80.firebaseapp.com",
+            projectId: "saucha-espacio-holistico-dec80",
+            storageBucket: "saucha-espacio-holistico-dec80.firebasestorage.app",
+            messagingSenderId: "371653588839",
+            appId: "1:371653588839:web:0561876148457c54dbe1c2"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const auth = firebase.auth();
+        
+        // Initialize EmailJS
+        emailjs.init("service_8w40njg");
+        
+        console.log('Firebase y EmailJS inicializados correctamente');
+    </script>
+
+    <style>
+        :root {
+            --color-primario: #4a6c60;
+            --color-secundario: #8a9b8c;
+            --color-acento: #c9a87a;
+            --color-texto: #333333;
+            --color-fondo: #f9f7f2;
+            --color-blanco: #ffffff;
+            --color-stock: #4CAF50;
+            --color-poco-stock: #ff9800;
+            --color-sin-stock: #f44336;
+            --sombra: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --sombra-intensa: 0 10px 20px rgba(0, 0, 0, 0.15);
+            --transicion: all 0.3s ease;
+            --degradado-primario: linear-gradient(135deg, #4a6c60 0%, #3a574c 100%);
+            --degradado-secundario: linear-gradient(135deg, #c9a87a 0%, #b8945f 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--color-texto);
+            background-color: var(--color-fondo);
+            font-size: 16px;
+            background-image: url('https://i.ibb.co/0yc-QQ3fV/background.jpg');
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(249, 247, 242, 0.92);
+            z-index: -1;
+        }
+
+        /* Medidas de seguridad mejoradas */
+        body {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-touch-callout: none;
+        }
+
+        * {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        .btn {
+            display: inline-block;
+            background: var(--degradado-primario);
+            color: var(--color-blanco);
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: var(--transicion);
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 1rem;
+            text-align: center;
+            box-shadow: var(--sombra);
+        }
+
+        .btn:hover {
+            background: var(--degradado-secundario);
+            transform: translateY(-3px);
+            box-shadow: var(--sombra-intensa);
+        }
+
+        .btn-whatsapp {
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+        }
+
+        .btn-whatsapp:hover {
+            background: linear-gradient(135deg, #128C7E 0%, #075E54 100%);
+        }
+
+        .btn-carrito {
+            background: var(--degradado-secundario);
+        }
+
+        .btn-carrito:hover {
+            background: linear-gradient(135deg, #b8945f 0%, #a5824f 100%);
+        }
+
+        .carrito-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: var(--color-sin-stock);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: var(--color-primario);
+            font-size: 1.1rem;
+        }
+
+        section {
+            padding: 80px 0;
+            position: relative;
+        }
+
+        section h2 {
+            text-align: center;
+            margin-bottom: 50px;
+            color: var(--color-primario);
+            font-size: 2.5rem;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        section h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: var(--degradado-secundario);
+            border-radius: 2px;
+        }
+
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: var(--sombra);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--color-primario);
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo span {
+            color: var(--color-acento);
+            margin-left: 5px;
+        }
+
+        .logo::before {
+            content: '✦';
+            margin-right: 10px;
+            color: var(--color-acento);
+            font-size: 1.5rem;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .user-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--color-acento);
+        }
+
+        /* Menú Hamburguesa */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 5px;
+        }
+
+        .menu-toggle span {
+            height: 3px;
+            width: 25px;
+            background: var(--color-primario);
+            margin-bottom: 4px;
+            border-radius: 2px;
+            transition: var(--transicion);
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .nav-menu a {
+            color: var(--color-primario);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transicion);
+            padding: 8px 15px;
+            border-radius: 20px;
+            position: relative;
+        }
+
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--color-acento);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-menu a:hover::after {
+            width: 80%;
+        }
+
+        .nav-menu a:hover {
+            color: var(--color-acento);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(74, 108, 96, 0.85), rgba(74, 108, 96, 0.8)), url('https://i.ibb.co/0yc-QQ3fV/background.jpg');
+            background-size: cover;
+            background-position: center;
+            color: var(--color-blanco);
+            text-align: center;
+            padding: 150px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            position: relative;
+            display: inline-block;
+        }
+
+        .hero h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: var(--color-acento);
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            max-width: 600px;
+            margin: 0 auto 30px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        /* Sobre Nosotros */
+        .sobre-nosotros {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: var(--sombra);
+            backdrop-filter: blur(5px);
+        }
+
+        .sobre-nosotros p {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .sobre-iconos {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .sobre-icono {
+            text-align: center;
+            max-width: 200px;
+            background: white;
+            padding: 25px 15px;
+            border-radius: 15px;
+            box-shadow: var(--sombra);
+            transition: var(--transicion);
+        }
+
+        .sobre-icono:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--sombra-intensa);
+        }
+
+        .sobre-icono i {
+            font-size: 2.5rem;
+            color: var(--color-acento);
+            margin-bottom: 15px;
+            background: var(--degradado-secundario);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Categorías */
+        .categorias {
+            margin-bottom: 30px;
+        }
+
+        .categorias-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .categoria-btn {
+            background: white;
+            border: 2px solid var(--color-primario);
+            color: var(--color-primario);
+            padding: 12px 15px;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: var(--transicion);
+            cursor: pointer;
+            text-align: center;
+            font-size: 0.9rem;
+            box-shadow: var(--sombra);
+        }
+
+        .categoria-btn:hover, .categoria-btn.active {
+            background: var(--degradado-primario);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        /* Productos */
+        .productos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .producto-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--sombra);
+            transition: var(--transicion);
+            position: relative;
+        }
+
+        .producto-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--sombra-intensa);
+        }
+
+        .producto-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .producto-card:hover .producto-img {
+            transform: scale(1.05);
+        }
+
+        .producto-info {
+            padding: 20px;
+        }
+
+        .stock-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .stock-disponible {
+            background: var(--color-stock);
+            color: white;
+        }
+
+        .stock-poco {
+            background: var(--color-poco-stock);
+            color: white;
+        }
+
+        .stock-agotado {
+            background: var(--color-sin-stock);
+            color: white;
+        }
+
+        .producto-precio {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--color-primario);
+            margin: 8px 0;
+        }
+
+        /* Servicios */
+        .servicios-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .servicio-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--sombra);
+            transition: var(--transicion);
+            text-align: center;
+            padding: 30px 20px;
+            position: relative;
+            border-top: 5px solid var(--color-acento);
+        }
+
+        .servicio-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--sombra-intensa);
+        }
+
+        .servicio-icono {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            background: var(--degradado-secundario);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+        }
+
+        .servicio-card h3 {
+            color: var(--color-primario);
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+
+        .servicio-card p {
+            margin-bottom: 20px;
+            color: #666;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--degradado-primario);
+            color: var(--color-blanco);
+            padding: 60px 0 20px;
+            position: relative;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--degradado-secundario);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: var(--color-acento);
+        }
+
+        .footer-section p, .footer-section a {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 10px;
+            display: block;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: var(--transicion);
+        }
+
+        .footer-section a:hover {
+            color: var(--color-acento);
+            padding-left: 5px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transition: var(--transicion);
+        }
+
+        .social-links a:hover {
+            background: var(--color-acento);
+            transform: translateY(-5px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--sombra-intensa);
+            position: relative;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+            transition: var(--transicion);
+        }
+
+        .close-modal:hover {
+            color: var(--color-sin-stock);
+            transform: rotate(90deg);
+        }
+
+        .cantidad-selector {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 20px 0;
+            justify-content: center;
+        }
+
+        .cantidad-btn {
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--color-primario);
+            background: white;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--color-primario);
+            transition: var(--transicion);
+        }
+
+        .cantidad-btn:hover {
+            background: var(--color-primario);
+            color: white;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .form-group label.required::after {
+            content: " *";
+            color: var(--color-sin-stock);
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: var(--transicion);
+        }
+
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            border-color: var(--color-primario);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(74, 108, 96, 0.1);
+        }
+
+        .metodo-pago-opcion {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: var(--transicion);
+        }
+
+        .metodo-pago-opcion:hover, .metodo-pago-opcion.selected {
+            border-color: var(--color-primario);
+            background: #f0f8f0;
+        }
+
+        .resumen-pedido {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 4px solid var(--color-primario);
+        }
+
+        .resumen-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .resumen-total {
+            border-top: 2px solid var(--color-primario);
+            padding-top: 10px;
+            margin-top: 10px;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        /* Carrito */
+        .carrito-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .carrito-item-info {
+            flex: 1;
+        }
+
+        .carrito-item-precio {
+            font-weight: bold;
+            color: var(--color-primario);
+            font-size: 1.1rem;
+        }
+
+        .carrito-vacio {
+            text-align: center;
+            padding: 30px;
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .carrito-vacio i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: #ddd;
+        }
+
+        .info-pago {
+            background: #f0f8f0;
+            border: 2px solid #4CAF50;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            font-size: 0.95rem;
+        }
+
+        .info-pago h4 {
+            color: var(--color-primario);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-pago h4 i {
+            color: #4CAF50;
+        }
+
+        .btn-mercado-pago {
+            background: linear-gradient(135deg, #009ee3 0%, #007eb5 100%);
+            display: block;
+            width: 100%;
+            text-align: center;
+            margin: 15px 0;
+            border: none;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: var(--transicion);
+        }
+
+        .btn-mercado-pago:hover {
+            background: linear-gradient(135deg, #007eb5 0%, #006699 100%);
+            transform: translateY(-2px);
+        }
+
+        .alias-mp {
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px dashed #4CAF50;
+            font-family: monospace;
+            font-weight: bold;
+            color: var(--color-primario);
+            margin: 10px 0;
+            text-align: center;
+        }
+
+        /* Confirmación */
+        .confirmacion-pedido {
+            text-align: center;
+            padding: 30px;
+            background: #f0f8f0;
+            border-radius: 15px;
+            margin: 20px 0;
+            border: 2px solid #4CAF50;
+        }
+
+        .numero-seguimiento {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--color-primario);
+            margin: 20px 0;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            display: inline-block;
+            box-shadow: var(--sombra);
+        }
+
+        /* Botones de confirmación */
+        .botones-confirmacion {
+            display: flex;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .btn-confirmar {
+            flex: 1;
+            background: var(--color-stock);
+            padding: 15px;
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
+        .btn-rechazar {
+            flex: 1;
+            background: var(--color-sin-stock);
+            padding: 15px;
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
+        .btn-confirmar:hover {
+            background: #45a049;
+        }
+
+        .btn-rechazar:hover {
+            background: #da190b;
+        }
+
+        /* Panel de Administración */
+        .panel-admin {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            box-shadow: var(--sombra);
+        }
+
+        .pedido-item {
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
+            transition: var(--transicion);
+        }
+
+        .pedido-item.pendiente {
+            border-color: var(--color-poco-stock);
+            background: #fffaf0;
+        }
+
+        .pedido-item.confirmado {
+            border-color: var(--color-stock);
+            background: #f0f8f0;
+        }
+
+        .estado-pedido {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .estado-pendiente {
+            background: var(--color-poco-stock);
+            color: white;
+        }
+
+        .estado-confirmado {
+            background: var(--color-stock);
+            color: white;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: flex;
+            }
+
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: white;
+                flex-direction: column;
+                padding: 20px;
+                box-shadow: var(--sombra-intensa);
+                z-index: 1000;
+                gap: 15px;
+                border-radius: 0 0 15px 15px;
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+
+            .header-content {
+                gap: 10px;
+            }
+
+            .user-info {
+                order: 3;
+                width: 100%;
+                justify-content: center;
+                margin-top: 10px;
+                display: none;
+            }
+
+            .user-info.active {
+                display: flex;
+            }
+
+            .hero {
+                padding: 100px 0;
+            }
+
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            section {
+                padding: 60px 0;
+            }
+
+            section h2 {
+                font-size: 2rem;
+                margin-bottom: 30px;
+            }
+
+            .productos-grid {
+                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+                gap: 20px;
+            }
+
+            .servicios-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .categorias-grid {
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+                gap: 10px;
+            }
+
+            .btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+
+            .sobre-iconos {
+                gap: 20px;
+            }
+
+            .sobre-nosotros {
+                padding: 30px 20px;
+            }
+
+            .botones-confirmacion {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                width: 95%;
+            }
+
+            .logo {
+                font-size: 1.5rem;
+            }
+
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .productos-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .categorias-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+
+            .sobre-iconos {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .sobre-icono {
+                max-width: 100%;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">Saucha <span>Espacio Holístico</span></div>
+                
+                <button class="menu-toggle" id="menu-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                
+                <nav class="nav-menu" id="nav-menu">
+                    <a href="#inicio">Inicio</a>
+                    <a href="#sobre-nosotros">Sobre Nosotros</a>
+                    <a href="#productos">Productos</a>
+                    <a href="#servicios">Servicios</a>
+                    <a href="#contacto">Contacto</a>
+                    <button class="btn btn-carrito" id="carrito-btn">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="carrito-badge" id="carrito-badge">0</span>
+                    </button>
+                </nav>
+                
+                <div class="user-info" id="user-info">
+                    <img id="user-avatar" class="user-avatar" src="" alt="Avatar">
+                    <span id="user-name"></span>
+                    <button class="btn" onclick="cerrarSesion()">Cerrar Sesión</button>
+                </div>
+                <div id="login-section">
+                    <button class="btn" id="login-button">
+                        <i class="fab fa-google" style="margin-right: 8px;"></i> Iniciar Sesión
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="inicio">
+        <div class="container">
+            <h1>Bienvenidos a Saucha Espacio Holístico</h1>
+            <p>Descubre productos místicos y terapias holísticas para equilibrar tu mente, cuerpo y espíritu</p>
+            <a href="#productos" class="btn">Explorar Productos</a>
+        </div>
+    </section>
+
+    <!-- Sobre Nosotros -->
+    <section class="sobre-nosotros" id="sobre-nosotros">
+        <div class="container">
+            <h2>Sobre Nosotros</h2>
+            <div class="sobre-nosotros">
+                <p>Saucha Espacio Holístico nace como un refugio espiritual en medio del ajetreo de la vida moderna. Nuestro nombre "Saucha" proviene del sánscrito y significa pureza, limpieza y claridad, valores que representan la esencia de nuestro espacio.</p>
+                <p>Nos dedicamos a ofrecer productos y terapias holísticas que ayudan a las personas a reconectar con su ser interior, encontrar equilibrio y armonía en sus vidas. Creemos en el poder transformador de las prácticas espirituales y en la importancia de rodearnos de elementos que vibren en sintonía con nuestra esencia.</p>
+                <p>En Saucha encontrarás diversas terapias holísticas diseñadas para acompañarte en tu camino de autodescubrimiento y crecimiento personal, ayudándote a restaurar el equilibrio energético y encontrar tu paz interior.</p>
+                
+                <div class="sobre-iconos">
+                    <div class="sobre-icono">
+                        <i class="fas fa-heart"></i>
+                        <h4>Energía Positiva</h4>
+                        <p>Productos seleccionados con la mejor energía</p>
+                    </div>
+                    <div class="sobre-icono">
+                        <i class="fas fa-seedling"></i>
+                        <h4>Calidad Superior</h4>
+                        <p>Materiales de la más alta calidad</p>
+                    </div>
+                    <div class="sobre-icono">
+                        <i class="fas fa-hands-helping"></i>
+                        <h4>Acompañamiento</h4>
+                        <p>Guía en tu camino espiritual</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Productos -->
+    <section class="productos" id="productos">
+        <div class="container">
+            <h2>Nuestros Productos</h2>
+            
+            <!-- Categorías -->
+            <div class="categorias">
+                <div class="categorias-grid" id="categorias-container">
+                    <!-- Las categorías se cargan dinámicamente -->
+                </div>
+            </div>
+            
+            <div id="loading-productos" class="loading">
+                <i class="fas fa-spinner fa-spin"></i> Cargando productos...
+            </div>
+            
+            <div id="productos-container" class="productos-grid" style="display: none;">
+                <!-- Los productos se cargan dinámicamente -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Servicios -->
+    <section class="servicios" id="servicios">
+        <div class="container">
+            <h2>Nuestros Servicios</h2>
+            <p style="text-align: center; max-width: 800px; margin: 0 auto 30px;">
+                Ofrecemos diversas terapias holísticas para ayudarte en tu camino de crecimiento personal. 
+                Contáctanos por WhatsApp para más información y reservas.
+            </p>
+            
+            <div class="servicios-grid">
+                <div class="servicio-card">
+                    <div class="servicio-icono">
+                        <i class="fas fa-cards"></i>
+                    </div>
+                    <h3>Tarot</h3>
+                    <p>Consulta las cartas para obtener claridad y orientación en tu vida.</p>
+                    <a href="https://wa.me/5491170139419?text=Hola,%20me%20interesa%20una%20consulta%20de%20Tarot" class="btn btn-whatsapp" target="_blank">
+                        <i class="fab fa-whatsapp"></i> Contactar
+                    </a>
+                </div>
+                
+                <div class="servicio-card">
+                    <div class="servicio-icono">
+                        <i class="fas fa-feather-alt"></i>
+                    </div>
+                    <h3>Tameana</h3>
+                    <p>Sanación energética con técnicas ancestrales para armonizar tu ser.</p>
+                    <a href="https://wa.me/5491170139419?text=Hola,%20me%20interesa%20una%20sesión%20de%20Tameana" class="btn btn-whatsapp" target="_blank">
+                        <i class="fab fa-whatsapp"></i> Contactar
+                    </a>
+                </div>
+                
+                <div class="servicio-card">
+                    <div class="servicio-icono">
+                        <i class="fas fa-hand-holding-heart"></i>
+                    </div>
+                    <h3>Limpiezas Energéticas</h3>
+                    <p>Elimina energías negativas y restaura tu equilibrio energético.</p>
+                    <a href="https://wa.me/5491170139419?text=Hola,%20me%20interesa%20una%20limpieza%20energética" class="btn btn-whatsapp" target="_blank">
+                        <i class="fab fa-whatsapp"></i> Contactar
+                    </a>
+                </div>
+                
+                <div class="servicio-card">
+                    <div class="servicio-icono">
+                        <i class="fas fa-star-of-life"></i>
+                    </div>
+                    <h3>Alineación de Chacras</h3>
+                    <p>Equilibra tus centros energéticos para mejorar tu bienestar integral.</p>
+                    <a href="https://wa.me/5491170139419?text=Hola,%20me%20interesa%20una%20alineación%20de%20chacras" class="btn btn-whatsapp" target="_blank">
+                        <i class="fab fa-whatsapp"></i> Contactar
+                    </a>
+                </div>
+                
+                <div class="servicio-card">
+                    <div class="servicio-icono">
+                        <i class="fas fa-compass"></i>
+                    </div>
+                    <h3>Radiestesia</h3>
+                    <p>Utilización de péndulos para detectar y armonizar energías.</p>
+                    <a href="https://wa.me/5491170139419?text=Hola,%20me%20interesa%20una%20sesión%20de%20Radiestesia" class="btn btn-whatsapp" target="_blank">
+                        <i class="fab fa-whatsapp"></i> Contactar
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Panel de Administración (oculto por defecto) -->
+    <section id="panel-admin" style="display: none;">
+        <div class="container">
+            <h2>Panel de Administración</h2>
+            <div class="panel-admin">
+                <h3>Pedidos Pendientes</h3>
+                <div id="lista-pedidos">
+                    <!-- Los pedidos se cargan dinámicamente -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contacto">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Contacto</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Dirección: Calle Ejemplo 123, Ciudad</p>
+                    <p><i class="fas fa-phone"></i> Teléfono: +54 9 11 7013-9419</p>
+                    <p><i class="fas fa-envelope"></i> Email: sauchaespacioholistico@gmail.com</p>
+                    
+                    <div class="social-links">
+                        <a href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="https://wa.me/5491170139419" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Enlaces Rápidos</h3>
+                    <a href="#inicio">Inicio</a>
+                    <a href="#sobre-nosotros">Sobre Nosotros</a>
+                    <a href="#productos">Productos</a>
+                    <a href="#servicios">Servicios</a>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Horarios de Atención</h3>
+                    <p>Lunes a Viernes: 9:00 - 18:00</p>
+                    <p>Sábados: 10:00 - 14:00</p>
+                    <p>Domingos: Cerrado</p>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 Saucha Espacio Holístico. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal de Compra -->
+    <div id="modal-compra" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-titulo">Comprar Producto</h3>
+                <button class="close-modal" onclick="cerrarModal()">&times;</button>
+            </div>
+            <div id="modal-contenido">
+                <!-- Contenido dinámico -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Carrito -->
+    <div id="modal-carrito" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Tu Carrito de Compras</h3>
+                <button class="close-modal" onclick="cerrarCarrito()">&times;</button>
+            </div>
+            <div id="carrito-contenido">
+                <!-- Contenido dinámico del carrito -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Checkout -->
+    <div id="modal-checkout" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Finalizar Compra</h3>
+                <button class="close-modal" onclick="cerrarCheckout()">&times;</button>
+            </div>
+            <div id="checkout-contenido">
+                <!-- Contenido dinámico del checkout -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Confirmación -->
+    <div id="modal-confirmacion" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>¡Pedido Registrado!</h3>
+                <button class="close-modal" onclick="cerrarConfirmacion()">&times;</button>
+            </div>
+            <div id="confirmacion-contenido">
+                <!-- Contenido dinámico de confirmación -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Variables globales
+        let productos = [];
+        let productoSeleccionado = null;
+        let cantidadSeleccionada = 1;
+        let usuario = null;
+        let categoriaActiva = 'todos';
+        let carrito = [];
+        let metodoPagoSeleccionado = '';
+        let pedidosPendientes = [];
+
+        // Categorías de productos
+        const categorias = [
+            { id: 'todos', nombre: 'Todos los Productos' },
+            { id: 'sahumerios', nombre: 'Sahumerios' },
+            { id: 'cristales', nombre: 'Cristales' },
+            { id: 'velas', nombre: 'Velas' },
+            { id: 'hornitos', nombre: 'Hornitos' },
+            { id: 'accesorios', nombre: 'Accesorios' },
+            { id: 'decoracion', nombre: 'Decoración Holística' },
+            { id: 'defumacion', nombre: 'Productos de Defumación' },
+            { id: 'aromatizantes', nombre: 'Spray Aromatizantes' },
+            { id: 'difusores', nombre: 'Difusores' },
+            { id: 'bijou', nombre: 'Bijou Energética' }
+        ];
+
+        // Medidas de seguridad mejoradas
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            return false;
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if(e.key === 'F12' || 
+               (e.ctrlKey && e.shiftKey && e.key === 'I') ||
+               (e.ctrlKey && e.shiftKey && e.key === 'J') ||
+               (e.ctrlKey && e.key === 'u') ||
+               (e.ctrlKey && e.shiftKey && e.key === 'C')) {
+                e.preventDefault();
+                return false;
+            }
+        });
+
+        // Inicializar autenticación
+        function inicializarAuth() {
+            auth.onAuthStateChanged((user) => {
+                if (user) {
+                    usuario = user;
+                    mostrarInfoUsuario(user);
+                    // Si es el administrador, mostrar panel
+                    if (user.email === 'sauchaespacioholistico@gmail.com') {
+                        mostrarPanelAdmin();
+                    }
+                } else {
+                    usuario = null;
+                    ocultarInfoUsuario();
+                    ocultarPanelAdmin();
+                }
+            });
+
+            document.getElementById('login-button').addEventListener('click', function(e) {
+                e.preventDefault();
+                iniciarSesion();
+            });
+
+            document.getElementById('carrito-btn').addEventListener('click', function(e) {
+                e.preventDefault();
+                mostrarCarrito();
+            });
+        }
+
+        // Mostrar información del usuario
+        function mostrarInfoUsuario(user) {
+            document.getElementById('user-info').style.display = 'flex';
+            document.getElementById('login-section').style.display = 'none';
+            if (user.photoURL) {
+                document.getElementById('user-avatar').src = user.photoURL;
+            }
+            document.getElementById('user-name').textContent = user.displayName || user.email;
+        }
+
+        // Ocultar información del usuario
+        function ocultarInfoUsuario() {
+            document.getElementById('user-info').style.display = 'none';
+            document.getElementById('login-section').style.display = 'block';
+        }
+
+        // Mostrar panel de administración
+        function mostrarPanelAdmin() {
+            document.getElementById('panel-admin').style.display = 'block';
+            cargarPedidosPendientes();
+        }
+
+        // Ocultar panel de administración
+        function ocultarPanelAdmin() {
+            document.getElementById('panel-admin').style.display = 'none';
+        }
+
+        // Cargar pedidos pendientes
+        function cargarPedidosPendientes() {
+            db.collection('pedidos')
+                .where('estado', '==', 'pendiente_pago')
+                .orderBy('fecha', 'desc')
+                .onSnapshot((snapshot) => {
+                    pedidosPendientes = [];
+                    const listaPedidos = document.getElementById('lista-pedidos');
+                    
+                    if (snapshot.empty) {
+                        listaPedidos.innerHTML = '<p>No hay pedidos pendientes</p>';
+                        return;
+                    }
+
+                    let pedidosHTML = '';
+                    snapshot.forEach((doc) => {
+                        const pedido = {
+                            id: doc.id,
+                            ...doc.data()
+                        };
+                        pedidosPendientes.push(pedido);
+                        
+                        const productosHTML = pedido.productos.map(item => 
+                            `<div>${item.nombre} x${item.cantidad} - $${item.precio * item.cantidad}</div>`
+                        ).join('');
+                        
+                        pedidosHTML += `
+                            <div class="pedido-item pendiente">
+                                <div class="estado-pedido estado-pendiente">PENDIENTE</div>
+                                <h4>Pedido #${pedido.numeroPedido}</h4>
+                                <p><strong>Cliente:</strong> ${pedido.cliente.nombre}</p>
+                                <p><strong>Email:</strong> ${pedido.cliente.email}</p>
+                                <p><strong>Teléfono:</strong> ${pedido.cliente.telefono}</p>
+                                <p><strong>Total:</strong> $${pedido.total}</p>
+                                <p><strong>Método:</strong> ${pedido.metodoPago === 'mercadopago' ? 'Mercado Pago' : 'Transferencia'}</p>
+                                <div><strong>Productos:</strong> ${productosHTML}</div>
+                                
+                                <div class="botones-confirmacion">
+                                    <button class="btn btn-confirmar" onclick="confirmarPedido('${doc.id}')">
+                                        <i class="fas fa-check"></i> Confirmar Pago
+                                    </button>
+                                    <button class="btn btn-rechazar" onclick="rechazarPedido('${doc.id}')">
+                                        <i class="fas fa-times"></i> Rechazar
+                                    </button>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    
+                    listaPedidos.innerHTML = pedidosHTML;
+                });
+        }
+
+        // Confirmar pedido
+        async function confirmarPedido(pedidoId) {
+            try {
+                const pedidoDoc = await db.collection('pedidos').doc(pedidoId).get();
+                const pedido = pedidoDoc.data();
+                
+                if (pedido.estado === 'pendiente_pago') {
+                    // Actualizar stock
+                    for (const item of pedido.productos) {
+                        const productoDoc = await db.collection('productos').doc(item.id).get();
+                        if (productoDoc.exists) {
+                            const producto = productoDoc.data();
+                            const nuevoStock = producto.stock - item.cantidad;
+                            await db.collection('productos').doc(item.id).update({
+                                stock: nuevoStock
+                            });
+                        }
+                    }
+                    
+                    // Actualizar estado del pedido
+                    await db.collection('pedidos').doc(pedidoId).update({
+                        estado: 'confirmado',
+                        fechaConfirmacion: new Date().toISOString()
+                    });
+                    
+                    // Enviar notificación de confirmación
+                    await enviarNotificacionAdmin(
+                        pedido.numeroPedido, 
+                        pedido.productos, 
+                        pedido.total, 
+                        pedido.cliente.nombre, 
+                        pedido.cliente.email, 
+                        pedido.cliente.telefono, 
+                        pedido.metodoEntrega, 
+                        pedido.metodoPago, 
+                        'confirmado'
+                    );
+                    
+                    alert('Pedido confirmado exitosamente');
+                }
+            } catch (error) {
+                console.error('Error confirmando pedido:', error);
+                alert('Error al confirmar el pedido');
+            }
+        }
+
+        // Rechazar pedido
+        async function rechazarPedido(pedidoId) {
+            if (confirm('¿Estás seguro de que quieres rechazar este pedido?')) {
+                try {
+                    await db.collection('pedidos').doc(pedidoId).update({
+                        estado: 'rechazado',
+                        fechaRechazo: new Date().toISOString()
+                    });
+                    
+                    alert('Pedido rechazado');
+                } catch (error) {
+                    console.error('Error rechazando pedido:', error);
+                    alert('Error al rechazar el pedido');
+                }
+            }
+        }
+
+        // Iniciar sesión con Google
+        async function iniciarSesion() {
+            try {
+                const provider = new firebase.auth.GoogleAuthProvider();
+                provider.addScope('profile');
+                provider.addScope('email');
+                
+                const result = await auth.signInWithPopup(provider);
+                
+            } catch (error) {
+                let mensajeError = "Error al iniciar sesión. ";
+                
+                if (error.code === 'auth/popup-blocked') {
+                    mensajeError += "El popup fue bloqueado. Por favor permite los popups para este sitio.";
+                } else if (error.code === 'auth/popup-closed-by-user') {
+                    mensajeError += "Cerraste la ventana de inicio de sesión.";
+                } else if (error.code === 'auth/unauthorized-domain') {
+                    mensajeError += "Dominio no autorizado. Contacta al administrador.";
+                } else {
+                    mensajeError += "Intenta nuevamente.";
+                }
+                
+                alert(mensajeError);
+            }
+        }
+
+        // Cerrar sesión
+        async function cerrarSesion() {
+            try {
+                await auth.signOut();
+            } catch (error) {
+                alert("Error al cerrar sesión. Intenta nuevamente.");
+            }
+        }
+
+        // Cargar productos desde Firebase
+        function cargarProductos() {
+            const loadingElement = document.getElementById('loading-productos');
+            const productosContainer = document.getElementById('productos-container');
+            
+            try {
+                db.collection('productos').onSnapshot((snapshot) => {
+                    productos = [];
+                    snapshot.forEach((doc) => {
+                        productos.push({
+                            id: doc.id,
+                            ...doc.data()
+                        });
+                    });
+                    
+                    loadingElement.style.display = 'none';
+                    productosContainer.style.display = 'grid';
+                    renderizarCategorias();
+                    renderizarProductos();
+                }, (error) => {
+                    loadingElement.innerHTML = '❌ Error cargando productos. Recarga la página.';
+                });
+
+            } catch (error) {
+                loadingElement.innerHTML = '❌ Error cargando productos. Recarga la página.';
+            }
+        }
+
+        // Renderizar categorías
+        function renderizarCategorias() {
+            const categoriasContainer = document.getElementById('categorias-container');
+            categoriasContainer.innerHTML = categorias.map(categoria => `
+                <button class="categoria-btn ${categoriaActiva === categoria.id ? 'active' : ''}" 
+                        onclick="filtrarProductos('${categoria.id}')">
+                    ${categoria.nombre}
+                </button>
+            `).join('');
+        }
+
+        // Filtrar productos por categoría
+        function filtrarProductos(categoriaId) {
+            categoriaActiva = categoriaId;
+            renderizarCategorias();
+            renderizarProductos();
+        }
+
+        // Renderizar productos
+        function renderizarProductos() {
+            const productosContainer = document.getElementById('productos-container');
+            
+            let productosFiltrados = productos;
+            if (categoriaActiva !== 'todos') {
+                productosFiltrados = productos.filter(producto => 
+                    producto.categoria === categoriaActiva
+                );
+            }
+            
+            if (productosFiltrados.length === 0) {
+                productosContainer.innerHTML = '<p class="loading">No hay productos disponibles en esta categoría.</p>';
+                return;
+            }
+
+            productosContainer.innerHTML = productosFiltrados.map(producto => {
+                let stockClass, stockText;
+                if (producto.stock <= 0) {
+                    stockClass = 'stock-agotado';
+                    stockText = 'Agotado';
+                } else if (producto.stock <= 5) {
+                    stockClass = 'stock-poco';
+                    stockText = 'Últimas unidades';
+                } else {
+                    stockClass = 'stock-disponible';
+                    stockText = 'Disponible';
+                }
+
+                return `
+                    <div class="producto-card">
+                        <img src="${producto.imagen || 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'}" alt="${producto.nombre}" class="producto-img">
+                        <div class="producto-info">
+                            <span class="stock-badge ${stockClass}">${stockText}</span>
+                            <h3>${producto.nombre}</h3>
+                            <p>${producto.descripcion}</p>
+                            <p><strong>Marca:</strong> ${producto.marca}</p>
+                            <p class="producto-precio">$${producto.precio}</p>
+                            <button class="btn" onclick="agregarAlCarrito('${producto.id}')" ${producto.stock <= 0 ? 'disabled' : ''}>
+                                ${producto.stock <= 0 ? 'Agotado' : 'Agregar al Carrito'}
+                            </button>
+                            <button class="btn" onclick="abrirModalCompra('${producto.id}')" ${producto.stock <= 0 ? 'disabled' : ''} style="margin-top: 8px; background: var(--color-acento);">
+                                ${producto.stock <= 0 ? 'Agotado' : 'Comprar Ahora'}
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Funciones del Carrito
+        function agregarAlCarrito(productoId) {
+            if (!usuario) {
+                alert("Debes iniciar sesión para agregar productos al carrito.");
+                return;
+            }
+
+            const producto = productos.find(p => p.id === productoId);
+            const itemExistente = carrito.find(item => item.id === productoId);
+
+            if (itemExistente) {
+                if (itemExistente.cantidad < producto.stock) {
+                    itemExistente.cantidad++;
+                } else {
+                    alert("No hay suficiente stock disponible.");
+                    return;
+                }
+            } else {
+                carrito.push({
+                    ...producto,
+                    cantidad: 1
+                });
+            }
+
+            actualizarCarrito();
+            mostrarNotificacion(`${producto.nombre} agregado al carrito`);
+        }
+
+        function eliminarDelCarrito(productoId) {
+            carrito = carrito.filter(item => item.id !== productoId);
+            actualizarCarrito();
+        }
+
+        function actualizarCantidadCarrito(productoId, cambio) {
+            const item = carrito.find(item => item.id === productoId);
+            if (item) {
+                const nuevaCantidad = item.cantidad + cambio;
+                if (nuevaCantidad > 0 && nuevaCantidad <= item.stock) {
+                    item.cantidad = nuevaCantidad;
+                } else if (nuevaCantidad === 0) {
+                    eliminarDelCarrito(productoId);
+                    return;
+                } else {
+                    alert("No hay suficiente stock disponible.");
+                    return;
+                }
+            }
+            actualizarCarrito();
+        }
+
+        function actualizarCarrito() {
+            const totalItems = carrito.reduce((total, item) => total + item.cantidad, 0);
+            document.getElementById('carrito-badge').textContent = totalItems;
+            localStorage.setItem('carrito', JSON.stringify(carrito));
+        }
+
+        function mostrarCarrito() {
+            if (!usuario) {
+                alert("Debes iniciar sesión para ver el carrito.");
+                return;
+            }
+
+            document.getElementById('carrito-contenido').innerHTML = `
+                ${carrito.length === 0 ? 
+                    '<div class="carrito-vacio"><i class="fas fa-shopping-cart"></i><p>Tu carrito está vacío</p></div>' : 
+                    carrito.map(item => `
+                        <div class="carrito-item">
+                            <div class="carrito-item-info">
+                                <strong>${item.nombre}</strong>
+                                <div class="cantidad-selector">
+                                    <button class="cantidad-btn" onclick="actualizarCantidadCarrito('${item.id}', -1)">-</button>
+                                    <span>${item.cantidad}</span>
+                                    <button class="cantidad-btn" onclick="actualizarCantidadCarrito('${item.id}', 1)">+</button>
+                                </div>
+                            </div>
+                            <div class="carrito-item-precio">
+                                $${item.precio * item.cantidad}
+                            </div>
+                            <button class="btn" onclick="eliminarDelCarrito('${item.id}')" style="background: var(--color-sin-stock); margin-left: 10px;">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    `).join('')
+                }
+                ${carrito.length > 0 ? `
+                    <div class="resumen-pedido">
+                        <div class="resumen-item resumen-total">
+                            <span>Total</span>
+                            <span>$${calcularTotalCarrito()}</span>
+                        </div>
+                    </div>
+                    <button class="btn" style="width: 100%; margin-top: 20px;" onclick="finalizarCompraCarrito()">
+                        Finalizar Compra
+                    </button>
+                ` : ''}
+            `;
+
+            document.getElementById('modal-carrito').style.display = 'flex';
+        }
+
+        function calcularTotalCarrito() {
+            return carrito.reduce((total, item) => total + (item.precio * item.cantidad), 0);
+        }
+
+        function mostrarNotificacion(mensaje) {
+            const notificacion = document.createElement('div');
+            notificacion.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: var(--color-stock);
+                color: white;
+                padding: 15px 20px;
+                border-radius: 5px;
+                z-index: 3000;
+                box-shadow: var(--sombra);
+            `;
+            notificacion.textContent = mensaje;
+            document.body.appendChild(notificacion);
+
+            setTimeout(() => {
+                document.body.removeChild(notificacion);
+            }, 3000);
+        }
+
+        // Cargar carrito desde localStorage al iniciar
+        function cargarCarrito() {
+            const carritoGuardado = localStorage.getItem('carrito');
+            if (carritoGuardado) {
+                carrito = JSON.parse(carritoGuardado);
+                actualizarCarrito();
+            }
+        }
+
+        // Abrir modal de compra individual
+        function abrirModalCompra(productoId) {
+            if (!usuario) {
+                alert("Debes iniciar sesión para comprar productos.");
+                return;
+            }
+
+            productoSeleccionado = productos.find(p => p.id === productoId);
+            cantidadSeleccionada = 1;
+
+            document.getElementById('modal-titulo').textContent = `Comprar: ${productoSeleccionado.nombre}`;
+            
+            let opcionesPersonalizadas = '';
+            
+            if (productoSeleccionado.categoria === 'sahumerios' || 
+                productoSeleccionado.categoria === 'aromatizantes') {
+                opcionesPersonalizadas = `
+                    <div class="form-group">
+                        <label for="aroma" class="required">Selecciona el aroma:</label>
+                        <select id="aroma" required>
+                            <option value="lavanda">Lavanda</option>
+                            <option value="sandalwood">Sándalo</option>
+                            <option value="vainilla">Vainilla</option>
+                            <option value="jazmin">Jazmín</option>
+                            <option value="rosa">Rosa</option>
+                            <option value="canela">Canela</option>
+                        </select>
+                    </div>
+                `;
+            } else if (productoSeleccionado.categoria === 'cristales') {
+                opcionesPersonalizadas = `
+                    <div class="form-group">
+                        <label for="piedra" class="required">Selecciona la piedra:</label>
+                        <select id="piedra" required>
+                            <option value="amatista">Amatista</option>
+                            <option value="cuarzo-rosa">Cuarzo Rosa</option>
+                            <option value="cuarzo-cristal">Cuarzo Cristal</option>
+                            <option value="obsidiana">Obsidiana</option>
+                            <option value="lapislazuli">Lapislázuli</option>
+                            <option value="aguamarina">Aguamarina</option>
+                        </select>
+                    </div>
+                `;
+            } else if (productoSeleccionado.categoria === 'velas') {
+                opcionesPersonalizadas = `
+                    <div class="form-group">
+                        <label for="color" class="required">Selecciona el color:</label>
+                        <select id="color" required>
+                            <option value="blanco">Blanco</option>
+                            <option value="rojo">Rojo</option>
+                            <option value="azul">Azul</option>
+                            <option value="verde">Verde</option>
+                            <option value="amarillo">Amarillo</option>
+                            <option value="purpura">Púrpura</option>
+                        </select>
+                    </div>
+                `;
+            }
+            
+            document.getElementById('modal-contenido').innerHTML = `
+                <div style="display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap;">
+                    <img src="${productoSeleccionado.imagen || 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'}" style="width: 100px; height: 100px; object-fit: cover; border-radius: 5px;">
+                    <div style="flex: 1; min-width: 200px;">
+                        <h4>${productoSeleccionado.nombre}</h4>
+                        <p>${productoSeleccionado.descripcion}</p>
+                        <p><strong>Precio: $${productoSeleccionado.precio}</strong></p>
+                    </div>
+                </div>
+                
+                ${opcionesPersonalizadas}
+                
+                <div class="cantidad-selector">
+                    <label><strong>Cantidad:</strong></label>
+                    <button class="cantidad-btn" onclick="cambiarCantidad(-1)">-</button>
+                    <span style="font-size: 1.2rem; font-weight: bold; min-width: 30px; text-align: center;">${cantidadSeleccionada}</span>
+                    <button class="cantidad-btn" onclick="cambiarCantidad(1)">+</button>
+                </div>
+                
+                <div style="margin: 20px 0; padding: 15px; background: #f9f9f9; border-radius: 5px;">
+                    <strong>Total: $${productoSeleccionado.precio * cantidadSeleccionada}</strong>
+                </div>
+                
+                <button class="btn" style="width: 100%;" onclick="agregarAlCarrito('${productoSeleccionado.id}'); cerrarModal();">
+                    Agregar al Carrito
+                </button>
+                <button class="btn" style="width: 100%; margin-top: 10px; background: var(--color-acento);" onclick="mostrarCheckoutIndividual()">
+                    Comprar Ahora
+                </button>
+            `;
+
+            document.getElementById('modal-compra').style.display = 'flex';
+        }
+
+        // Cambiar cantidad en modal individual
+        function cambiarCantidad(cambio) {
+            const nuevaCantidad = cantidadSeleccionada + cambio;
+            if (nuevaCantidad >= 1 && nuevaCantidad <= productoSeleccionado.stock) {
+                cantidadSeleccionada = nuevaCantidad;
+                document.querySelector('.cantidad-selector span').textContent = cantidadSeleccionada;
+                const totalElement = document.querySelector('.modal-contenido strong');
+                if (totalElement) {
+                    totalElement.textContent = `Total: $${productoSeleccionado.precio * cantidadSeleccionada}`;
+                }
+            }
+        }
+
+        // Mostrar checkout para compra individual
+        function mostrarCheckoutIndividual() {
+            const carritoTemporal = [{
+                ...productoSeleccionado,
+                cantidad: cantidadSeleccionada
+            }];
+            
+            mostrarCheckout(carritoTemporal, 'individual');
+        }
+
+        // Mostrar checkout para carrito completo
+        function finalizarCompraCarrito() {
+            if (carrito.length === 0) {
+                alert("Tu carrito está vacío.");
+                return;
+            }
+            mostrarCheckout(carrito, 'carrito');
+        }
+
+        // Mostrar checkout
+        function mostrarCheckout(itemsCheckout, tipo) {
+            const total = itemsCheckout.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
+            
+            let productosHTML = '';
+            itemsCheckout.forEach(item => {
+                productosHTML += `
+                    <div class="resumen-item">
+                        <span>${item.nombre} x${item.cantidad}</span>
+                        <span>$${item.precio * item.cantidad}</span>
+                    </div>
+                `;
+            });
+            
+            document.getElementById('checkout-contenido').innerHTML = `
+                <h4>Resumen del pedido</h4>
+                <div class="resumen-pedido">
+                    ${productosHTML}
+                    <div class="resumen-item resumen-total">
+                        <span>Total</span>
+                        <span>$${total}</span>
+                    </div>
+                </div>
+
+                <h4>Método de pago</h4>
+                <div class="metodo-pago-opcion" onclick="seleccionarMetodoPago('mercadopago')">
+                    <h4><i class="fas fa-credit-card"></i> Mercado Pago</h4>
+                    <p>Paga con tarjeta, efectivo o transferencia</p>
+                </div>
+                
+                <div class="metodo-pago-opcion" onclick="seleccionarMetodoPago('transferencia')">
+                    <h4><i class="fas fa-university"></i> Transferencia Bancaria</h4>
+                    <p>Transferencia directa a nuestra cuenta</p>
+                </div>
+
+                <div id="info-mercadopago" class="info-pago" style="display: none;">
+                    <h4><i class="fab fa-mercadopago"></i> Pago con Mercado Pago</h4>
+                    <p>Serás redirigido a Mercado Pago para completar el pago de forma segura.</p>
+                    <p><strong>Una vez completado el pago, tu pedido se confirmará automáticamente.</strong></p>
+                </div>
+
+                <div id="info-transferencia" class="info-pago" style="display: none;">
+                    <h4><i class="fas fa-university"></i> Transferencia Bancaria</h4>
+                    <p>Realiza la transferencia a los siguientes datos:</p>
+                    <div class="alias-mp">ruizanav.mp</div>
+                    <p><strong>Alias:</strong> ruizanav.mp</p>
+                    <p><strong>Una vez realizada la transferencia:</strong></p>
+                    <ul style="margin: 10px 0; padding-left: 20px;">
+                        <li>Guarda el comprobante</li>
+                        <li>Te contactaremos para confirmar el pago</li>
+                        <li>El pedido se procesará una vez confirmado el pago</li>
+                    </ul>
+                </div>
+
+                <h4>Método de entrega</h4>
+                <div class="form-group">
+                    <select id="metodo-entrega" required>
+                        <option value="retiro">Retiro en tienda (Gratis)</option>
+                        <option value="envio">Envío a domicilio (+$500)</option>
+                    </select>
+                </div>
+
+                <div id="datos-envio" style="display: none;">
+                    <h4>Dirección de envío</h4>
+                    <div class="form-group">
+                        <label for="direccion" class="required">Dirección</label>
+                        <input type="text" id="direccion" placeholder="Dirección" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="ciudad" class="required">Ciudad</label>
+                        <input type="text" id="ciudad" placeholder="Ciudad" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="codigo-postal" class="required">Código Postal</label>
+                        <input type="text" id="codigo-postal" placeholder="Código Postal" required>
+                    </div>
+                </div>
+
+                <h4>Información de contacto</h4>
+                <div class="form-group">
+                    <label for="nombre" class="required">Nombre completo</label>
+                    <input type="text" id="nombre" placeholder="Nombre completo" value="${usuario.displayName || ''}" required>
+                </div>
+                <div class="form-group">
+                    <label for="email" class="required">Email</label>
+                    <input type="email" id="email" placeholder="Email" value="${usuario.email || ''}" required>
+                </div>
+                <div class="form-group">
+                    <label for="telefono" class="required">Teléfono</label>
+                    <input type="tel" id="telefono" placeholder="Teléfono" required>
+                </div>
+
+                <button class="btn" style="width: 100%; margin-top: 20px;" onclick="finalizarCompra('${tipo}')" id="btn-confirmar-pedido">
+                    Confirmar Pedido
+                </button>
+            `;
+
+            document.getElementById('metodo-entrega').addEventListener('change', function() {
+                document.getElementById('datos-envio').style.display = 
+                    this.value === 'envio' ? 'block' : 'none';
+            });
+
+            cerrarModal();
+            cerrarCarrito();
+            document.getElementById('modal-checkout').style.display = 'flex';
+        }
+
+        // Seleccionar método de pago
+        function seleccionarMetodoPago(metodo) {
+            metodoPagoSeleccionado = metodo;
+            
+            document.querySelectorAll('.metodo-pago-opcion').forEach(opcion => {
+                opcion.classList.remove('selected');
+            });
+            
+            event.currentTarget.classList.add('selected');
+            
+            document.getElementById('info-mercadopago').style.display = 
+                metodo === 'mercadopago' ? 'block' : 'none';
+            document.getElementById('info-transferencia').style.display = 
+                metodo === 'transferencia' ? 'block' : 'none';
+        }
+
+        // Finalizar compra - VERSIÓN SEGURA
+        async function finalizarCompra(tipo) {
+            const nombre = document.getElementById('nombre').value;
+            const email = document.getElementById('email').value;
+            const telefono = document.getElementById('telefono').value;
+            const metodoEntrega = document.getElementById('metodo-entrega').value;
+
+            if (!nombre || !email || !telefono) {
+                alert('Por favor completa todos los campos obligatorios marcados con *');
+                return;
+            }
+
+            if (!metodoPagoSeleccionado) {
+                alert('Por favor selecciona un método de pago');
+                return;
+            }
+
+            if (metodoEntrega === 'envio') {
+                const direccion = document.getElementById('direccion').value;
+                const ciudad = document.getElementById('ciudad').value;
+                const codigoPostal = document.getElementById('codigo-postal').value;
+                
+                if (!direccion || !ciudad || !codigoPostal) {
+                    alert('Por favor completa todos los campos de dirección para envío a domicilio');
+                    return;
+                }
+            }
+
+            try {
+                let itemsCompra = [];
+                let totalCompra = 0;
+
+                if (tipo === 'individual') {
+                    itemsCompra = [{
+                        ...productoSeleccionado,
+                        cantidad: cantidadSeleccionada
+                    }];
+                    totalCompra = productoSeleccionado.precio * cantidadSeleccionada;
+                } else {
+                    itemsCompra = carrito;
+                    totalCompra = calcularTotalCarrito();
+                }
+
+                if (metodoEntrega === 'envio') {
+                    totalCompra += 500;
+                }
+
+                const numeroPedido = 'SAU' + Date.now();
+
+                // Registrar pedido como PENDIENTE (sin actualizar stock)
+                const pedidoData = {
+                    numeroPedido: numeroPedido,
+                    productos: itemsCompra.map(item => ({
+                        id: item.id,
+                        nombre: item.nombre,
+                        cantidad: item.cantidad,
+                        precio: item.precio,
+                        categoria: item.categoria
+                    })),
+                    total: totalCompra,
+                    metodoEntrega: metodoEntrega,
+                    metodoPago: metodoPagoSeleccionado,
+                    cliente: { 
+                        nombre, 
+                        email, 
+                        telefono,
+                        uid: usuario.uid 
+                    },
+                    fecha: new Date().toISOString(),
+                    estado: 'pendiente_pago',
+                    notificado: false
+                };
+
+                if (metodoEntrega === 'envio') {
+                    pedidoData.direccion = {
+                        direccion: document.getElementById('direccion').value,
+                        ciudad: document.getElementById('ciudad').value,
+                        codigoPostal: document.getElementById('codigo-postal').value
+                    };
+                }
+
+                await db.collection('pedidos').add(pedidoData);
+
+                // Enviar notificación de pedido PENDIENTE
+                await enviarNotificacionAdmin(numeroPedido, itemsCompra, totalCompra, nombre, email, telefono, metodoEntrega, metodoPagoSeleccionado, 'pendiente');
+
+                // Mostrar confirmación al cliente
+                mostrarConfirmacionCliente(numeroPedido, itemsCompra, totalCompra, metodoPagoSeleccionado);
+                
+                // Limpiar carrito
+                if (tipo === 'carrito') {
+                    carrito = [];
+                    actualizarCarrito();
+                }
+                
+                cerrarCheckout();
+                cargarProductos();
+
+            } catch (error) {
+                console.error("Error:", error);
+                alert('Error al procesar el pedido. Intenta nuevamente.');
+            }
+        }
+
+        // Mostrar confirmación al cliente
+        function mostrarConfirmacionCliente(numeroPedido, productos, total, metodoPago) {
+            const productosHTML = productos.map(item => 
+                `<div class="resumen-item">
+                    <span>${item.nombre} x${item.cantidad}</span>
+                    <span>$${item.precio * item.cantidad}</span>
+                </div>`
+            ).join('');
+            
+            let instruccionesPago = '';
+            if (metodoPago === 'mercadopago') {
+                instruccionesPago = `
+                    <div class="info-pago">
+                        <h4><i class="fab fa-mercadopago"></i> Instrucciones para pagar:</h4>
+                        <p>1. Abre Mercado Pago</p>
+                        <p>2. Envía dinero al alias: <strong>ruizanav.mp</strong></p>
+                        <p>3. Monto: <strong>$${total}</strong></p>
+                        <p>4. Concepto: <strong>Pedido ${numeroPedido}</strong></p>
+                        <p>Tu pedido se confirmará cuando verifiquemos el pago.</p>
+                    </div>
+                `;
+            } else {
+                instruccionesPago = `
+                    <div class="info-pago">
+                        <h4><i class="fas fa-university"></i> Instrucciones para transferencia:</h4>
+                        <p>Alias: <strong>ruizanav.mp</strong></p>
+                        <p>Monto: <strong>$${total}</strong></p>
+                        <p>Concepto: <strong>Pedido ${numeroPedido}</strong></p>
+                        <p>Una vez realizada, tu pedido se confirmará.</p>
+                    </div>
+                `;
+            }
+            
+            document.getElementById('confirmacion-contenido').innerHTML = `
+                <div class="confirmacion-pedido">
+                    <i class="fas fa-check-circle" style="font-size: 3rem; color: var(--color-stock); margin-bottom: 15px;"></i>
+                    <h3>¡Pedido Registrado!</h3>
+                    <p>Tu pedido #${numeroPedido} está <strong>PENDIENTE DE PAGO</strong></p>
+                    
+                    <div class="numero-seguimiento">${numeroPedido}</div>
+                    <p>Guarda este número para seguimiento</p>
+                </div>
+                
+                <div class="resumen-pedido">
+                    <h4>Resumen de tu pedido</h4>
+                    ${productosHTML}
+                    <div class="resumen-item resumen-total">
+                        <span>Total a pagar</span>
+                        <span>$${total}</span>
+                    </div>
+                </div>
+                
+                ${instruccionesPago}
+                
+                <button class="btn" style="width: 100%; margin-top: 20px;" onclick="cerrarConfirmacion()">
+                    Continuar Comprando
+                </button>
+            `;
+            
+            document.getElementById('modal-confirmacion').style.display = 'flex';
+        }
+
+        // Función para enviar notificación
+        async function enviarNotificacionAdmin(numeroPedido, productos, total, nombre, email, telefono, metodoEntrega, metodoPago, estado) {
+            try {
+                const productosHTML = productos.map(item => 
+                    `<li>${item.nombre} - Cantidad: ${item.cantidad} - $${item.precio * item.cantidad}</li>`
+                ).join('');
+                
+                const adminTemplateParams = {
+                    to_email: 'sauchaespacioholistico@gmail.com',
+                    to_name: 'Administrador Saucha',
+                    from_name: 'Sistema de Pedidos',
+                    numero_pedido: numeroPedido,
+                    cliente_nombre: nombre,
+                    cliente_email: email,
+                    cliente_telefono: telefono,
+                    productos: productosHTML,
+                    total: total,
+                    metodo_entrega: metodoEntrega === 'envio' ? 'Envío a domicilio' : 'Retiro en tienda',
+                    metodo_pago: metodoPago === 'mercadopago' ? 'Mercado Pago' : 'Transferencia',
+                    estado: estado === 'pendiente' ? 'PENDIENTE DE PAGO' : 'CONFIRMADO',
+                    fecha: new Date().toLocaleDateString('es-AR'),
+                    alias_mp: 'ruizanav.mp'
+                };
+                
+                await emailjs.send('service_8w40njg', 'template_notificacion_admin', adminTemplateParams);
+                
+            } catch (error) {
+                console.error('Error enviando notificación:', error);
+            }
+        }
+
+        // Cerrar modales
+        function cerrarModal() {
+            document.getElementById('modal-compra').style.display = 'none';
+        }
+
+        function cerrarCarrito() {
+            document.getElementById('modal-carrito').style.display = 'none';
+        }
+
+        function cerrarCheckout() {
+            document.getElementById('modal-checkout').style.display = 'none';
+        }
+
+        function cerrarConfirmacion() {
+            document.getElementById('modal-confirmacion').style.display = 'none';
+        }
+
+        // Inicializar menú hamburguesa
+        function inicializarMenu() {
+            const menuToggle = document.getElementById('menu-toggle');
+            const navMenu = document.getElementById('nav-menu');
+            
+            menuToggle.addEventListener('click', function() {
+                navMenu.classList.toggle('active');
+            });
+
+            document.querySelectorAll('.nav-menu a').forEach(link => {
+                link.addEventListener('click', () => {
+                    navMenu.classList.remove('active');
+                });
+            });
+        }
+
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', function() {
+            inicializarMenu();
+            inicializarAuth();
+            cargarProductos();
+            cargarCarrito();
+        });
+    </script>
+</body>
+</html>
