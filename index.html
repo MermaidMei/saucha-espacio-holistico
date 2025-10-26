@@ -37,9 +37,9 @@
 
     <style>
         :root {
-            --color-primario: #4a6c60;
-            --color-secundario: #8a9b8c;
-            --color-acento: #c9a87a;
+            --color-primario: #6b4e71; /* Púrpura místico */
+            --color-secundario: #9c7e8c; /* Rosa suave */
+            --color-acento: #c9a87a; /* Dorado cálido */
             --color-texto: #333333;
             --color-fondo: #f9f7f2;
             --color-blanco: #ffffff;
@@ -49,8 +49,9 @@
             --sombra: 0 4px 6px rgba(0, 0, 0, 0.1);
             --sombra-intensa: 0 10px 20px rgba(0, 0, 0, 0.15);
             --transicion: all 0.3s ease;
-            --degradado-primario: linear-gradient(135deg, #4a6c60 0%, #3a574c 100%);
+            --degradado-primario: linear-gradient(135deg, #6b4e71 0%, #4a3a5e 100%);
             --degradado-secundario: linear-gradient(135deg, #c9a87a 0%, #b8945f 100%);
+            --degradado-mistico: linear-gradient(135deg, #6b4e71 0%, #9c7e8c 50%, #c9a87a 100%);
         }
 
         * {
@@ -70,6 +71,7 @@
             background-size: cover;
             background-position: center;
             position: relative;
+            overflow-x: hidden;
         }
 
         body::before {
@@ -81,6 +83,17 @@
             height: 100%;
             background: rgba(249, 247, 242, 0.92);
             z-index: -1;
+        }
+
+        /* Partículas místicas */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            pointer-events: none;
         }
 
         /* Medidas de seguridad mejoradas */
@@ -122,10 +135,27 @@
             font-size: 1rem;
             text-align: center;
             box-shadow: var(--sombra);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
         }
 
         .btn:hover {
-            background: var(--degradado-secundario);
+            background: var(--degradado-mistico);
             transform: translateY(-3px);
             box-shadow: var(--sombra-intensa);
         }
@@ -185,15 +215,13 @@
         }
 
         section h2::after {
-            content: '';
+            content: '✦';
             position: absolute;
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
-            width: 100px;
-            height: 4px;
-            background: var(--degradado-secundario);
-            border-radius: 2px;
+            color: var(--color-acento);
+            font-size: 1.5rem;
         }
 
         /* Header */
@@ -205,6 +233,7 @@
             top: 0;
             z-index: 100;
             backdrop-filter: blur(10px);
+            border-bottom: 2px solid var(--color-acento);
         }
 
         .header-content {
@@ -221,6 +250,7 @@
             font-family: Georgia, 'Times New Roman', Times, serif;
             display: flex;
             align-items: center;
+            position: relative;
         }
 
         .logo span {
@@ -229,7 +259,7 @@
         }
 
         .logo::before {
-            content: '✦';
+            content: '🜲';
             margin-right: 10px;
             color: var(--color-acento);
             font-size: 1.5rem;
@@ -307,7 +337,7 @@
 
         /* Hero Section */
         .hero {
-            background: linear-gradient(rgba(74, 108, 96, 0.85), rgba(74, 108, 96, 0.8)), url('https://i.ibb.co/0yc-QQ3fV/background.jpg');
+            background: linear-gradient(rgba(107, 78, 113, 0.85), rgba(107, 78, 113, 0.8)), url('https://i.ibb.co/0yc-QQ3fV/background.jpg');
             background-size: cover;
             background-position: center;
             color: var(--color-blanco);
@@ -315,6 +345,17 @@
             padding: 150px 0;
             position: relative;
             overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23c9a87a' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+            opacity: 0.3;
         }
 
         .hero h1 {
@@ -327,14 +368,13 @@
         }
 
         .hero h1::after {
-            content: '';
+            content: '✦';
             position: absolute;
-            bottom: -10px;
+            bottom: -20px;
             left: 50%;
             transform: translateX(-50%);
-            width: 100px;
-            height: 3px;
-            background: var(--color-acento);
+            color: var(--color-acento);
+            font-size: 1.5rem;
         }
 
         .hero p {
@@ -354,6 +394,18 @@
             border-radius: 15px;
             box-shadow: var(--sombra);
             backdrop-filter: blur(5px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sobre-nosotros::before {
+            content: '🜲';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 2rem;
+            color: var(--color-acento);
+            opacity: 0.2;
         }
 
         .sobre-nosotros p {
@@ -378,6 +430,23 @@
             border-radius: 15px;
             box-shadow: var(--sombra);
             transition: var(--transicion);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sobre-icono::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 5px;
+            background: var(--degradado-mistico);
+            transition: left 0.5s;
+        }
+
+        .sobre-icono:hover::before {
+            left: 0;
         }
 
         .sobre-icono:hover {
@@ -418,12 +487,29 @@
             text-align: center;
             font-size: 0.9rem;
             box-shadow: var(--sombra);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .categoria-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--degradado-primario);
+            transition: left 0.3s;
+            z-index: -1;
         }
 
         .categoria-btn:hover, .categoria-btn.active {
-            background: var(--degradado-primario);
             color: white;
             transform: translateY(-3px);
+        }
+
+        .categoria-btn:hover::before, .categoria-btn.active::before {
+            left: 0;
         }
 
         /* Productos */
@@ -441,6 +527,23 @@
             box-shadow: var(--sombra);
             transition: var(--transicion);
             position: relative;
+        }
+
+        .producto-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--degradado-mistico);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s;
+        }
+
+        .producto-card:hover::before {
+            transform: scaleX(1);
         }
 
         .producto-card:hover {
@@ -512,6 +615,16 @@
             padding: 30px 20px;
             position: relative;
             border-top: 5px solid var(--color-acento);
+        }
+
+        .servicio-card::before {
+            content: '🜲';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 1.5rem;
+            color: var(--color-acento);
+            opacity: 0.3;
         }
 
         .servicio-card:hover {
@@ -651,6 +764,7 @@
             overflow-y: auto;
             box-shadow: var(--sombra-intensa);
             position: relative;
+            border-top: 5px solid var(--color-acento);
         }
 
         .modal-header {
@@ -730,7 +844,7 @@
         .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
             border-color: var(--color-primario);
             outline: none;
-            box-shadow: 0 0 0 3px rgba(74, 108, 96, 0.1);
+            box-shadow: 0 0 0 3px rgba(107, 78, 113, 0.1);
         }
 
         .metodo-pago-opcion {
@@ -1090,6 +1204,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+    <!-- Partículas místicas -->
+    <div id="particles-js"></div>
+
     <!-- Header -->
     <header>
         <div class="container">
@@ -1361,6 +1478,9 @@
         </div>
     </div>
 
+    <!-- Script de partículas -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+
     <script>
         // Variables globales
         let productos = [];
@@ -1386,6 +1506,115 @@
             { id: 'difusores', nombre: 'Difusores' },
             { id: 'bijou', nombre: 'Bijou Energética' }
         ];
+
+        // Inicializar partículas
+        function inicializarParticulas() {
+            particlesJS('particles-js', {
+                particles: {
+                    number: {
+                        value: 80,
+                        density: {
+                            enable: true,
+                            value_area: 800
+                        }
+                    },
+                    color: {
+                        value: ['#6b4e71', '#9c7e8c', '#c9a87a']
+                    },
+                    shape: {
+                        type: ['circle', 'triangle', 'polygon'],
+                        stroke: {
+                            width: 0,
+                            color: '#000000'
+                        },
+                        polygon: {
+                            nb_sides: 5
+                        }
+                    },
+                    opacity: {
+                        value: 0.5,
+                        random: true,
+                        anim: {
+                            enable: true,
+                            speed: 1,
+                            opacity_min: 0.1,
+                            sync: false
+                        }
+                    },
+                    size: {
+                        value: 3,
+                        random: true,
+                        anim: {
+                            enable: true,
+                            speed: 2,
+                            size_min: 0.1,
+                            sync: false
+                        }
+                    },
+                    line_linked: {
+                        enable: true,
+                        distance: 150,
+                        color: '#c9a87a',
+                        opacity: 0.2,
+                        width: 1
+                    },
+                    move: {
+                        enable: true,
+                        speed: 1,
+                        direction: 'none',
+                        random: true,
+                        straight: false,
+                        out_mode: 'out',
+                        bounce: false,
+                        attract: {
+                            enable: false,
+                            rotateX: 600,
+                            rotateY: 1200
+                        }
+                    }
+                },
+                interactivity: {
+                    detect_on: 'canvas',
+                    events: {
+                        onhover: {
+                            enable: true,
+                            mode: 'grab'
+                        },
+                        onclick: {
+                            enable: true,
+                            mode: 'push'
+                        },
+                        resize: true
+                    },
+                    modes: {
+                        grab: {
+                            distance: 140,
+                            line_linked: {
+                                opacity: 0.5
+                            }
+                        },
+                        bubble: {
+                            distance: 400,
+                            size: 40,
+                            duration: 2,
+                            opacity: 8,
+                            speed: 3
+                        },
+                        repulse: {
+                            distance: 200,
+                            duration: 0.4
+                        },
+                        push: {
+                            particles_nb: 4
+                        },
+                        remove: {
+                            particles_nb: 2
+                        }
+                    }
+                },
+                retina_detect: true
+            });
+        }
 
         // Medidas de seguridad mejoradas
         document.addEventListener('contextmenu', function(e) {
@@ -2324,6 +2553,7 @@
             inicializarAuth();
             cargarProductos();
             cargarCarrito();
+            inicializarParticulas();
         });
     </script>
 </body>
